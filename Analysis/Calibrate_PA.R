@@ -1,6 +1,6 @@
 library(dplyr)
 
-setwd("C:/Users/ellen/OneDrive/MyDocs/Graduate Research/Low-cost AQ sensor epi")
+setwd("/n/home13/econsidine")
 
 # df<- read.csv("Getting data/NN_PA_AQS.csv")
 # aqs<- read.csv("Intermediate data/CA_AQS_2020.csv")
@@ -42,8 +42,8 @@ setwd("C:/Users/ellen/OneDrive/MyDocs/Graduate Research/Low-cost AQ sensor epi")
 
 
 ## Calibration / error analysis part:
-Daily<- read.csv("Intermediate data/Daily_AQS_PA_2020.csv")
-outdoor<- read.csv("Getting data/PA_outside.csv")$id
+Daily<- read.csv("LCS_data/Daily_AQS_PA_2020.csv")
+outdoor<- read.csv("LCS_data/PA_outside.csv")$id
 
 Daily<- Daily[which(Daily$PA.ID %in% outdoor),]
 rm(outdoor)
@@ -162,7 +162,7 @@ for(i in 1:10){
 # saveRDS(Deciles, "Analysis/Real_deciles.rds")
 
 
-Deciles<- readRDS("Analysis/Real_deciles.rds")
+Deciles<- readRDS("LCS_data/Real_deciles.rds")
 
 # emp_sim<- sapply(Daily$Decile, function(q) sample(Q_resids[[q]], size=1))
 # plot(log(Daily$PM2.5), emp_sim, ylim=c(-20, 40))
