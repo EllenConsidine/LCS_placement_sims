@@ -5,20 +5,20 @@ library(ggplot2)
 
 ## Reading in data:
 
-setwd("C:/Users/ellen/OneDrive/MyDocs/Graduate Research/Low-cost AQ sensor epi")
+setwd("/n/home13/econsidine")
 
-CA_clean<- readRDS("CA_no_NAs_with_SDI2.rds")
+CA_clean<- readRDS("LCS_data/CA_no_NAs_with_SDI2.rds")
 n_obs<- dim(CA_clean)[1]
-my_nas0<- readRDS("CA_NA_pos.rds")
+my_nas0<- readRDS("LCS_data/CA_NA_pos.rds")
 
 # ann_avg<- readRDS("CA_2016_averages.rds")
 # ann_avg<- ann_avg[!my_nas0]
 
-# days<- 1:366 # all
+days<- 1:366 # all
 
-days<- c(15, 46, 75, 106,
-         136, 167, 197, 228,
-         259, 289, 320, 350) # 15th of each month
+# days<- c(15, 46, 75, 106,
+#          136, 167, 197, 228,
+#          259, 289, 320, 350) # 15th of each month
 
 # days<- c(1, 15, 32, 46, 61, 75, 92, 106,
 #          122, 136, 153, 167, 183, 197, 214, 228,
@@ -27,12 +27,12 @@ days<- c(15, 46, 75, 106,
 # days<- seq(2,366,by=2) # every other day
 n_days<- length(days)
 
-Real<- readRDS("Daily_PM25_CA.rds")[as.vector(sapply(days, function(x) (x-1)*length(my_nas0)+(1:length(my_nas0))))][rep(!my_nas0,n_days)]
+Real<- readRDS("LCS_data/Daily_PM25_CA.rds")[as.vector(sapply(days, function(x) (x-1)*length(my_nas0)+(1:length(my_nas0))))][rep(!my_nas0,n_days)]
 
 # load("Analysis/Simulate_PA_ME.RData")
-source("Intermediate data/Calibrate_PA.R") # includes Deciles for Real
+source("LCS_placement_sims/Analysis/Calibrate_PA.R") # includes Deciles for Real
 Deciles<- Deciles[as.vector(sapply(days, function(x) (x-1)*n_obs+(1:n_obs)))]
-source("Analysis/AQI_equation.R") # includes Real_class
+source("LCS_placement_sims/Analysis/AQI_equation.R") # includes Real_class
 Real_class<- Real_class[as.vector(sapply(days, function(x) (x-1)*n_obs+(1:n_obs)))]
 
 ### For each trial:
@@ -225,38 +225,38 @@ run_sim<- function(seed_num, no_err_set, err_set, frac = NULL, num = 100,
 ## Testing:
 
 s<- Sys.time()
-res<- run_sim(303, which(CA_clean$AQS_site==1), which(CA_clean$PA_site==1), frac=0.1)
+res<- run_sim(303, which(CA_clean$AQS_site==1), which(CA_clean$PA_site==1), num=1000)
 e<- Sys.time()
-e-s 
+print(paste("Unweighted:", e-s)) 
 # 2.8 mins unweighted, 366 days --> would take 140 mins to run 50 trials
 # 54 secs unweighted, 183 days (every other) --> would take 45 mins to run 50 trials
 # 3.1 secs unweighted, 24 days --> would take 2.5 mins to run 50 trials
 # 1.7 secs unweighted, 12 days --> would take 1.4 mins to run 50 trials
 
-plot(c(12, 24, 183, 366), c(1.7, 3.1, 54, 2.8*60), 
-     xlab = "Days", ylab = "Seconds / Trial")
-abline(0,0.5)
+# plot(c(12, 24, 183, 366), c(1.7, 3.1, 54, 2.8*60), 
+#      xlab = "Days", ylab = "Seconds / Trial")
+# abline(0,0.5)
 
 
 s<- Sys.time()
-res<- run_sim(303, which(CA_clean$AQS_site==1), which(CA_clean$PA_site==1), frac=0.1,
+res<- run_sim(303, which(CA_clean$AQS_site==1), which(CA_clean$PA_site==1), num=1000,
               weighted=TRUE)
 e<- Sys.time()
-e-s 
+print(paste("Weighted:", e-s)) 
 # 2.9 mins weighted, 366 days --> would take  mins to run 50 trials
 # 58 secs weighted, 183 days (every other) --> would take  mins to run 50 trials
 # 4.4 secs weighted, 24 days --> would take  mins to run 50 trials
 # 1.5 secs weighted, 12 days --> would take  mins to run 50 trials
 
-plot(c(12, 24, 183, 366), c(1.5, 4.4, 58, 2.9*60)*50/60,
-     xlab = "Days of Data", ylab = "Minutes / 50 Trials", col = "red", 
-     main = "PD-weighted = red, unweighted = blue") 
-points(c(12, 24, 183, 366), c(1.7, 3.1, 54, 2.8*60)*50/60, col="blue") # basically the same
-x<- c(12, 24, 183, 366)
-x2<- x^2
-y<- c(1.5, 4.4, 58, 2.9*60)*50/60
-test<- lm(y ~ x2)
-lines(x, test$coefficients[1] + test$coefficients[2]*x2)
+# plot(c(12, 24, 183, 366), c(1.5, 4.4, 58, 2.9*60)*50/60,
+#      xlab = "Days of Data", ylab = "Minutes / 50 Trials", col = "red", 
+#      main = "PD-weighted = red, unweighted = blue") 
+# points(c(12, 24, 183, 366), c(1.7, 3.1, 54, 2.8*60)*50/60, col="blue") # basically the same
+# x<- c(12, 24, 183, 366)
+# x2<- x^2
+# y<- c(1.5, 4.4, 58, 2.9*60)*50/60
+# test<- lm(y ~ x2)
+# lines(x, test$coefficients[1] + test$coefficients[2]*x2)
 
 
 ### Density plot of errors vs real obs
@@ -271,45 +271,45 @@ lines(x, test$coefficients[1] + test$coefficients[2]*x2)
 # pos<- unique(c(no_err_set,these))
 # error_pos<- these
 
-Errors<- Shown - Real
-# Randomly sample 1000 observations at which to assess NN impact
-set.seed(7*303)
-pick<- sample(1:length(Errors), 1000, replace = FALSE)
-xy<- data.frame(Real, Errors)[pick,] #[error_pos,]
+# Errors<- Shown - Real
+# # Randomly sample 1000 observations at which to assess NN impact
+# set.seed(7*303)
+# pick<- sample(1:length(Errors), 1000, replace = FALSE)
+# xy<- data.frame(Real, Errors)[pick,] #[error_pos,]
 
-scatter<- qplot(Real, Errors, data=xy) +
-  scale_x_continuous(limits=c(min(xy$Real),max(xy$Real))) + 
-  scale_y_continuous(limits=c(min(xy$Errors),max(xy$Errors))) + 
-  geom_rug(col=rgb(.5,0,0,alpha=.2))
-scatter
+# scatter<- qplot(Real, Errors, data=xy) +
+#   scale_x_continuous(limits=c(min(xy$Real),max(xy$Real))) + 
+#   scale_y_continuous(limits=c(min(xy$Errors),max(xy$Errors))) + 
+#   geom_rug(col=rgb(.5,0,0,alpha=.2))
+# scatter
 
-# Histograms for different levels of real PM:
-windows()
-par(mfrow=c(2,2))
-hist(Errors[which(Real <= 12)],
-     main = "Errors from Good AQ", breaks = seq(-70, 80, 5))
-hist(Errors[which(Real <= 35.5 & Real > 12)], 
-     main = "Errors from Moderate AQ", breaks = seq(-70, 80, 5))
-hist(Errors[which(Real <= 55.5 & Real > 35.5)],  
-     main = "Errors from AQ Unhealthy for Sensitive Groups", breaks = seq(-70, 80, 5))
-hist(Errors[which(Real > 55.5)], 
-     main = "Errors from Unhealthy AQ", breaks = seq(-70, 80, 5))
+# # Histograms for different levels of real PM:
+# windows()
+# par(mfrow=c(2,2))
+# hist(Errors[which(Real <= 12)],
+#      main = "Errors from Good AQ", breaks = seq(-70, 80, 5))
+# hist(Errors[which(Real <= 35.5 & Real > 12)], 
+#      main = "Errors from Moderate AQ", breaks = seq(-70, 80, 5))
+# hist(Errors[which(Real <= 55.5 & Real > 35.5)],  
+#      main = "Errors from AQ Unhealthy for Sensitive Groups", breaks = seq(-70, 80, 5))
+# hist(Errors[which(Real > 55.5)], 
+#      main = "Errors from Unhealthy AQ", breaks = seq(-70, 80, 5))
 
-## Heat map:
-err_seq<- seq(min(Errors[error_pos]), max(Errors[error_pos]), length.out = 100) # Errors<- Shown - Real
-real_seq<- seq(min(Real[error_pos]), max(Real[error_pos]), length.out = 100)
-res<- matrix(0,nrow=100, ncol=100)
-for(i in 1:length(error_pos)){
-  x<- 1
-  y<- 1
-  while(Real[error_pos][i] > real_seq[x]){ x<- x+1 }
-  while(Errors[error_pos][i] > err_seq[y]){ y<- y+1 }
-  res[x,y]<- res[x,y] + 1
-}
+# ## Heat map:
+# err_seq<- seq(min(Errors[error_pos]), max(Errors[error_pos]), length.out = 100) # Errors<- Shown - Real
+# real_seq<- seq(min(Real[error_pos]), max(Real[error_pos]), length.out = 100)
+# res<- matrix(0,nrow=100, ncol=100)
+# for(i in 1:length(error_pos)){
+#   x<- 1
+#   y<- 1
+#   while(Real[error_pos][i] > real_seq[x]){ x<- x+1 }
+#   while(Errors[error_pos][i] > err_seq[y]){ y<- y+1 }
+#   res[x,y]<- res[x,y] + 1
+# }
 
-res_df<- data.frame(Real=rep(real_seq, 100), Errors=sort(rep(err_seq, 100)),
-                    Density = as.vector(res)/sum(res))
+# res_df<- data.frame(Real=rep(real_seq, 100), Errors=sort(rep(err_seq, 100)),
+#                     Density = as.vector(res)/sum(res))
 
-ggplot(res_df, aes(Real, Errors)) + geom_raster(aes(fill=Density))
+# ggplot(res_df, aes(Real, Errors)) + geom_raster(aes(fill=Density))
 
 
