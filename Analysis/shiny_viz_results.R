@@ -2,13 +2,13 @@ library(shiny)
 library(dplyr)
 library(data.table)
 
-setwd("C:/Users/ellen/OneDrive/MyDocs/Graduate Research/Low-cost AQ sensor epi/Analysis")
+setwd("/n/home13/econsidine")
 
-pdw<- read.csv("Results/Results_12_days_weighted.csv")
-unw<- read.csv("Results/Results_12_days_unweighted.csv")
+pdw<- read.csv("LCS_results/Results_366_days_weighted.csv")
+unw<- read.csv("LCS_results/Results_366_days_unweighted.csv")
 
-W_aqs<- read.csv("Results/D1-AQS_sites.csv")
-UNW_aqs<- read.csv("Results/D1-AQS_sites_unweighted.csv")
+W_aqs<- read.csv("LCS_results/D366-AQS_sites.csv")
+UNW_aqs<- read.csv("LCS_results/D366-AQS_sites_unweighted.csv")
 pdw$AQS<- sapply(W_aqs, as.numeric)
 unw$AQS<- sapply(UNW_aqs, as.numeric)
 
