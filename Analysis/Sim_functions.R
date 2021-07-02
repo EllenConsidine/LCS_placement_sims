@@ -1,6 +1,6 @@
 ## Packages:
 library(FNN)
-# install.packages("MetricsWeighted", dependencies=TRUE)
+install.packages("MetricsWeighted", dependencies=TRUE, repos="http://cran.r-project.org")
 library(MetricsWeighted)
 library(ggplot2)
 
