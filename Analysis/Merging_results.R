@@ -34,7 +34,7 @@ for(i in 1:25){
 colnames(UNW)<- Names[unweighted]
 row.names(UNW)<- Metrics
 
-write.csv(UNW, "Results_366_days_unweighted.csv")
+write.csv(UNW, "LCS_results/Results_366_days_unweighted.csv")
 
 
 # Get weighted
@@ -51,6 +51,6 @@ for(i in 1:25){
 colnames(W)<- Names[weighted]
 row.names(W)<- Metrics
 
-write.csv(W, "Results_366_days_weighted.csv")
+write.csv(W, "LCS_results/Results_366_days_weighted.csv")
 
 
