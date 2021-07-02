@@ -39,7 +39,7 @@ AQI_ref$Class<- c(unlist(sapply(PM, AQI_class)), 6)
 # saveRDS(Real_class, "Daily_PM_AQI-class.rds")
 
 # Real_aqi<- readRDS("Daily_PM_AQI.rds")
-Real_class<- readRDS("Daily_PM_AQI-class.rds")
+Real_class<- readRDS("LCS_data/Daily_PM_AQI-class.rds")
 
 # these<- seq(10, 200, 10)
 # these_aqis<- sapply(these, AQI)
