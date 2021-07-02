@@ -224,6 +224,8 @@ run_sim<- function(seed_num, no_err_set, err_set, frac = NULL, num = 100,
 
 ## Testing:
 
+sink("Timing_one_sim.txt")               
+                 
 s<- Sys.time()
 res<- run_sim(303, which(CA_clean$AQS_site==1), which(CA_clean$PA_site==1), num=1000)
 e<- Sys.time()
@@ -243,6 +245,9 @@ res<- run_sim(303, which(CA_clean$AQS_site==1), which(CA_clean$PA_site==1), num=
               weighted=TRUE)
 e<- Sys.time()
 print(paste("Weighted:", e-s)) 
+                 
+sink()
+                 
 # 2.9 mins weighted, 366 days --> would take  mins to run 50 trials
 # 58 secs weighted, 183 days (every other) --> would take  mins to run 50 trials
 # 4.4 secs weighted, 24 days --> would take  mins to run 50 trials
