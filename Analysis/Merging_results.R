@@ -1,18 +1,18 @@
 library(stringr)
 
-setwd("C:/Users/ellen/OneDrive/MyDocs/Graduate Research/Low-cost AQ sensor epi/Analysis/Results")
+setwd("/n/home13/econsidine")
 
 Metrics<- c(rep(c("MAE", "RMSE"),3),
             rep(c("Real class > shown class","Shown class > real class",
                   "AQI class off by >1"),3),
             rep(c("95th percentile of errors",
                   "% of the |errors| > 10"),3) )
-prefix<- "D1-"
+prefix<- "D366-"
 suffix<- "_avg.csv"
 
-pre_files<- list.files("C:/Users/ellen/OneDrive/MyDocs/Graduate Research/Low-cost AQ sensor epi/Analysis/Results",
+pre_files<- list.files("LCS_results",
            prefix)
-suff_files<- list.files("C:/Users/ellen/OneDrive/MyDocs/Graduate Research/Low-cost AQ sensor epi/Analysis/Results",
+suff_files<- list.files("LCS_results",
                         suffix)
 files<- intersect(pre_files, suff_files)
 
@@ -34,7 +34,7 @@ for(i in 1:25){
 colnames(UNW)<- Names[unweighted]
 row.names(UNW)<- Metrics
 
-write.csv(UNW, "Results_12_days_unweighted.csv")
+write.csv(UNW, "Results_366_days_unweighted.csv")
 
 
 # Get weighted
@@ -51,6 +51,6 @@ for(i in 1:25){
 colnames(W)<- Names[weighted]
 row.names(W)<- Metrics
 
-write.csv(W, "Results_12_days_weighted.csv")
+write.csv(W, "Results_366_days_weighted.csv")
 
 
