@@ -1,7 +1,7 @@
 ## Packages:
 library(FNN)
-install.packages("MetricsWeighted", dependencies=TRUE, repos="http://cran.r-project.org")
-library(MetricsWeighted)
+# install.packages("MetricsWeighted", dependencies=TRUE, repos="http://cran.r-project.org")
+# library(MetricsWeighted)
 library(ggplot2)
 
 ## Reading in data:
@@ -241,11 +241,11 @@ print(paste("Unweighted:", e-s))
 # abline(0,0.5)
 
 
-s<- Sys.time()
-res<- run_sim(303, which(CA_clean$AQS_site==1), which(CA_clean$PA_site==1), num=1000,
-              weighted=TRUE)
-e<- Sys.time()
-print(paste("Weighted:", e-s)) 
+# s<- Sys.time()
+# res<- run_sim(303, which(CA_clean$AQS_site==1), which(CA_clean$PA_site==1), num=1000,
+#               weighted=TRUE)
+# e<- Sys.time()
+# print(paste("Weighted:", e-s)) 
                  
 sink()
                  
