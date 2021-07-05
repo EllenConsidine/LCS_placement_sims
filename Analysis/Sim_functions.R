@@ -15,15 +15,15 @@ my_nas0<- readRDS("LCS_data/CA_NA_pos.rds")
 # ann_avg<- readRDS("CA_2016_averages.rds")
 # ann_avg<- ann_avg[!my_nas0]
 
-# days<- 1:366 # all
+days<- 1:366 # all
 
 # days<- c(15, 46, 75, 106,
 #          136, 167, 197, 228,
 #          259, 289, 320, 350) # 15th of each month
 
-days<- c(1, 15, 32, 46, 61, 75, 92, 106,
-         122, 136, 153, 167, 183, 197, 214, 228,
-         245, 259, 275, 289, 306, 320, 336, 350) # 1st and 15th of each month
+# days<- c(1, 15, 32, 46, 61, 75, 92, 106,
+#          122, 136, 153, 167, 183, 197, 214, 228,
+#          245, 259, 275, 289, 306, 320, 336, 350) # 1st and 15th of each month
 
 # days<- seq(2,366,by=2) # every other day
 n_days<- length(days)
@@ -225,7 +225,7 @@ run_sim<- function(seed_num, no_err_set, err_set, frac = NULL, num = 100,
 
 ## Testing:
 
-sink("Timing_one_sim.txt")               
+sink("Timing_one_sim_366.txt")               
                  
 s<- Sys.time()
 res<- run_sim(303, which(CA_clean$AQS_site==1), which(CA_clean$PA_site==1), num=1000)
