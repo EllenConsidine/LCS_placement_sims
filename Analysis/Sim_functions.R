@@ -6,8 +6,6 @@ library(ggplot2)
 
 ## Reading in data:
 
-Rprof(tf <- "rprof.log", memory.profiling=TRUE)
-
 setwd("/n/home13/econsidine")
 
 CA_clean<- readRDS("LCS_data/CA_no_NAs_with_SDI2.rds")
@@ -249,8 +247,7 @@ print(paste("Unweighted:", e-s))
 # e<- Sys.time()
 # print(paste("Weighted:", e-s)) 
                  
-Rprof(NULL)
-print( summaryRprof(tf) ) # looking at memory usage
+print(gc())
                  
 sink()
                  
