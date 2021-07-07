@@ -39,10 +39,16 @@ Real_class<- Real_class[as.vector(sapply(days, function(x) (x-1)*n_obs+(1:n_obs)
 
 results<- function(DF, pos, error_pos=NULL, err=NULL, Name=NULL, w){
   
-  inds<- get.knnx(DF[pos,c("Lon", "Lat")], DF[,c("Lon", "Lat")], k=1)$nn.index
-  IDs<- DF[pos,"ID"][inds]
+  NN<- get.knnx(DF[pos,c("Lon", "Lat")], DF[,c("Lon", "Lat")], k=1)
+  IDs<- DF[pos,"ID"][NN$nn.index]
   get<- match(IDs, DF$ID)
   Get<- as.vector(sapply(1:n_days, function(x) (x-1)*n_obs+(get)))
+                         
+  dists<- NN$nn.dist
+  Dists<- rep(dists, 24)
+  
+  NN_pa<- DF[pos,"PA_site"][NN$nn.index]
+  NN_PA<- rep(NN_pa, 24)
   
   RwE<- Real
   
@@ -81,6 +87,10 @@ results<- function(DF, pos, error_pos=NULL, err=NULL, Name=NULL, w){
   ## % poverty:
   poverty<- rep(DF$poverty > quantile(DF$poverty, 0.80), n_days) # top quintile
   poverty_pos<- which(DF$poverty > quantile(DF$poverty, 0.80)) # top quintile
+                 
+  very_off<- abs(Real_class-Shown_class)>1
+  very_off_NHNW<- abs(Real_class[NHNW]-Shown_class[NHNW])>1
+  very_off_pov<- abs(Real_class[poverty]-Shown_class[poverty])>1
   
   # ## Social deprivation:
   # # SD_pos<- which(CA_clean$SDI > quantile(CA_clean$SDI, 0.75)) # top quartile
@@ -110,15 +120,15 @@ results<- function(DF, pos, error_pos=NULL, err=NULL, Name=NULL, w){
     Sys.time()
     Results[7]<- weighted.mean(Real_class > Shown_class, rep(DF$ppltn_d, n_days))
     Results[8]<- weighted.mean(Real_class < Shown_class, rep(DF$ppltn_d, n_days))
-    Results[13]<- weighted.mean(abs(Real_class-Shown_class)>1, rep(DF$ppltn_d, n_days))
+    Results[13]<- weighted.mean(very_off, rep(DF$ppltn_d, n_days))
     
     Results[9]<- weighted.mean(Real_class[NHNW] > Shown_class[NHNW], rep(DF$ppltn_d[NHNW_pos], n_days))
     Results[10]<- weighted.mean(Real_class[NHNW] < Shown_class[NHNW], rep(DF$ppltn_d[NHNW_pos], n_days))
-    Results[14]<- weighted.mean(abs(Real_class[NHNW]-Shown_class[NHNW])>1, rep(DF$ppltn_d[NHNW_pos], n_days))
+    Results[14]<- weighted.mean(very_off_NHNW, rep(DF$ppltn_d[NHNW_pos], n_days))
     
     Results[11]<- weighted.mean(Real_class[poverty] > Shown_class[poverty], rep(DF$ppltn_d[poverty_pos], n_days))
     Results[12]<- weighted.mean(Real_class[poverty] < Shown_class[poverty], rep(DF$ppltn_d[poverty_pos], n_days))
-    Results[15]<- weighted.mean(abs(Real_class[poverty]-Shown_class[poverty])>1, rep(DF$ppltn_d[poverty_pos], n_days))
+    Results[15]<- weighted.mean(very_off_pov, rep(DF$ppltn_d[poverty_pos], n_days))
     
     # Results[15]<- weighted.mean(Real_class[SD] > Shown_class[SD], rep(DF$ppltn_d[SD_pos], n_days))
     # Results[16]<- weighted.mean(Real_class[SD] < Shown_class[SD], rep(DF$ppltn_d[SD_pos], n_days))
@@ -159,15 +169,15 @@ results<- function(DF, pos, error_pos=NULL, err=NULL, Name=NULL, w){
     # Sys.time()
     Results[7]<- mean(Real_class > Shown_class)
     Results[8]<- mean(Real_class < Shown_class)
-    Results[13]<- mean(abs(Real_class-Shown_class)>1)
+    Results[13]<- mean(very_off)
     
     Results[9]<- mean(Real_class[NHNW] > Shown_class[NHNW])
     Results[10]<- mean(Real_class[NHNW] < Shown_class[NHNW])
-    Results[14]<- mean(abs(Real_class[NHNW]-Shown_class[NHNW])>1)
+    Results[14]<- mean(very_off_NHNW)
     
     Results[11]<- mean(Real_class[poverty] > Shown_class[poverty])
     Results[12]<- mean(Real_class[poverty] < Shown_class[poverty])
-    Results[15]<- mean(abs(Real_class[poverty]-Shown_class[poverty])>1)
+    Results[15]<- mean(very_off_pov)
     
     # Results[15]<- mean(Real_class[SD] > Shown_class[SD])
     # Results[16]<- mean(Real_class[SD] < Shown_class[SD])
