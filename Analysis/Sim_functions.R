@@ -160,8 +160,8 @@ results<- function(DF, pos, error_pos=NULL, err=NULL, Name=NULL, w){
     Results[27]<- weighted.mean(Dists[poverty][very_off_pov], PDW_pov[very_off_pov])
     
     Results[28]<- weighted_quantile(dists, DF$ppltn_d, probs=0.5)
-    Results[29]<- weighted_quantile(dists[NHNW_pos], DF$ppltn_d, probs=0.5)
-    Results[30]<- weighted_quantile(dists[poverty_pos], DF$ppltn_d, probs=0.5)
+    Results[29]<- weighted_quantile(dists[NHNW_pos], DF$ppltn_d[NHNW_pos], probs=0.5)
+    Results[30]<- weighted_quantile(dists[poverty_pos], DF$ppltn_d[poverty_pos], probs=0.5)
     Results[31]<- weighted_quantile(Dists[very_off], PDW[very_off], probs=0.5)
     Results[32]<- weighted_quantile(Dists[NHNW][very_off_NHNW], PDW_NHNW[very_off_NHNW], probs=0.5)
     Results[33]<- weighted_quantile(Dists[poverty][very_off_pov], PDW_pov[very_off_pov], probs=0.5)
