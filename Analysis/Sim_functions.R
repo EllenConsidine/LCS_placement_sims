@@ -140,13 +140,13 @@ results<- function(DF, pos, error_pos=NULL, err=NULL, Name=NULL, w){
     ## Largest errors: 
     # Sys.time()
     Results[16]<- weighted_quantile(eps, PDW, probs=0.95)
-    Results[17]<- sum(PDW[which(eps > 10)])/sum(PDW)
+    Results[17]<- weighted.mean(eps > 10, PDW)
     
     Results[18]<- weighted_quantile(eps[NHNW], PDW_NHNW, probs=0.95)
-    Results[19]<- sum(PDW_NHNW[which(eps[NHNW] > 10)])/sum(PDW_NHNW)
+    Results[19]<- weighted.mean(eps[NHNW] > 10, PDW_NHNW)
     
     Results[20]<- weighted_quantile(eps[poverty], PDW_pov, probs=0.95)
-    Results[21]<- sum(PDW_pov[which(eps[poverty] > 10)])/sum(PDW_pov)
+    Results[21]<- weighted.mean(eps[poverty] > 10, PDW_pov)
     
     # Results[27]<- weighted_quantile(eps[SD], rep(DF$ppltn_d[SD_pos], n_days), probs=0.95)
     # Results[28]<- sum(rep(DF$ppltn_d[SD_pos], n_days)[which(eps[SD] > 10)])/sum(rep(DF$ppltn_d[SD_pos], n_days))
@@ -210,13 +210,13 @@ results<- function(DF, pos, error_pos=NULL, err=NULL, Name=NULL, w){
     ## Largest errors:
     # Sys.time()
     Results[16]<- quantile(eps, 0.95)
-    Results[17]<- sum(eps>10)/length(eps)
+    Results[17]<- mean(eps>10)
     
     Results[18]<- quantile(eps[NHNW], 0.95)
-    Results[19]<- sum(eps[NHNW]>10)/length(eps[NHNW])
+    Results[19]<- mean(eps[NHNW]>10)
     
     Results[20]<- quantile(eps[poverty], 0.95)
-    Results[21]<- sum(eps[poverty]>10)/length(eps[poverty])
+    Results[21]<- mean(eps[poverty]>10)
     
     # Results[27]<- quantile(eps[SD], 0.95)
     # Results[28]<- sum(eps[SD]>10)/length(eps[SD])
