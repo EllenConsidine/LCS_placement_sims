@@ -100,17 +100,18 @@ results<- function(DF, pos, error_pos=NULL, err=NULL, Name=NULL, w){
   
   
   if(w){
+    
+    PDW<- rep(DF$ppltn_d, n_days)
+    PDW_NHNW<- PDW[NHNW]
+    PDW_pov<- PDW[poverty]
+    
     # Sys.time()
-    Results[1]<- weighted.mean(eps, rep(DF$ppltn_d, n_days))
-    Results[2]<- sqrt(weighted.mean((eps)^2, rep(DF$ppltn_d, n_days)))
-    Results[3]<- weighted.mean(eps[NHNW],
-                               rep(DF$ppltn_d[NHNW_pos], n_days))
-    Results[4]<- sqrt(weighted.mean((eps[NHNW])^2,
-                                    rep(DF$ppltn_d[NHNW_pos], n_days)))
-    Results[5]<- weighted.mean(eps[poverty],
-                               rep(DF$ppltn_d[poverty_pos], n_days))
-    Results[6]<- sqrt(weighted.mean((eps[poverty])^2,
-                                    rep(DF$ppltn_d[poverty_pos], n_days)))
+    Results[1]<- weighted.mean(eps, PDW)
+    Results[2]<- sqrt(weighted.mean((eps)^2, PDW))
+    Results[3]<- weighted.mean(eps[NHNW], PDW_NHNW)
+    Results[4]<- sqrt(weighted.mean((eps[NHNW])^2, PDW_NHNW))
+    Results[5]<- weighted.mean(eps[poverty], PDW_pov)
+    Results[6]<- sqrt(weighted.mean((eps[poverty])^2, PDW_pov))
     # Results[7]<- weighted.mean(eps[SD],
     #                            rep(DF$ppltn_d[SD_pos], n_days))
     # Results[8]<- sqrt(weighted.mean((eps[SD])^2,
@@ -119,17 +120,17 @@ results<- function(DF, pos, error_pos=NULL, err=NULL, Name=NULL, w){
     
     ## AQI class:
     Sys.time()
-    Results[7]<- weighted.mean(Real_class > Shown_class, rep(DF$ppltn_d, n_days))
-    Results[8]<- weighted.mean(Real_class < Shown_class, rep(DF$ppltn_d, n_days))
-    Results[13]<- weighted.mean(very_off, rep(DF$ppltn_d, n_days))
+    Results[7]<- weighted.mean(Real_class > Shown_class, PDW)
+    Results[8]<- weighted.mean(Real_class < Shown_class, PDW)
+    Results[13]<- weighted.mean(very_off, PDW)
     
-    Results[9]<- weighted.mean(Real_class[NHNW] > Shown_class[NHNW], rep(DF$ppltn_d[NHNW_pos], n_days))
-    Results[10]<- weighted.mean(Real_class[NHNW] < Shown_class[NHNW], rep(DF$ppltn_d[NHNW_pos], n_days))
-    Results[14]<- weighted.mean(very_off_NHNW, rep(DF$ppltn_d[NHNW_pos], n_days))
+    Results[9]<- weighted.mean(Real_class[NHNW] > Shown_class[NHNW], PDW_NHNW)
+    Results[10]<- weighted.mean(Real_class[NHNW] < Shown_class[NHNW], PDW_NHNW)
+    Results[14]<- weighted.mean(very_off_NHNW, PDW_NHNW)
     
-    Results[11]<- weighted.mean(Real_class[poverty] > Shown_class[poverty], rep(DF$ppltn_d[poverty_pos], n_days))
-    Results[12]<- weighted.mean(Real_class[poverty] < Shown_class[poverty], rep(DF$ppltn_d[poverty_pos], n_days))
-    Results[15]<- weighted.mean(very_off_pov, rep(DF$ppltn_d[poverty_pos], n_days))
+    Results[11]<- weighted.mean(Real_class[poverty] > Shown_class[poverty], PDW_pov)
+    Results[12]<- weighted.mean(Real_class[poverty] < Shown_class[poverty], PDW_pov)
+    Results[15]<- weighted.mean(very_off_pov, PDW_pov)
     
     # Results[15]<- weighted.mean(Real_class[SD] > Shown_class[SD], rep(DF$ppltn_d[SD_pos], n_days))
     # Results[16]<- weighted.mean(Real_class[SD] < Shown_class[SD], rep(DF$ppltn_d[SD_pos], n_days))
@@ -138,39 +139,39 @@ results<- function(DF, pos, error_pos=NULL, err=NULL, Name=NULL, w){
     
     ## Largest errors: 
     # Sys.time()
-    Results[16]<- weighted_quantile(eps, rep(DF$ppltn_d, n_days), probs=0.95)
-    Results[17]<- sum(rep(DF$ppltn_d, n_days)[which(eps > 10)])/sum(rep(DF$ppltn_d, n_days))
+    Results[16]<- weighted_quantile(eps, PDW, probs=0.95)
+    Results[17]<- sum(PDW[which(eps > 10)])/sum(PDW)
     
-    Results[18]<- weighted_quantile(eps[NHNW], rep(DF$ppltn_d[NHNW_pos], n_days), probs=0.95)
-    Results[19]<- sum(rep(DF$ppltn_d[NHNW_pos], n_days)[which(eps[NHNW] > 10)])/sum(rep(DF$ppltn_d[NHNW_pos], n_days))
+    Results[18]<- weighted_quantile(eps[NHNW], PDW_NHNW, probs=0.95)
+    Results[19]<- sum(PDW_NHNW[which(eps[NHNW] > 10)])/sum(PDW_NHNW)
     
-    Results[20]<- weighted_quantile(eps[poverty], rep(DF$ppltn_d[poverty_pos], n_days), probs=0.95)
-    Results[21]<- sum(rep(DF$ppltn_d[poverty_pos], n_days)[which(eps[poverty] > 10)])/sum(rep(DF$ppltn_d[poverty_pos], n_days))
+    Results[20]<- weighted_quantile(eps[poverty], PDW_pov, probs=0.95)
+    Results[21]<- sum(PDW_pov[which(eps[poverty] > 10)])/sum(PDW_pov)
     
     # Results[27]<- weighted_quantile(eps[SD], rep(DF$ppltn_d[SD_pos], n_days), probs=0.95)
     # Results[28]<- sum(rep(DF$ppltn_d[SD_pos], n_days)[which(eps[SD] > 10)])/sum(rep(DF$ppltn_d[SD_pos], n_days))
     # Sys.time()
     
-    Results[22]<- mean(dists)
-    Results[23]<- mean(dists[NHNW_pos])
-    Results[24]<- mean(dists[poverty_pos])
-    Results[25]<- mean(Dists[very_off])
-    Results[26]<- mean(Dists[NHNW][very_off_NHNW])
-    Results[27]<- mean(Dists[poverty][very_off_pov])
+    Results[22]<- weighted.mean(dists, DF$ppltn_d)
+    Results[23]<- weighted.mean(dists[NHNW_pos], DF$ppltn_d[NHNW_pos])
+    Results[24]<- weighted.mean(dists[poverty_pos], DF$ppltn_d[poverty_pos])
+    Results[25]<- weighted.mean(Dists[very_off], PDW[very_off])
+    Results[26]<- weighted.mean(Dists[NHNW][very_off_NHNW], PDW_NHNW[very_off_NHNW])
+    Results[27]<- weighted.mean(Dists[poverty][very_off_pov], PDW_pov[very_off_pov])
     
-    Results[28]<- median(dists)
-    Results[29]<- median(dists[NHNW_pos])
-    Results[30]<- median(dists[poverty_pos])
-    Results[31]<- median(Dists[very_off])
-    Results[32]<- median(Dists[NHNW][very_off_NHNW])
-    Results[33]<- median(Dists[poverty][very_off_pov])
+    Results[28]<- weighted_quantile(dists, DF$ppltn_d, probs=0.5)
+    Results[29]<- weighted_quantile(dists[NHNW_pos], DF$ppltn_d, probs=0.5)
+    Results[30]<- weighted_quantile(dists[poverty_pos], DF$ppltn_d, probs=0.5)
+    Results[31]<- weighted_quantile(Dists[very_off], PDW[very_off], probs=0.5)
+    Results[32]<- weighted_quantile(Dists[NHNW][very_off_NHNW], PDW_NHNW[very_off_NHNW], probs=0.5)
+    Results[33]<- weighted_quantile(Dists[poverty][very_off_pov], PDW_pov[very_off_pov], probs=0.5)
     
-    Results[34]<- mean(NN_pa)
-    Results[35]<- mean(NN_pa[NHNW_pos])
-    Results[36]<- mean(NN_pa[poverty_pos])
-    Results[37]<- mean(NN_PA[very_off])
-    Results[38]<- mean(NN_PA[NHNW][very_off_NHNW])
-    Results[39]<- mean(NN_PA[poverty][very_off_pov]))
+    Results[34]<- weighted.mean(NN_pa, DF$ppltn_d)
+    Results[35]<- weighted.mean(NN_pa[NHNW_pos], DF$ppltn_d[NHNW_pos])
+    Results[36]<- weighted.mean(NN_pa[poverty_pos], DF$ppltn_d[poverty_pos])
+    Results[37]<- weighted.mean(NN_PA[very_off], PDW[very_off])
+    Results[38]<- weighted.mean(NN_PA[NHNW][very_off_NHNW], PDW_NHNW[very_off_NHNW])
+    Results[39]<- weighted.mean(NN_PA[poverty][very_off_pov], PDW_pov[very_off_pov])
     
   }else{
     # Sys.time()
