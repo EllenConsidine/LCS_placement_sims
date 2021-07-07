@@ -75,7 +75,7 @@ results<- function(DF, pos, error_pos=NULL, err=NULL, Name=NULL, w){
   # Calculate differences:
   eps<- abs(Shown-Real)
   
-  Results<- rep(0,3*(2+3+2)) 
+  Results<- rep(0,39) 
   # MAE and RMSE for overall, non-white, poverty #, SDI
   # % Real > Shown, % Shown > Real, and % class difference > 1, for those 4 groups;
   # 95 percentile and frequency > |10| of PM2.5 differences, for those 4 groups
@@ -88,6 +88,7 @@ results<- function(DF, pos, error_pos=NULL, err=NULL, Name=NULL, w){
   poverty<- rep(DF$poverty > quantile(DF$poverty, 0.80), n_days) # top quintile
   poverty_pos<- which(DF$poverty > quantile(DF$poverty, 0.80)) # top quintile
                  
+  ## Large misclassifications:
   very_off<- abs(Real_class-Shown_class)>1
   very_off_NHNW<- abs(Real_class[NHNW]-Shown_class[NHNW])>1
   very_off_pov<- abs(Real_class[poverty]-Shown_class[poverty])>1
@@ -150,6 +151,27 @@ results<- function(DF, pos, error_pos=NULL, err=NULL, Name=NULL, w){
     # Results[28]<- sum(rep(DF$ppltn_d[SD_pos], n_days)[which(eps[SD] > 10)])/sum(rep(DF$ppltn_d[SD_pos], n_days))
     # Sys.time()
     
+    Results[22]<- weighted.mean(Dists, rep(DF$ppltn_d, n_days))
+    Results[23]<- mean(Dists[NHNW])
+    Results[24]<- mean(Dists[poverty])
+    Results[25]<- mean(Dists[very_off], rep(DF$ppltn_d, n_days))
+    Results[26]<- mean(Dists[NHNW][very_off_NHNW])
+    Results[27]<- mean(Dists[poverty][very_off_pov])
+    
+    Results[28]<- median(Dists)
+    Results[29]<- median(Dists[NHNW])
+    Results[30]<- median(Dists[poverty])
+    Results[31]<- median(Dists[very_off])
+    Results[32]<- median(Dists[NHNW][very_off_NHNW])
+    Results[33]<- median(Dists[poverty][very_off_pov])
+    
+    Results[34]<- mean(NN_PA)
+    Results[35]<- mean(NN_PA[NHNW])
+    Results[36]<- mean(NN_PA[poverty])
+    Results[37]<- mean(NN_PA[very_off])
+    Results[38]<- mean(NN_PA[NHNW][very_off_NHNW])
+    Results[39]<- mean(NN_PA[poverty][very_off_pov])
+    
   }else{
     # Sys.time()
     Results[1]<- mean(eps) 
@@ -198,6 +220,27 @@ results<- function(DF, pos, error_pos=NULL, err=NULL, Name=NULL, w){
     # Results[27]<- quantile(eps[SD], 0.95)
     # Results[28]<- sum(eps[SD]>10)/length(eps[SD])
     # Sys.time() # 35s
+    
+    Results[22]<- mean(Dists)
+    Results[23]<- mean(Dists[NHNW])
+    Results[24]<- mean(Dists[poverty])
+    Results[25]<- mean(Dists[very_off])
+    Results[26]<- mean(Dists[NHNW][very_off_NHNW])
+    Results[27]<- mean(Dists[poverty][very_off_pov])
+    
+    Results[28]<- median(Dists)
+    Results[29]<- median(Dists[NHNW])
+    Results[30]<- median(Dists[poverty])
+    Results[31]<- median(Dists[very_off])
+    Results[32]<- median(Dists[NHNW][very_off_NHNW])
+    Results[33]<- median(Dists[poverty][very_off_pov])
+    
+    Results[34]<- mean(NN_PA)
+    Results[35]<- mean(NN_PA[NHNW])
+    Results[36]<- mean(NN_PA[poverty])
+    Results[37]<- mean(NN_PA[very_off])
+    Results[38]<- mean(NN_PA[NHNW][very_off_NHNW])
+    Results[39]<- mean(NN_PA[poverty][very_off_pov])
     
   }
   
