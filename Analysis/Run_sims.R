@@ -1,3 +1,5 @@
+setwd("/n/home13/econsidine")
+
 ## Using functions from Sim_functions.R
 source("LCS_placement_sims/Analysis/Sim_functions.R")
 
