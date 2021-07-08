@@ -30,7 +30,7 @@ Names<- sapply(Names, function(x) paste0(x,"0"))
 
 unweighted<- str_detect(files, "unw")
 
-UNW<- matrix(0, nrow=21, ncol=25)
+UNW<- matrix(0, nrow=39, ncol=25)
 
 for(i in 1:25){
   results<- read.csv(files[unweighted][i])
@@ -47,7 +47,7 @@ write.csv(UNW, "LCS_results/Results_366_days_unweighted.csv")
 
 weighted<- !unweighted
 
-W<- matrix(0, nrow=21, ncol=25)
+W<- matrix(0, nrow=39, ncol=25)
 
 for(i in 1:25){
   results<- read.csv(files[weighted][i])
