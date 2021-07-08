@@ -161,52 +161,52 @@ for(n in c(50, 100, 250, 500, 1000)){
 # }
 
                                          
-##################### CES Score
+# ##################### CES Score
 
-CA_clean<- readRDS("LCS_data/CA_with_CES_projected.rds") 
-# sum(is.na(CA_clean$CES_score)) # 4847/475772 = 1%
-# sum(is.na(CA_clean$Pollution_score)) # 5
-CES<- CA_clean[which(!is.na(CA_clean$CES_score)),]
-n_obs<- dim(CES)[1]
-my_nas0<- readRDS("LCS_data/CA_NA_pos.rds")
-my_nas0[which(my_nas0 == FALSE)][which(is.na(CA_clean$CES_score))]<- TRUE
-CA_clean<- CES
+# CA_clean<- readRDS("LCS_data/CA_with_CES_projected.rds") 
+# # sum(is.na(CA_clean$CES_score)) # 4847/475772 = 1%
+# # sum(is.na(CA_clean$Pollution_score)) # 5
+# CES<- CA_clean[which(!is.na(CA_clean$CES_score)),]
+# n_obs<- dim(CES)[1]
+# my_nas0<- readRDS("LCS_data/CA_NA_pos.rds")
+# my_nas0[which(my_nas0 == FALSE)][which(is.na(CA_clean$CES_score))]<- TRUE
+# CA_clean<- CES
 
-Real<- readRDS("LCS_data/Daily_PM25_CA.rds")[as.vector(sapply(days, function(x) (x-1)*length(my_nas0)+(1:length(my_nas0))))][rep(!my_nas0,n_days)]
+# Real<- readRDS("LCS_data/Daily_PM25_CA.rds")[as.vector(sapply(days, function(x) (x-1)*length(my_nas0)+(1:length(my_nas0))))][rep(!my_nas0,n_days)]
 
-# load("Analysis/Simulate_PA_ME.RData")
-source("LCS_placement_sims/Analysis/Calibrate_PA.R") # includes Deciles for Real
-Deciles<- Deciles[as.vector(sapply(days, function(x) (x-1)*n_obs+(1:n_obs)))]
-source("LCS_placement_sims/Analysis/AQI_equation.R") # includes Real_class
-Real_class<- Real_class[as.vector(sapply(days, function(x) (x-1)*n_obs+(1:n_obs)))]
+# # load("Analysis/Simulate_PA_ME.RData")
+# source("LCS_placement_sims/Analysis/Calibrate_PA.R") # includes Deciles for Real
+# Deciles<- Deciles[as.vector(sapply(days, function(x) (x-1)*n_obs+(1:n_obs)))]
+# source("LCS_placement_sims/Analysis/AQI_equation.R") # includes Real_class
+# Real_class<- Real_class[as.vector(sapply(days, function(x) (x-1)*n_obs+(1:n_obs)))]
 
-cWeights<- CES$CES_score/sum(CES$CES_score)
+# cWeights<- CES$CES_score/sum(CES$CES_score)
 
 
-for(n in c(50, 100, 250, 500, 1000)){ 
-  Results<- run_sim(303, which(CES$AQS_site==1), 1:dim(CES)[1], 
-                    num=n, road_weights = cWeights, weighted = TRUE)
-  W_Results<- Results[[1]]
-  UNW_Results<- Results[[2]]
-  for(i in 2:3){ # CHANGE BACK TO 50!!!
-    Results<- rbind(Results, run_sim(303*i, which(CES$AQS_site==1), 
-                                     1:dim(CES)[1], 
-                                     num=n, road_weights = cWeights, 
-                                     weighted = TRUE))
-    W_Results<- rbind(W_Results, Results[[1]])
-    UNW_Results<- rbind(UNW_Results, Results[[2]])
-    print(i)
-  }
-  write.csv(W_Results, paste0("LCS_results/D366-CES_score_N_",n,".csv"), 
-            row.names = FALSE)
-  W_avg_res<- apply(W_Results, MARGIN = 2, mean)
-  write.csv(W_avg_res, paste0("LCS_results/D366-CES_score_N_",n,"_avg.csv"),
-            row.names = FALSE)
+# for(n in c(50, 100, 250, 500, 1000)){ 
+#   Results<- run_sim(303, which(CES$AQS_site==1), 1:dim(CES)[1], 
+#                     num=n, road_weights = cWeights, weighted = TRUE)
+#   W_Results<- Results[[1]]
+#   UNW_Results<- Results[[2]]
+#   for(i in 2:3){ # CHANGE BACK TO 50!!!
+#     Results<- rbind(Results, run_sim(303*i, which(CES$AQS_site==1), 
+#                                      1:dim(CES)[1], 
+#                                      num=n, road_weights = cWeights, 
+#                                      weighted = TRUE))
+#     W_Results<- rbind(W_Results, Results[[1]])
+#     UNW_Results<- rbind(UNW_Results, Results[[2]])
+#     print(i)
+#   }
+#   write.csv(W_Results, paste0("LCS_results/D366-CES_score_N_",n,".csv"), 
+#             row.names = FALSE)
+#   W_avg_res<- apply(W_Results, MARGIN = 2, mean)
+#   write.csv(W_avg_res, paste0("LCS_results/D366-CES_score_N_",n,"_avg.csv"),
+#             row.names = FALSE)
           
-  write.csv(UNW_Results, paste0("LCS_results/D366-CES_score_N_",n,"_unweighted.csv"), 
-            row.names = FALSE)
-  UNW_avg_res<- apply(UNW_Results, MARGIN = 2, mean)
-  write.csv(UNW_avg_res, paste0("LCS_results/D366-CES_score_N_",n,"_unweighted_avg.csv"),
-            row.names = FALSE)
-}
+#   write.csv(UNW_Results, paste0("LCS_results/D366-CES_score_N_",n,"_unweighted.csv"), 
+#             row.names = FALSE)
+#   UNW_avg_res<- apply(UNW_Results, MARGIN = 2, mean)
+#   write.csv(UNW_avg_res, paste0("LCS_results/D366-CES_score_N_",n,"_unweighted_avg.csv"),
+#             row.names = FALSE)
+# }
 
