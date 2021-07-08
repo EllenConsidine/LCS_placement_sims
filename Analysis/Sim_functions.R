@@ -2,7 +2,7 @@
 library(FNN)
 library(MetricsWeighted)
 # library(ggplot2)
-library(rgdal)
+# library(rgdal)
 library(raster)
 
 ## Reading in data:
