@@ -249,7 +249,7 @@ rWeights<- lengths/sum(lengths)
 sink("Timing_one_sim_366_together.txt")  # _road-weighting
                  
 s<- Sys.time()
-res<- run_sim(303, which(CA_clean$AQS_site==1), which(CA_clean$PA_site==1), num=1000)
+res<- run_sim(304, which(CA_clean$AQS_site==1), which(CA_clean$PA_site==1), num=1000)
                  
 # res<- run_sim(303, which(CA_clean$AQS_site==1), 1:dim(CA_clean)[1], 
 #                     num=1000, road_weights = rWeights)
