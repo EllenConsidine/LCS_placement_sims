@@ -45,10 +45,10 @@ results<- function(DF, pos, error_pos=NULL, err=NULL, Name=NULL, w){
   Get<- as.vector(sapply(1:n_days, function(x) (x-1)*n_obs+(get)))
                          
   dists<- NN$nn.dist
-  Dists<- rep(dists, 24)
+  Dists<- rep(dists, n_days)
   
   NN_pa<- DF[pos,"PA_site"][NN$nn.index]
-  NN_PA<- rep(NN_pa, 24)
+  NN_PA<- rep(NN_pa, n_days)
   
   RwE<- Real
   
