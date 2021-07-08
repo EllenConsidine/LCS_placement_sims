@@ -218,7 +218,7 @@ results<- function(DF, pos, error_pos=NULL, err=NULL, Name=NULL, w){
 
 #     return(UNW_Results)
 #   }
-  return(list(W_results, UNW_results))
+  return(list(W_Results, UNW_Results))
 }
 
 ## Run all trials for one experiment:
