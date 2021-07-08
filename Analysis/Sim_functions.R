@@ -14,7 +14,9 @@ my_nas0<- readRDS("LCS_data/CA_NA_pos.rds")
 # ann_avg<- readRDS("CA_2016_averages.rds")
 # ann_avg<- ann_avg[!my_nas0]
 
-days<- 1:366 # all
+# days<- 1:366 # all
+
+days<- c(15, 197) # tiny test
 
 # days<- c(15, 46, 75, 106,
 #          136, 167, 197, 228,
@@ -249,45 +251,45 @@ run_sim<- function(seed_num, no_err_set, err_set, frac = NULL, num = 100,
   }
 }
 
-## Testing:
+# ## Testing:
                  
-roads<- read.csv("LCS_data/Hwy_lengths.csv")[!my_nas0,]
-lengths<- roads$Roads_500 + 0.1
-rWeights<- lengths/sum(lengths)
+# roads<- read.csv("LCS_data/Hwy_lengths.csv")[!my_nas0,]
+# lengths<- roads$Roads_500 + 0.1
+# rWeights<- lengths/sum(lengths)
 
-sink("Timing_one_sim_366_together.txt")  # _road-weighting
+# sink("Timing_one_sim_366_together.txt")  # _road-weighting
                  
-s<- Sys.time()
-res<- run_sim(304, which(CA_clean$AQS_site==1), which(CA_clean$PA_site==1), num=1000)
-                 
-# res<- run_sim(303, which(CA_clean$AQS_site==1), 1:dim(CA_clean)[1], 
-#                     num=1000, road_weights = rWeights)
-e<- Sys.time()
-print(paste("Both:", e-s)) # Unweighted
-print(res)
-# 2.8 mins unweighted, 366 days --> would take 140 mins to run 50 trials
-# 54 secs unweighted, 183 days (every other) --> would take 45 mins to run 50 trials
-# 3.1 secs unweighted, 24 days --> would take 2.5 mins to run 50 trials
-# 1.7 secs unweighted, 12 days --> would take 1.4 mins to run 50 trials
-
-# plot(c(12, 24, 183, 366), c(1.7, 3.1, 54, 2.8*60), 
-#      xlab = "Days", ylab = "Seconds / Trial")
-# abline(0,0.5)
-
-
 # s<- Sys.time()
-# res<- run_sim(304, which(CA_clean$AQS_site==1), which(CA_clean$PA_site==1), num=1000,
-#               weighted=TRUE)
+# res<- run_sim(304, which(CA_clean$AQS_site==1), which(CA_clean$PA_site==1), num=1000)
                  
 # # res<- run_sim(303, which(CA_clean$AQS_site==1), 1:dim(CA_clean)[1], 
-# #                     num=1000, road_weights = rWeights, weighted = TRUE)
+# #                     num=1000, road_weights = rWeights)
 # e<- Sys.time()
-# print(paste("Weighted:", e-s)) 
+# print(paste("Both:", e-s)) # Unweighted
 # print(res)
-print("-------")
-print(gc())
+# # 2.8 mins unweighted, 366 days --> would take 140 mins to run 50 trials
+# # 54 secs unweighted, 183 days (every other) --> would take 45 mins to run 50 trials
+# # 3.1 secs unweighted, 24 days --> would take 2.5 mins to run 50 trials
+# # 1.7 secs unweighted, 12 days --> would take 1.4 mins to run 50 trials
+
+# # plot(c(12, 24, 183, 366), c(1.7, 3.1, 54, 2.8*60), 
+# #      xlab = "Days", ylab = "Seconds / Trial")
+# # abline(0,0.5)
+
+
+# # s<- Sys.time()
+# # res<- run_sim(304, which(CA_clean$AQS_site==1), which(CA_clean$PA_site==1), num=1000,
+# #               weighted=TRUE)
                  
-sink()
+# # # res<- run_sim(303, which(CA_clean$AQS_site==1), 1:dim(CA_clean)[1], 
+# # #                     num=1000, road_weights = rWeights, weighted = TRUE)
+# # e<- Sys.time()
+# # print(paste("Weighted:", e-s)) 
+# # print(res)
+# print("-------")
+# print(gc())
+                 
+# sink()
                  
 # 2.9 mins weighted, 366 days --> would take  mins to run 50 trials
 # 58 secs weighted, 183 days (every other) --> would take  mins to run 50 trials
