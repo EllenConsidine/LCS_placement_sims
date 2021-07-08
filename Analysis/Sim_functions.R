@@ -39,6 +39,9 @@ Real_class<- Real_class[as.vector(sapply(days, function(x) (x-1)*n_obs+(1:n_obs)
 
 results<- function(DF, pos, error_pos=NULL, err=NULL, Name=NULL, w){
   
+  DF$error_site<- 0
+  DF$error_site[error_pos]<- 1
+         
   NN<- get.knnx(DF[pos,c("Easting", "Northing")], DF[,c("Easting", "Northing")], k=1)
   IDs<- DF[pos,"ID"][NN$nn.index]
   get<- match(IDs, DF$ID)
@@ -47,9 +50,13 @@ results<- function(DF, pos, error_pos=NULL, err=NULL, Name=NULL, w){
   dists<- NN$nn.dist
   Dists<- rep(dists, n_days)
   
-  NN_pa<- DF[pos,"PA_site"][NN$nn.index]
+  if(is.null(error_pos)){
+         NN_pa<- DF[pos,"PA_site"][NN$nn.index] 
+  }else{
+         NN_pa<- DF[pos,"error_site"][NN$nn.index] 
+  }
   NN_PA<- rep(NN_pa, n_days)
-  
+                         
   RwE<- Real
   
   # Sys.time()
