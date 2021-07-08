@@ -253,7 +253,7 @@ roads<- read.csv("LCS_data/Hwy_lengths.csv")[!my_nas0,]
 lengths<- roads$Roads_500 + 0.1
 rWeights<- lengths/sum(lengths)
 
-sink("Timing_one_sim_366_together.txt")  # _road-weighting
+sink("Timing_one_sim_366.txt")  # _road-weighting
                  
 s<- Sys.time()
 res<- run_sim(304, which(CA_clean$AQS_site==1), which(CA_clean$PA_site==1), num=1000)
@@ -261,7 +261,7 @@ res<- run_sim(304, which(CA_clean$AQS_site==1), which(CA_clean$PA_site==1), num=
 # res<- run_sim(303, which(CA_clean$AQS_site==1), 1:dim(CA_clean)[1], 
 #                     num=1000, road_weights = rWeights)
 e<- Sys.time()
-print(paste("Both:", e-s)) # Unweighted
+print(paste("Unweighted:", e-s))
 print(res)
 # 2.8 mins unweighted, 366 days --> would take 140 mins to run 50 trials
 # 54 secs unweighted, 183 days (every other) --> would take 45 mins to run 50 trials
@@ -273,15 +273,15 @@ print(res)
 # abline(0,0.5)
 
 
-# s<- Sys.time()
-# res<- run_sim(304, which(CA_clean$AQS_site==1), which(CA_clean$PA_site==1), num=1000,
-#               weighted=TRUE)
+s<- Sys.time()
+res<- run_sim(304, which(CA_clean$AQS_site==1), which(CA_clean$PA_site==1), num=1000,
+              weighted=TRUE)
                  
-# # res<- run_sim(303, which(CA_clean$AQS_site==1), 1:dim(CA_clean)[1], 
-# #                     num=1000, road_weights = rWeights, weighted = TRUE)
-# e<- Sys.time()
-# print(paste("Weighted:", e-s)) 
-# print(res)
+# res<- run_sim(303, which(CA_clean$AQS_site==1), 1:dim(CA_clean)[1], 
+#                     num=1000, road_weights = rWeights, weighted = TRUE)
+e<- Sys.time()
+print(paste("Weighted:", e-s)) 
+print(res)
 print("-------")
 print(gc())
                  
