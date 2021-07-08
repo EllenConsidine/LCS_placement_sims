@@ -2,27 +2,14 @@
 library(FNN)
 library(MetricsWeighted)
 # library(ggplot2)
-# library(rgdal)
-library(raster)
 
 ## Reading in data:
 
 setwd("/n/home13/econsidine")
 
-CA_clean<- readRDS("LCS_data/CA_no_NAs_with_SDI2.rds")
+CA_clean<- readRDS("LCS_data/CA_clean_projected.rds")
 n_obs<- dim(CA_clean)[1]
 my_nas0<- readRDS("LCS_data/CA_NA_pos.rds")
-
-## Transform Lat-Lon to get distances in meters:
-grid<- CA_clean[,c("Lon", "Lat")]
-coordinates(grid)<- c("Lon", "Lat")
-projection(grid)<- "+proj=longlat +ellps=GRS80 +datum=NAD83 +no_defs"
-
-grid_df<- SpatialPointsDataFrame(grid, CA_clean[,c("Lon", "Lat")])
-Grid<- spTransform(grid_df, CRS("+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=37.5 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m +no_defs"))
-
-CA_clean$Easting<- coordinates(Grid)[,1]
-CA_clean$Northing<- coordinates(Grid)[,2]
 
 # ann_avg<- readRDS("CA_2016_averages.rds")
 # ann_avg<- ann_avg[!my_nas0]
