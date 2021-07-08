@@ -14,15 +14,15 @@ my_nas0<- readRDS("LCS_data/CA_NA_pos.rds")
 # ann_avg<- readRDS("CA_2016_averages.rds")
 # ann_avg<- ann_avg[!my_nas0]
 
-# days<- 1:366 # all
+days<- 1:366 # all
 
 # days<- c(15, 46, 75, 106,
 #          136, 167, 197, 228,
 #          259, 289, 320, 350) # 15th of each month
 
-days<- c(1, 15, 32, 46, 61, 75, 92, 106,
-         122, 136, 153, 167, 183, 197, 214, 228,
-         245, 259, 275, 289, 306, 320, 336, 350) # 1st and 15th of each month
+# days<- c(1, 15, 32, 46, 61, 75, 92, 106,
+#          122, 136, 153, 167, 183, 197, 214, 228,
+#          245, 259, 275, 289, 306, 320, 336, 350) # 1st and 15th of each month
 
 # days<- seq(2,366,by=2) # every other day
 n_days<- length(days)
@@ -38,9 +38,6 @@ Real_class<- Real_class[as.vector(sapply(days, function(x) (x-1)*n_obs+(1:n_obs)
 ### For each trial:
 
 results<- function(DF, pos, error_pos=NULL, err=NULL, Name=NULL, w){
-  
-  DF$error_site<- 0
-  DF$error_site[error_pos]<- 1
          
   NN<- get.knnx(DF[pos,c("Easting", "Northing")], DF[,c("Easting", "Northing")], k=1)
   IDs<- DF[pos,"ID"][NN$nn.index]
@@ -53,6 +50,8 @@ results<- function(DF, pos, error_pos=NULL, err=NULL, Name=NULL, w){
   if(is.null(error_pos)){
          NN_pa<- DF[pos,"PA_site"][NN$nn.index] 
   }else{
+         DF$error_site<- 0
+         DF$error_site[error_pos]<- 1
          NN_pa<- DF[pos,"error_site"][NN$nn.index] 
   }
   NN_PA<- rep(NN_pa, n_days)
