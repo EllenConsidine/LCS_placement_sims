@@ -20,7 +20,7 @@ for(n in c(50, 100, 250, 500, 1000)){
   W_Results<- Results[[1]]
   UNW_Results<- Results[[2]]
   
-  for(i in 2:3){ # CHANGE BACK TO 50!!!
+  for(i in 2:50){
     Results<- run_sim(303*i, which(CA_clean$AQS_site==1), 
                                      which(CA_clean$PA_site==1), 
                                      num=n, weighted = TRUE)
@@ -188,7 +188,7 @@ for(n in c(50, 100, 250, 500, 1000)){
 #                     num=n, road_weights = cWeights, weighted = TRUE)
 #   W_Results<- Results[[1]]
 #   UNW_Results<- Results[[2]]
-#   for(i in 2:3){ # CHANGE BACK TO 50!!!
+#   for(i in 2:50){
 #     Results<- rbind(Results, run_sim(303*i, which(CES$AQS_site==1), 
 #                                      1:dim(CES)[1], 
 #                                      num=n, road_weights = cWeights, 
