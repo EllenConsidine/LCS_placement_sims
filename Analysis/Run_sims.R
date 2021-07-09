@@ -14,7 +14,7 @@ write.csv(Results[[2]], paste0("LCS_results/D366-AQS_sites_unweighted.csv"),
 
 ## Purple Air sites
 
-for(n = 1000){ # n in c(50, 100, 250, 500, 1000)
+for(n in 1000){ # n in c(50, 100, 250, 500, 1000)
   Results<- run_sim(303, which(CA_clean$AQS_site==1), which(CA_clean$PA_site==1), 
                     num=n, weighted = TRUE)
   W_Results<- Results[[1]]
