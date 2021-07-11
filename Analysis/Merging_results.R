@@ -22,13 +22,12 @@ suff_files<- list.files("LCS_results",
                         suffix)
 files<- intersect(pre_files, suff_files)
 
-Names<- sapply(files, function(x) str_split(x, "-")[[1]][2])
-Names<- sapply(names, function(x) str_split(x, "0_")[[1]][1])
-Names<- sapply(Names, function(x) paste0(x,"0"))
+unweighted<- str_detect(files, "unw")
 
 # Get unweighted
 
-unweighted<- str_detect(files, "unw")
+UNW_names<- sapply(files[unweighted], function(x) str_split(x, "-")[[1]][2])
+UNW_Names<- sapply(UNW_names, function(x) paste0(str_split(x, "0_")[[1]][1], "0"))
 
 UNW<- matrix(0, nrow=39, ncol=25)
 
@@ -37,7 +36,7 @@ for(i in 1:25){
   UNW[,i]<- t(results)
 }
 
-colnames(UNW)<- Names[unweighted]
+colnames(UNW)<- UNW_Names
 row.names(UNW)<- Metrics
 
 write.csv(UNW, "LCS_results/Results_366_days_unweighted.csv")
@@ -47,6 +46,10 @@ write.csv(UNW, "LCS_results/Results_366_days_unweighted.csv")
 
 weighted<- !unweighted
 
+W_names<- sapply(files[weighted], function(x) str_split(x, "-")[[1]][2])
+W_Names<- sapply(W_names, function(x) paste0(str_split(x, "0_")[[1]][1], "0"))
+
+
 W<- matrix(0, nrow=39, ncol=25)
 
 for(i in 1:25){
@@ -54,9 +57,8 @@ for(i in 1:25){
   W[,i]<- t(results)
 }
 
-colnames(W)<- Names[weighted]
+colnames(W)<- W_Names
 row.names(W)<- Metrics
 
 write.csv(W, "LCS_results/Results_366_days_weighted.csv")
-
 
