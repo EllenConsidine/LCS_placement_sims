@@ -117,9 +117,9 @@ results<- function(DF, pos, error_pos=NULL, err=NULL, Name=NULL, w){
   PDW_NHNW<- PDW[NHNW]
   PDW_pov<- PDW[poverty]
                  
-  W_results[1]<- weighted.mean(Dists[msclf], PDW[msclf])
-  W_results[2]<- weighted.mean(Dists[NHNW][msclf_NHNW], PDW_NHNW[msclf_NHNW])
-  W_results[3]<- weighted.mean(Dists[poverty][msclf_pov], PDW_pov[msclf_pov])
+  W_Results[1]<- weighted.mean(Dists[msclf], PDW[msclf])
+  W_Results[2]<- weighted.mean(Dists[NHNW][msclf_NHNW], PDW_NHNW[msclf_NHNW])
+  W_Results[3]<- weighted.mean(Dists[poverty][msclf_pov], PDW_pov[msclf_pov])
                  
   W_Results[4]<- weighted_quantile(Dists[msclf], PDW[msclf], probs=0.5)
   W_Results[5]<- weighted_quantile(Dists[NHNW][msclf_NHNW], PDW_NHNW[msclf_NHNW], probs=0.5)
@@ -187,9 +187,9 @@ results<- function(DF, pos, error_pos=NULL, err=NULL, Name=NULL, w){
   UNW_Results<- rep(0,9)
 #   UNW_Results<- rep(0,39)
                  
-  UNW_results[1]<- mean(Dists[msclf])
-  UNW_results[2]<- mean(Dists[NHNW][msclf_NHNW])
-  UNW_results[3]<- mean(Dists[poverty][msclf_pov])
+  UNW_Results[1]<- mean(Dists[msclf])
+  UNW_Results[2]<- mean(Dists[NHNW][msclf_NHNW])
+  UNW_Results[3]<- mean(Dists[poverty][msclf_pov])
                  
   UNW_Results[4]<- median(Dists[msclf])
   UNW_Results[5]<- median(Dists[NHNW][msclf_NHNW])
