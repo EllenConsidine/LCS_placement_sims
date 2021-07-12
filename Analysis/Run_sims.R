@@ -14,32 +14,32 @@ source("LCS_placement_sims/Analysis/Sim_functions.R")
 
 ## Purple Air sites
 
-for(n in c(100, 250, 500, 1000)){ # 50 as well
-  Results<- run_sim(303, which(CA_clean$AQS_site==1), which(CA_clean$PA_site==1), 
-                    num=n, weighted = TRUE)
-  W_Results<- Results[[1]]
-  UNW_Results<- Results[[2]]
+# for(n in c(50, 100, 250, 500, 1000)){
+#   Results<- run_sim(303, which(CA_clean$AQS_site==1), which(CA_clean$PA_site==1), 
+#                     num=n, weighted = TRUE)
+#   W_Results<- Results[[1]]
+#   UNW_Results<- Results[[2]]
   
-  for(i in 2:50){
-    Results<- run_sim(303*i, which(CA_clean$AQS_site==1), 
-                                     which(CA_clean$PA_site==1), 
-                                     num=n, weighted = TRUE)
-    W_Results<- rbind(W_Results, Results[[1]])
-    UNW_Results<- rbind(UNW_Results, Results[[2]])
-    print(i)
-  }
-  write.csv(W_Results, paste0("LCS_results/D366-PA_N_",n,"_msclf.csv"), 
-            row.names = FALSE)
-  W_avg_res<- apply(W_Results, MARGIN = 2, mean)
-  write.csv(W_avg_res, paste0("LCS_results/D366-PA_N_",n,"_avg_msclf.csv"),
-            row.names = FALSE)
+#   for(i in 2:50){
+#     Results<- run_sim(303*i, which(CA_clean$AQS_site==1), 
+#                                      which(CA_clean$PA_site==1), 
+#                                      num=n, weighted = TRUE)
+#     W_Results<- rbind(W_Results, Results[[1]])
+#     UNW_Results<- rbind(UNW_Results, Results[[2]])
+#     print(i)
+#   }
+#   write.csv(W_Results, paste0("LCS_results/D366-PA_N_",n,"_msclf.csv"), 
+#             row.names = FALSE)
+#   W_avg_res<- apply(W_Results, MARGIN = 2, mean)
+#   write.csv(W_avg_res, paste0("LCS_results/D366-PA_N_",n,"_avg_msclf.csv"),
+#             row.names = FALSE)
           
-  write.csv(UNW_Results, paste0("LCS_results/D366-PA_N_",n,"_unweighted_msclf.csv"), 
-            row.names = FALSE)
-  UNW_avg_res<- apply(UNW_Results, MARGIN = 2, mean)
-  write.csv(UNW_avg_res, paste0("LCS_results/D366-PA_N_",n,"_unweighted_avg_msclf.csv"),
-            row.names = FALSE)
-}
+#   write.csv(UNW_Results, paste0("LCS_results/D366-PA_N_",n,"_unweighted_msclf.csv"), 
+#             row.names = FALSE)
+#   UNW_avg_res<- apply(UNW_Results, MARGIN = 2, mean)
+#   write.csv(UNW_avg_res, paste0("LCS_results/D366-PA_N_",n,"_unweighted_avg_msclf.csv"),
+#             row.names = FALSE)
+# }
 
 ## School sites
 
