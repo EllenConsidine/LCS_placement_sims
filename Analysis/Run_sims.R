@@ -6,9 +6,9 @@ source("LCS_placement_sims/Analysis/Sim_functions.R")
 #### Using numbers of sensors instead of percents:
 
 Results<- results(CA_clean, which(CA_clean$AQS_site == 1), w = TRUE)
-write.csv(Results[[1]], paste0("LCS_results/D366-AQS_sites.csv"),
+write.csv(Results[[1]], paste0("LCS_results/D366-AQS_sites_msclf.csv"),
           row.names = FALSE)
-write.csv(Results[[2]], paste0("LCS_results/D366-AQS_sites_unweighted.csv"),
+write.csv(Results[[2]], paste0("LCS_results/D366-AQS_sites_unweighted_msclf.csv"),
           row.names = FALSE)
 
 
@@ -28,16 +28,16 @@ for(n in c(50, 100, 250, 500, 1000)){
     UNW_Results<- rbind(UNW_Results, Results[[2]])
     print(i)
   }
-  write.csv(W_Results, paste0("LCS_results/D366-PA_N_",n,".csv"), 
+  write.csv(W_Results, paste0("LCS_results/D366-PA_N_",n,"_msclf.csv"), 
             row.names = FALSE)
   W_avg_res<- apply(W_Results, MARGIN = 2, mean)
-  write.csv(W_avg_res, paste0("LCS_results/D366-PA_N_",n,"_avg.csv"),
+  write.csv(W_avg_res, paste0("LCS_results/D366-PA_N_",n,"_avg_msclf.csv"),
             row.names = FALSE)
           
-  write.csv(UNW_Results, paste0("LCS_results/D366-PA_N_",n,"_unweighted.csv"), 
+  write.csv(UNW_Results, paste0("LCS_results/D366-PA_N_",n,"_unweighted_msclf.csv"), 
             row.names = FALSE)
   UNW_avg_res<- apply(UNW_Results, MARGIN = 2, mean)
-  write.csv(UNW_avg_res, paste0("LCS_results/D366-PA_N_",n,"_unweighted_avg.csv"),
+  write.csv(UNW_avg_res, paste0("LCS_results/D366-PA_N_",n,"_unweighted_avg_msclf.csv"),
             row.names = FALSE)
 }
 
@@ -57,16 +57,16 @@ for(n in c(50, 100, 250, 500, 1000)){
     UNW_Results<- rbind(UNW_Results, Results[[2]])
     print(i)
   }
-  write.csv(W_Results, paste0("LCS_results/D366-School_N_",n,".csv"), 
+  write.csv(W_Results, paste0("LCS_results/D366-School_N_",n,"_msclf.csv"), 
             row.names = FALSE)
   W_avg_res<- apply(W_Results, MARGIN = 2, mean)
-  write.csv(W_avg_res, paste0("LCS_results/D366-School_N_",n,"_avg.csv"),
+  write.csv(W_avg_res, paste0("LCS_results/D366-School_N_",n,"_avg_msclf.csv"),
             row.names = FALSE)
           
-  write.csv(UNW_Results, paste0("LCS_results/D366-School_N_",n,"_unweighted.csv"), 
+  write.csv(UNW_Results, paste0("LCS_results/D366-School_N_",n,"_unweighted_msclf.csv"), 
             row.names = FALSE)
   UNW_avg_res<- apply(UNW_Results, MARGIN = 2, mean)
-  write.csv(UNW_avg_res, paste0("LCS_results/D366-School_N_",n,"_unweighted_avg.csv"),
+  write.csv(UNW_avg_res, paste0("LCS_results/D366-School_N_",n,"_unweighted_avg_msclf.csv"),
             row.names = FALSE)
 }
 
@@ -93,16 +93,16 @@ for(n in c(50, 100, 250, 500, 1000)){
     UNW_Results<- rbind(UNW_Results, Results[[2]])
     print(i)
   }
-  write.csv(W_Results, paste0("LCS_results/D366-Roads_N_",n,".csv"), 
+  write.csv(W_Results, paste0("LCS_results/D366-Roads_N_",n,"_msclf.csv"), 
             row.names = FALSE)
   W_avg_res<- apply(W_Results, MARGIN = 2, mean)
-  write.csv(W_avg_res, paste0("LCS_results/D366-Roads_N_",n,"_avg.csv"),
+  write.csv(W_avg_res, paste0("LCS_results/D366-Roads_N_",n,"_avg_msclf.csv"),
             row.names = FALSE)
           
-  write.csv(UNW_Results, paste0("LCS_results/D366-Roads_N_",n,"_unweighted.csv"), 
+  write.csv(UNW_Results, paste0("LCS_results/D366-Roads_N_",n,"_unweighted_msclf.csv"), 
             row.names = FALSE)
   UNW_avg_res<- apply(UNW_Results, MARGIN = 2, mean)
-  write.csv(UNW_avg_res, paste0("LCS_results/D366-Roads_N_",n,"_unweighted_avg.csv"),
+  write.csv(UNW_avg_res, paste0("LCS_results/D366-Roads_N_",n,"_unweighted_avg_msclf.csv"),
             row.names = FALSE)
 }
 
@@ -146,16 +146,16 @@ for(n in c(50, 100, 250, 500, 1000)){
     UNW_Results<- rbind(UNW_Results, Results[[2]])
     print(i)
   }
-  write.csv(W_Results, paste0("LCS_results/D366-CES_pollution_N_",n,".csv"), 
+  write.csv(W_Results, paste0("LCS_results/D366-CES_pollution_N_",n,"_msclf.csv"), 
             row.names = FALSE)
   W_avg_res<- apply(W_Results, MARGIN = 2, mean)
-  write.csv(W_avg_res, paste0("LCS_results/D366-CES_pollution_N_",n,"_avg.csv"),
+  write.csv(W_avg_res, paste0("LCS_results/D366-CES_pollution_N_",n,"_avg_msclf.csv"),
             row.names = FALSE)
           
-  write.csv(UNW_Results, paste0("LCS_results/D366-CES_pollution_N_",n,"_unweighted.csv"), 
+  write.csv(UNW_Results, paste0("LCS_results/D366-CES_pollution_N_",n,"_unweighted_msclf.csv"), 
             row.names = FALSE)
   UNW_avg_res<- apply(UNW_Results, MARGIN = 2, mean)
-  write.csv(UNW_avg_res, paste0("LCS_results/D366-CES_pollution_N_",n,"_unweighted_avg.csv"),
+  write.csv(UNW_avg_res, paste0("LCS_results/D366-CES_pollution_N_",n,"_unweighted_avg_msclf.csv"),
             row.names = FALSE)
 }
 
@@ -196,16 +196,16 @@ for(n in c(50, 100, 250, 500, 1000)){
     UNW_Results<- rbind(UNW_Results, Results[[2]])
     print(i)
   }
-  write.csv(W_Results, paste0("LCS_results/D366-CES_score_N_",n,".csv"), 
+  write.csv(W_Results, paste0("LCS_results/D366-CES_score_N_",n,"_msclf.csv"), 
             row.names = FALSE)
   W_avg_res<- apply(W_Results, MARGIN = 2, mean)
-  write.csv(W_avg_res, paste0("LCS_results/D366-CES_score_N_",n,"_avg.csv"),
+  write.csv(W_avg_res, paste0("LCS_results/D366-CES_score_N_",n,"_avg_msclf.csv"),
             row.names = FALSE)
           
-  write.csv(UNW_Results, paste0("LCS_results/D366-CES_score_N_",n,"_unweighted.csv"), 
+  write.csv(UNW_Results, paste0("LCS_results/D366-CES_score_N_",n,"_unweighted_msclf.csv"), 
             row.names = FALSE)
   UNW_avg_res<- apply(UNW_Results, MARGIN = 2, mean)
-  write.csv(UNW_avg_res, paste0("LCS_results/D366-CES_score_N_",n,"_unweighted_avg.csv"),
+  write.csv(UNW_avg_res, paste0("LCS_results/D366-CES_score_N_",n,"_unweighted_avg_msclf.csv"),
             row.names = FALSE)
 }
 
