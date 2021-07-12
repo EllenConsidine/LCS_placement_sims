@@ -300,24 +300,24 @@ run_sim<- function(seed_num, no_err_set, err_set, frac = NULL, num = 100,
 # lengths<- roads$Roads_500 + 0.1
 # rWeights<- lengths/sum(lengths)
 
-sink("Timing_one_sim_366_msclf.txt")  # _road-weighting
+# sink("Timing_one_sim_366_msclf.txt")  # _road-weighting
                  
-s<- Sys.time()
-res<- run_sim(304, which(CA_clean$AQS_site==1), which(CA_clean$PA_site==1), num=1000)
+# s<- Sys.time()
+# res<- run_sim(304, which(CA_clean$AQS_site==1), which(CA_clean$PA_site==1), num=1000)
                  
-# res<- run_sim(303, which(CA_clean$AQS_site==1), 1:dim(CA_clean)[1], 
-#                     num=1000, road_weights = rWeights)
-e<- Sys.time()
-print(paste("Both:", e-s)) # Unweighted
-print(res)
-# 2.8 mins unweighted, 366 days --> would take 140 mins to run 50 trials
-# 54 secs unweighted, 183 days (every other) --> would take 45 mins to run 50 trials
-# 3.1 secs unweighted, 24 days --> would take 2.5 mins to run 50 trials
-# 1.7 secs unweighted, 12 days --> would take 1.4 mins to run 50 trials
+# # res<- run_sim(303, which(CA_clean$AQS_site==1), 1:dim(CA_clean)[1], 
+# #                     num=1000, road_weights = rWeights)
+# e<- Sys.time()
+# print(paste("Both:", e-s)) # Unweighted
+# print(res)
+# # 2.8 mins unweighted, 366 days --> would take 140 mins to run 50 trials
+# # 54 secs unweighted, 183 days (every other) --> would take 45 mins to run 50 trials
+# # 3.1 secs unweighted, 24 days --> would take 2.5 mins to run 50 trials
+# # 1.7 secs unweighted, 12 days --> would take 1.4 mins to run 50 trials
 
-# plot(c(12, 24, 183, 366), c(1.7, 3.1, 54, 2.8*60), 
-#      xlab = "Days", ylab = "Seconds / Trial")
-# abline(0,0.5)
+# # plot(c(12, 24, 183, 366), c(1.7, 3.1, 54, 2.8*60), 
+# #      xlab = "Days", ylab = "Seconds / Trial")
+# # abline(0,0.5)
 
 
 # # s<- Sys.time()
@@ -332,7 +332,7 @@ print(res)
 # print("-------")
 # print(gc())
                  
-sink()
+# sink()
                  
 # 2.9 mins weighted, 366 days --> would take  mins to run 50 trials
 # 58 secs weighted, 183 days (every other) --> would take  mins to run 50 trials
