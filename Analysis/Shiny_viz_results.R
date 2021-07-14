@@ -2,15 +2,18 @@ library(shiny)
 library(dplyr)
 library(data.table)
 
-setwd("/n/home13/econsidine")
+# setwd("/n/home13/econsidine")
 
-pdw<- read.csv("LCS_results/Results_366_days_weighted.csv")
-unw<- read.csv("LCS_results/Results_366_days_unweighted.csv")
+# pdw<- read.csv("LCS_results/Results_366_days_weighted.csv")
+# unw<- read.csv("LCS_results/Results_366_days_unweighted.csv")
 
-W_aqs<- read.csv("LCS_results/D366-AQS_sites.csv")
-UNW_aqs<- read.csv("LCS_results/D366-AQS_sites_unweighted.csv")
-pdw$AQS<- sapply(W_aqs, as.numeric)
-unw$AQS<- sapply(UNW_aqs, as.numeric)
+pdw<- read.csv("LCS_results_7-12-21_weighted.csv")
+unw<- read.csv("LCS_results_7-12-21_unweighted.csv")
+
+# W_aqs<- read.csv("LCS_results/D366-AQS_sites.csv")
+# UNW_aqs<- read.csv("LCS_results/D366-AQS_sites_unweighted.csv")
+# pdw$AQS<- sapply(W_aqs, as.numeric)
+# unw$AQS<- sapply(UNW_aqs, as.numeric)
 
 # pdw[,2:27]<- apply(pdw[,2:27], MARGIN=2, as.numeric)
 # unw[,2:27]<- apply(unw[,2:27], MARGIN=2, as.numeric)
@@ -22,12 +25,15 @@ ui <- fluidPage(
               choices = c("MAE", "RMSE", "Real class > shown class",
                            "Shown class > real class", "AQI class off by >1",
                            "95th percentile of errors", "% of the |errors| > 10",
-                         "Mean distance to NN monitor/sensor",
-                         "Mean distance to NN monitor/sensor, among misclassifications > 1",
-                         "Median distance to NN monitor/sensor",
-                         "Median distance to NN monitor/sensor, among misclassifications > 1",
-                         "Mean % of NNs that are LCSs",
-                         "Mean % of NNs that are LCSs, among misclassifications > 1")),
+                          "Mean distance to NN monitor/sensor", 
+                          "Mean distance to NN monitor/sensor, among misclassifications > 1",
+                          "Median distance to NN monitor/sensor",
+                          "Median distance to NN monitor/sensor, among misclassifications > 1",
+                          "Mean % of NNs that are LCSs",
+                          "Mean % of NNs that are LCSs, among misclassifications > 1",
+                          "Mean distance to NN monitor/sensor, among all misclassifications",
+                          "Median distance to NN monitor/sensor, among all misclassifications",
+                          "Mean % of NNs that are LCSs, among all misclassifications")),
   
   plotOutput("resultsWeighted"),
   plotOutput("resultsUnweighted"),
@@ -37,12 +43,15 @@ ui <- fluidPage(
               choices = c("MAE", "RMSE", "Real class > shown class",
                           "Shown class > real class", "AQI class off by >1",
                           "95th percentile of errors", "% of the |errors| > 10",
-                         "Mean distance to NN monitor/sensor",
-                         "Mean distance to NN monitor/sensor, among misclassifications > 1",
-                         "Median distance to NN monitor/sensor",
-                         "Median distance to NN monitor/sensor, among misclassifications > 1",
-                         "Mean % of NNs that are LCSs",
-                         "Mean % of NNs that are LCSs, among misclassifications > 1")),
+                          "Mean distance to NN monitor/sensor", 
+                          "Mean distance to NN monitor/sensor, among misclassifications > 1",
+                          "Median distance to NN monitor/sensor",
+                          "Median distance to NN monitor/sensor, among misclassifications > 1",
+                          "Mean % of NNs that are LCSs",
+                          "Mean % of NNs that are LCSs, among misclassifications > 1",
+                          "Mean distance to NN monitor/sensor, among all misclassifications",
+                          "Median distance to NN monitor/sensor, among all misclassifications",
+                          "Mean % of NNs that are LCSs, among all misclassifications")),
   p("Weighted Results:"),
   tableOutput("tableWeighted"),
   p("Unweighted Results:"),
