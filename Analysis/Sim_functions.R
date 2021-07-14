@@ -34,6 +34,8 @@ source("LCS_placement_sims/Analysis/Calibrate_PA.R") # includes Deciles for Real
 Deciles<- Deciles[as.vector(sapply(days, function(x) (x-1)*n_obs+(1:n_obs)))]
 source("LCS_placement_sims/Analysis/AQI_equation.R") # includes Real_class
 Real_class<- Real_class[as.vector(sapply(days, function(x) (x-1)*n_obs+(1:n_obs)))]
+                                         
+Real_class0<- Real_class < 3
 
 ### For each trial:
 
@@ -77,9 +79,10 @@ results<- function(DF, pos, error_pos=NULL, err=NULL, Name=NULL, w){
   # Shown_aqi<- AQI_ref$AQI[Shown_match]
   Shown_class<- AQI_ref$Class[Shown_match]
   rm(Shown_match)
+  Shown_class0<- Shown_class < 3
   
   # Calculate differences:
-  eps<- abs(Shown-Real)
+#   eps<- abs(Shown-Real)
   
   ## Non-white
   NHNW<- rep((1-DF$nonHisp.white) > quantile(1-DF$nonHisp.white, 0.80), n_days) # top quintile
@@ -103,31 +106,39 @@ results<- function(DF, pos, error_pos=NULL, err=NULL, Name=NULL, w){
 #   SR_NHNW<- Shown_class[NHNW] > Real_class[NHNW]
 #   SR_pov<- Shown_class[poverty] > Real_class[poverty]
                  
-  msclf<- Real_class != Shown_class
-  msclf_NHNW<- Real_class[NHNW] != Shown_class[NHNW]
-  msclf_pov<- Real_class[poverty] != Shown_class[poverty]
+#   msclf<- Real_class != Shown_class
+#   msclf_NHNW<- Real_class[NHNW] != Shown_class[NHNW]
+#   msclf_pov<- Real_class[poverty] != Shown_class[poverty]
+                 
+  HL<- (!Real_class0)&(Shown_class0)
+  HL_NHNW<- (!Real_class0[NHNW])&(Shown_class0[NHNW])
+  HL_pov<- (!Real_class0[poverty])&(Shown_class0[poverty])
   
   #### Getting results:
                  
   ### Weighted by population density:
-  W_Results<- rep(0,9)
-#   W_Results<- rep(0,39)
+  W_Results<- rep(0,3)
+#   W_Results<- rep(0,48)
 
   PDW<- rep(DF$ppltn_d, n_days)
   PDW_NHNW<- PDW[NHNW]
   PDW_pov<- PDW[poverty]
                  
-  W_Results[1]<- weighted.mean(Dists[msclf], PDW[msclf])
-  W_Results[2]<- weighted.mean(Dists[NHNW][msclf_NHNW], PDW_NHNW[msclf_NHNW])
-  W_Results[3]<- weighted.mean(Dists[poverty][msclf_pov], PDW_pov[msclf_pov])
+  W_Results[1]<- weighted.mean(HL, PDW)
+  W_Results[2]<- weighted.mean(HL_NHNW, PDW_NHNW)
+  W_Results[3]<- weighted.mean(HL_pov, PDW_pov)
                  
-  W_Results[4]<- weighted_quantile(Dists[msclf], PDW[msclf], probs=0.5)
-  W_Results[5]<- weighted_quantile(Dists[NHNW][msclf_NHNW], PDW_NHNW[msclf_NHNW], probs=0.5)
-  W_Results[6]<- weighted_quantile(Dists[poverty][msclf_pov], PDW_pov[msclf_pov], probs=0.5)
+#   W_Results[1]<- weighted.mean(Dists[msclf], PDW[msclf])
+#   W_Results[2]<- weighted.mean(Dists[NHNW][msclf_NHNW], PDW_NHNW[msclf_NHNW])
+#   W_Results[3]<- weighted.mean(Dists[poverty][msclf_pov], PDW_pov[msclf_pov])
                  
-  W_Results[7]<- weighted.mean(NN_PA[msclf], PDW[msclf])
-  W_Results[8]<- weighted.mean(NN_PA[NHNW][msclf_NHNW], PDW_NHNW[msclf_NHNW])
-  W_Results[9]<- weighted.mean(NN_PA[poverty][msclf_pov], PDW_pov[msclf_pov])
+#   W_Results[4]<- weighted_quantile(Dists[msclf], PDW[msclf], probs=0.5)
+#   W_Results[5]<- weighted_quantile(Dists[NHNW][msclf_NHNW], PDW_NHNW[msclf_NHNW], probs=0.5)
+#   W_Results[6]<- weighted_quantile(Dists[poverty][msclf_pov], PDW_pov[msclf_pov], probs=0.5)
+                 
+#   W_Results[7]<- weighted.mean(NN_PA[msclf], PDW[msclf])
+#   W_Results[8]<- weighted.mean(NN_PA[NHNW][msclf_NHNW], PDW_NHNW[msclf_NHNW])
+#   W_Results[9]<- weighted.mean(NN_PA[poverty][msclf_pov], PDW_pov[msclf_pov])
 
 #   W_Results[1]<- weighted.mean(eps, PDW)
 #   W_Results[2]<- sqrt(weighted.mean((eps)^2, PDW))
@@ -184,20 +195,24 @@ results<- function(DF, pos, error_pos=NULL, err=NULL, Name=NULL, w){
                  
   
   ### Unweighted results:
-  UNW_Results<- rep(0,9)
-#   UNW_Results<- rep(0,39)
+  UNW_Results<- rep(0,3)
+#   UNW_Results<- rep(0,48)
                  
-  UNW_Results[1]<- mean(Dists[msclf])
-  UNW_Results[2]<- mean(Dists[NHNW][msclf_NHNW])
-  UNW_Results[3]<- mean(Dists[poverty][msclf_pov])
+  UNW_Results[1]<- mean(HL)
+  UNW_Results[2]<- mean(HL_NHNW)
+  UNW_Results[3]<- mean(HL_pov)
                  
-  UNW_Results[4]<- median(Dists[msclf])
-  UNW_Results[5]<- median(Dists[NHNW][msclf_NHNW])
-  UNW_Results[6]<- median(Dists[poverty][msclf_pov])
+#   UNW_Results[1]<- mean(Dists[msclf])
+#   UNW_Results[2]<- mean(Dists[NHNW][msclf_NHNW])
+#   UNW_Results[3]<- mean(Dists[poverty][msclf_pov])
                  
-  UNW_Results[7]<- mean(NN_PA[msclf])
-  UNW_Results[8]<- mean(NN_PA[NHNW][msclf_NHNW])
-  UNW_Results[9]<- mean(NN_PA[poverty][msclf_pov])
+#   UNW_Results[4]<- median(Dists[msclf])
+#   UNW_Results[5]<- median(Dists[NHNW][msclf_NHNW])
+#   UNW_Results[6]<- median(Dists[poverty][msclf_pov])
+                 
+#   UNW_Results[7]<- mean(NN_PA[msclf])
+#   UNW_Results[8]<- mean(NN_PA[NHNW][msclf_NHNW])
+#   UNW_Results[9]<- mean(NN_PA[poverty][msclf_pov])
 
 #   UNW_Results[1]<- mean(eps) 
 #   UNW_Results[2]<- sqrt(mean((eps)^2))
@@ -300,16 +315,16 @@ run_sim<- function(seed_num, no_err_set, err_set, frac = NULL, num = 100,
 # lengths<- roads$Roads_500 + 0.1
 # rWeights<- lengths/sum(lengths)
 
-# sink("Timing_one_sim_366_msclf.txt")  # _road-weighting
+sink("Timing_one_sim_366_HL.txt")  # _road-weighting
                  
-# s<- Sys.time()
-# res<- run_sim(304, which(CA_clean$AQS_site==1), which(CA_clean$PA_site==1), num=1000)
+s<- Sys.time()
+res<- run_sim(304, which(CA_clean$AQS_site==1), which(CA_clean$PA_site==1), num=1000)
                  
-# # res<- run_sim(303, which(CA_clean$AQS_site==1), 1:dim(CA_clean)[1], 
-# #                     num=1000, road_weights = rWeights)
-# e<- Sys.time()
-# print(paste("Both:", e-s)) # Unweighted
-# print(res)
+# res<- run_sim(303, which(CA_clean$AQS_site==1), 1:dim(CA_clean)[1], 
+#                     num=1000, road_weights = rWeights)
+e<- Sys.time()
+print(paste("Both:", e-s)) # Unweighted
+print(res)
 # # 2.8 mins unweighted, 366 days --> would take 140 mins to run 50 trials
 # # 54 secs unweighted, 183 days (every other) --> would take 45 mins to run 50 trials
 # # 3.1 secs unweighted, 24 days --> would take 2.5 mins to run 50 trials
@@ -329,10 +344,10 @@ run_sim<- function(seed_num, no_err_set, err_set, frac = NULL, num = 100,
 # # e<- Sys.time()
 # # print(paste("Weighted:", e-s)) 
 # # print(res)
-# print("-------")
-# print(gc())
+print("-------")
+print(gc())
                  
-# sink()
+sink()
                  
 # 2.9 mins weighted, 366 days --> would take  mins to run 50 trials
 # 58 secs weighted, 183 days (every other) --> would take  mins to run 50 trials
