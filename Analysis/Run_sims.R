@@ -41,6 +41,8 @@ for(n in c(50, 100, 250, 500, 1000)){
             row.names = FALSE)
 }
 
+print("Finished with PA")
+
 ## School sites
 
 for(n in c(50, 100, 250, 500, 1000)){
@@ -70,6 +72,7 @@ for(n in c(50, 100, 250, 500, 1000)){
             row.names = FALSE)
 }
 
+print("Finished with Schools")
 
 #### Road weighting:
 roads<- read.csv("LCS_data/Hwy_lengths.csv")[!my_nas0,]
@@ -106,6 +109,7 @@ for(n in c(50, 100, 250, 500, 1000)){
             row.names = FALSE)
 }
 
+print("Finished with Roads")
 
 ###################################################
 
@@ -159,6 +163,7 @@ for(n in c(50, 100, 250, 500, 1000)){
             row.names = FALSE)
 }
 
+print("Finished with Pollution score")
                                          
 ##################### CES Score
 
@@ -208,4 +213,6 @@ for(n in c(50, 100, 250, 500, 1000)){
   write.csv(UNW_avg_res, paste0("LCS_results/D366-CES_score_N_",n,"_unweighted_avg_HL.csv"),
             row.names = FALSE)
 }
+
+print("Finished with CES score")
 
