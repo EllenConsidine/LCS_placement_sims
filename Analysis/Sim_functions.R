@@ -36,6 +36,7 @@ source("LCS_placement_sims/Analysis/AQI_equation.R") # includes Real_class
 Real_class<- Real_class[as.vector(sapply(days, function(x) (x-1)*n_obs+(1:n_obs)))]
                                          
 Real_class1<- Real_class > 2
+rm(Real_class)
 
 ### For each trial:
 
@@ -80,6 +81,7 @@ results<- function(DF, pos, error_pos=NULL, err=NULL, Name=NULL, w){
   Shown_class<- AQI_ref$Class[Shown_match]
   rm(Shown_match)
   Shown_class0<- Shown_class < 3
+  rm(Shown_class)
   
   # Calculate differences:
 #   eps<- abs(Shown-Real)
@@ -323,16 +325,16 @@ run_sim<- function(seed_num, no_err_set, err_set, frac = NULL, num = 100,
 # lengths<- roads$Roads_500 + 0.1
 # rWeights<- lengths/sum(lengths)
 
-sink("Timing_one_sim_366_HL.txt")  # _road-weighting
+# sink("Timing_one_sim_366_HL.txt")  # _road-weighting
                  
-s<- Sys.time()
-res<- run_sim(304, which(CA_clean$AQS_site==1), which(CA_clean$PA_site==1), num=1000)
+# s<- Sys.time()
+# res<- run_sim(304, which(CA_clean$AQS_site==1), which(CA_clean$PA_site==1), num=1000)
                  
-# res<- run_sim(303, which(CA_clean$AQS_site==1), 1:dim(CA_clean)[1], 
-#                     num=1000, road_weights = rWeights)
-e<- Sys.time()
-print(paste("Both:", e-s)) # Unweighted
-print(res)
+# # res<- run_sim(303, which(CA_clean$AQS_site==1), 1:dim(CA_clean)[1], 
+# #                     num=1000, road_weights = rWeights)
+# e<- Sys.time()
+# print(paste("Both:", e-s)) # Unweighted
+# print(res)
 # # 2.8 mins unweighted, 366 days --> would take 140 mins to run 50 trials
 # # 54 secs unweighted, 183 days (every other) --> would take 45 mins to run 50 trials
 # # 3.1 secs unweighted, 24 days --> would take 2.5 mins to run 50 trials
@@ -353,10 +355,10 @@ print(res)
 # # print(paste("Weighted:", e-s)) 
 # # print(res)
 
-print("-------")
-print(gc())
+# print("-------")
+# print(gc())
                  
-sink()
+# sink()
                  
 # 2.9 mins weighted, 366 days --> would take  mins to run 50 trials
 # 58 secs weighted, 183 days (every other) --> would take  mins to run 50 trials
