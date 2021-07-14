@@ -9,6 +9,8 @@ library(data.table)
 
 pdw<- read.csv("LCS_results_7-12-21_weighted.csv")
 unw<- read.csv("LCS_results_7-12-21_unweighted.csv")
+names(pdw)[1]<- "X"
+names(unw)[1]<- "X"
 
 # W_aqs<- read.csv("LCS_results/D366-AQS_sites.csv")
 # UNW_aqs<- read.csv("LCS_results/D366-AQS_sites_unweighted.csv")
