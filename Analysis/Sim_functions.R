@@ -117,16 +117,20 @@ results<- function(DF, pos, error_pos=NULL, err=NULL, Name=NULL, w){
   #### Getting results:
                  
   ### Weighted by population density:
-  W_Results<- rep(0,3)
+  W_Results<- rep(0,6)
 #   W_Results<- rep(0,48)
 
   PDW<- rep(DF$ppltn_d, n_days)
   PDW_NHNW<- PDW[NHNW]
   PDW_pov<- PDW[poverty]
                  
-  W_Results[1]<- weighted.mean(HL, PDW)
-  W_Results[2]<- weighted.mean(HL_NHNW, PDW_NHNW)
-  W_Results[3]<- weighted.mean(HL_pov, PDW_pov)
+  W_Results[1]<- weighted.mean(!Real_class0, PDW)
+  W_Results[2]<- weighted.mean(!Real_class0[NHNW], PDW_NHNW)
+  W_Results[3]<- weighted.mean(!Real_class0[poverty], PDW_pov)
+                 
+  W_Results[4]<- weighted.mean(HL, PDW)
+  W_Results[5]<- weighted.mean(HL_NHNW, PDW_NHNW)
+  W_Results[6]<- weighted.mean(HL_pov, PDW_pov)
                  
 #   W_Results[1]<- weighted.mean(Dists[msclf], PDW[msclf])
 #   W_Results[2]<- weighted.mean(Dists[NHNW][msclf_NHNW], PDW_NHNW[msclf_NHNW])
@@ -195,12 +199,16 @@ results<- function(DF, pos, error_pos=NULL, err=NULL, Name=NULL, w){
                  
   
   ### Unweighted results:
-  UNW_Results<- rep(0,3)
+  UNW_Results<- rep(0,6)
 #   UNW_Results<- rep(0,48)
                  
-  UNW_Results[1]<- mean(HL)
-  UNW_Results[2]<- mean(HL_NHNW)
-  UNW_Results[3]<- mean(HL_pov)
+  UNW_Results[1]<- mean(!Real_class0)
+  UNW_Results[2]<- mean(!Real_class0[NHNW])
+  UNW_Results[3]<- mean(!Real_class0[poverty])
+                 
+  UNW_Results[4]<- mean(HL)
+  UNW_Results[5]<- mean(HL_NHNW)
+  UNW_Results[6]<- mean(HL_pov)
                  
 #   UNW_Results[1]<- mean(Dists[msclf])
 #   UNW_Results[2]<- mean(Dists[NHNW][msclf_NHNW])
