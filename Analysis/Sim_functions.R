@@ -35,7 +35,7 @@ Deciles<- Deciles[as.vector(sapply(days, function(x) (x-1)*n_obs+(1:n_obs)))]
 source("LCS_placement_sims/Analysis/AQI_equation.R") # includes Real_class
 Real_class<- Real_class[as.vector(sapply(days, function(x) (x-1)*n_obs+(1:n_obs)))]
                                          
-Real_class0<- Real_class < 3
+Real_class1<- Real_class > 2
 
 ### For each trial:
 
@@ -110,9 +110,9 @@ results<- function(DF, pos, error_pos=NULL, err=NULL, Name=NULL, w){
 #   msclf_NHNW<- Real_class[NHNW] != Shown_class[NHNW]
 #   msclf_pov<- Real_class[poverty] != Shown_class[poverty]
                  
-  HL<- (!Real_class0)&(Shown_class0)
-  HL_NHNW<- (!Real_class0[NHNW])&(Shown_class0[NHNW])
-  HL_pov<- (!Real_class0[poverty])&(Shown_class0[poverty])
+  HL<- (Real_class1)&(Shown_class0)
+  HL_NHNW<- (Real_class1[NHNW])&(Shown_class0[NHNW])
+  HL_pov<- (Real_class1[poverty])&(Shown_class0[poverty])
   
   #### Getting results:
                  
@@ -124,9 +124,9 @@ results<- function(DF, pos, error_pos=NULL, err=NULL, Name=NULL, w){
   PDW_NHNW<- PDW[NHNW]
   PDW_pov<- PDW[poverty]
                  
-  W_Results[1]<- weighted.mean(!Real_class0, PDW)
-  W_Results[2]<- weighted.mean(!Real_class0[NHNW], PDW_NHNW)
-  W_Results[3]<- weighted.mean(!Real_class0[poverty], PDW_pov)
+  W_Results[1]<- weighted.mean(Real_class1, PDW)
+  W_Results[2]<- weighted.mean(Real_class1[NHNW], PDW_NHNW)
+  W_Results[3]<- weighted.mean(Real_class1[poverty], PDW_pov)
                  
   W_Results[4]<- weighted.mean(HL, PDW)
   W_Results[5]<- weighted.mean(HL_NHNW, PDW_NHNW)
@@ -202,9 +202,9 @@ results<- function(DF, pos, error_pos=NULL, err=NULL, Name=NULL, w){
   UNW_Results<- rep(0,6)
 #   UNW_Results<- rep(0,48)
                  
-  UNW_Results[1]<- mean(!Real_class0)
-  UNW_Results[2]<- mean(!Real_class0[NHNW])
-  UNW_Results[3]<- mean(!Real_class0[poverty])
+  UNW_Results[1]<- mean(Real_class1)
+  UNW_Results[2]<- mean(Real_class1[NHNW])
+  UNW_Results[3]<- mean(Real_class1[poverty])
                  
   UNW_Results[4]<- mean(HL)
   UNW_Results[5]<- mean(HL_NHNW)
@@ -323,16 +323,16 @@ run_sim<- function(seed_num, no_err_set, err_set, frac = NULL, num = 100,
 # lengths<- roads$Roads_500 + 0.1
 # rWeights<- lengths/sum(lengths)
 
-# sink("Timing_one_sim_366_HL.txt")  # _road-weighting
+sink("Timing_one_sim_366_HL.txt")  # _road-weighting
                  
-# s<- Sys.time()
-# res<- run_sim(304, which(CA_clean$AQS_site==1), which(CA_clean$PA_site==1), num=1000)
+s<- Sys.time()
+res<- run_sim(304, which(CA_clean$AQS_site==1), which(CA_clean$PA_site==1), num=1000)
                  
-# # res<- run_sim(303, which(CA_clean$AQS_site==1), 1:dim(CA_clean)[1], 
-# #                     num=1000, road_weights = rWeights)
-# e<- Sys.time()
-# print(paste("Both:", e-s)) # Unweighted
-# print(res)
+# res<- run_sim(303, which(CA_clean$AQS_site==1), 1:dim(CA_clean)[1], 
+#                     num=1000, road_weights = rWeights)
+e<- Sys.time()
+print(paste("Both:", e-s)) # Unweighted
+print(res)
 # # 2.8 mins unweighted, 366 days --> would take 140 mins to run 50 trials
 # # 54 secs unweighted, 183 days (every other) --> would take 45 mins to run 50 trials
 # # 3.1 secs unweighted, 24 days --> would take 2.5 mins to run 50 trials
@@ -352,10 +352,11 @@ run_sim<- function(seed_num, no_err_set, err_set, frac = NULL, num = 100,
 # # e<- Sys.time()
 # # print(paste("Weighted:", e-s)) 
 # # print(res)
-# print("-------")
-# print(gc())
+
+print("-------")
+print(gc())
                  
-# sink()
+sink()
                  
 # 2.9 mins weighted, 366 days --> would take  mins to run 50 trials
 # 58 secs weighted, 183 days (every other) --> would take  mins to run 50 trials
