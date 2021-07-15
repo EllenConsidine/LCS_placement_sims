@@ -135,7 +135,6 @@ source("LCS_placement_sims/Analysis/AQI_equation.R") # includes Real_class
 Real_class<- Real_class[as.vector(sapply(days, function(x) (x-1)*n_obs+(1:n_obs)))]
                                          
 Real_class1<- Real_class > 2
-rm(Real_class)
                                     
 pWeights<- CES$Pollution_score/sum(CES$Pollution_score)
 
@@ -188,7 +187,6 @@ source("LCS_placement_sims/Analysis/AQI_equation.R") # includes Real_class
 Real_class<- Real_class[as.vector(sapply(days, function(x) (x-1)*n_obs+(1:n_obs)))]
                                          
 Real_class1<- Real_class > 2
-rm(Real_class)
 
 cWeights<- CES$CES_score/sum(CES$CES_score)
 
