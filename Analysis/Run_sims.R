@@ -45,71 +45,71 @@ source("LCS_placement_sims/Analysis/Sim_functions.R")
 
 ## School sites
 
-for(n in c(50, 100, 250, 500, 1000)){
-  Results<- run_sim(303, which(CA_clean$AQS_site==1), which(CA_clean$School==1), 
-                    num=n, weighted = TRUE)
-  W_Results<- Results[[1]]
-  UNW_Results<- Results[[2]]
+# for(n in c(50, 100, 250, 500, 1000)){
+#   Results<- run_sim(303, which(CA_clean$AQS_site==1), which(CA_clean$School==1), 
+#                     num=n, weighted = TRUE)
+#   W_Results<- Results[[1]]
+#   UNW_Results<- Results[[2]]
           
-  for(i in 2:50){
-    Results<- rbind(Results, run_sim(303*i, which(CA_clean$AQS_site==1), 
-                                     which(CA_clean$School==1), 
-                                     num=n, weighted = TRUE))
-    W_Results<- rbind(W_Results, Results[[1]])
-    UNW_Results<- rbind(UNW_Results, Results[[2]])
-    print(i)
-  }
-  write.csv(W_Results, paste0("LCS_results/D366-School_N_",n,"_HL.csv"), 
-            row.names = FALSE)
-  W_avg_res<- apply(W_Results, MARGIN = 2, mean)
-  write.csv(W_avg_res, paste0("LCS_results/D366-School_N_",n,"_avg_HL.csv"),
-            row.names = FALSE)
+#   for(i in 2:50){
+#     Results<- rbind(Results, run_sim(303*i, which(CA_clean$AQS_site==1), 
+#                                      which(CA_clean$School==1), 
+#                                      num=n, weighted = TRUE))
+#     W_Results<- rbind(W_Results, Results[[1]])
+#     UNW_Results<- rbind(UNW_Results, Results[[2]])
+#     print(i)
+#   }
+#   write.csv(W_Results, paste0("LCS_results/D366-School_N_",n,"_HL.csv"), 
+#             row.names = FALSE)
+#   W_avg_res<- apply(W_Results, MARGIN = 2, mean)
+#   write.csv(W_avg_res, paste0("LCS_results/D366-School_N_",n,"_avg_HL.csv"),
+#             row.names = FALSE)
           
-  write.csv(UNW_Results, paste0("LCS_results/D366-School_N_",n,"_unweighted_HL.csv"), 
-            row.names = FALSE)
-  UNW_avg_res<- apply(UNW_Results, MARGIN = 2, mean)
-  write.csv(UNW_avg_res, paste0("LCS_results/D366-School_N_",n,"_unweighted_avg_HL.csv"),
-            row.names = FALSE)
-}
+#   write.csv(UNW_Results, paste0("LCS_results/D366-School_N_",n,"_unweighted_HL.csv"), 
+#             row.names = FALSE)
+#   UNW_avg_res<- apply(UNW_Results, MARGIN = 2, mean)
+#   write.csv(UNW_avg_res, paste0("LCS_results/D366-School_N_",n,"_unweighted_avg_HL.csv"),
+#             row.names = FALSE)
+# }
 
-print("Finished with Schools")
+# print("Finished with Schools")
 
 #### Road weighting:
-roads<- read.csv("LCS_data/Hwy_lengths.csv")[!my_nas0,]
-# sum(roads$Roads_500 > 0.5) # 21121
+# roads<- read.csv("LCS_data/Hwy_lengths.csv")[!my_nas0,]
+# # sum(roads$Roads_500 > 0.5) # 21121
 
-# Add 0.1 to each location so it has a chance of getting picked
-lengths<- roads$Roads_500 + 0.1
-rWeights<- lengths/sum(lengths)
+# # Add 0.1 to each location so it has a chance of getting picked
+# lengths<- roads$Roads_500 + 0.1
+# rWeights<- lengths/sum(lengths)
 
-for(n in c(50, 100, 250, 500, 1000)){
-  Results<- run_sim(303, which(CA_clean$AQS_site==1), 1:dim(CA_clean)[1], 
-                    num=n, road_weights = rWeights, weighted = TRUE)
-  W_Results<- Results[[1]]
-  UNW_Results<- Results[[2]]
-  for(i in 2:50){
-    Results<- rbind(Results, run_sim(303*i, which(CA_clean$AQS_site==1), 
-                                     1:dim(CA_clean)[1], 
-                                     num=n, road_weights = rWeights, 
-                                     weighted = TRUE))
-    W_Results<- rbind(W_Results, Results[[1]])
-    UNW_Results<- rbind(UNW_Results, Results[[2]])
-    print(i)
-  }
-  write.csv(W_Results, paste0("LCS_results/D366-Roads_N_",n,"_HL.csv"), 
-            row.names = FALSE)
-  W_avg_res<- apply(W_Results, MARGIN = 2, mean)
-  write.csv(W_avg_res, paste0("LCS_results/D366-Roads_N_",n,"_avg_HL.csv"),
-            row.names = FALSE)
+# for(n in c(50, 100, 250, 500, 1000)){
+#   Results<- run_sim(303, which(CA_clean$AQS_site==1), 1:dim(CA_clean)[1], 
+#                     num=n, road_weights = rWeights, weighted = TRUE)
+#   W_Results<- Results[[1]]
+#   UNW_Results<- Results[[2]]
+#   for(i in 2:50){
+#     Results<- rbind(Results, run_sim(303*i, which(CA_clean$AQS_site==1), 
+#                                      1:dim(CA_clean)[1], 
+#                                      num=n, road_weights = rWeights, 
+#                                      weighted = TRUE))
+#     W_Results<- rbind(W_Results, Results[[1]])
+#     UNW_Results<- rbind(UNW_Results, Results[[2]])
+#     print(i)
+#   }
+#   write.csv(W_Results, paste0("LCS_results/D366-Roads_N_",n,"_HL.csv"), 
+#             row.names = FALSE)
+#   W_avg_res<- apply(W_Results, MARGIN = 2, mean)
+#   write.csv(W_avg_res, paste0("LCS_results/D366-Roads_N_",n,"_avg_HL.csv"),
+#             row.names = FALSE)
           
-  write.csv(UNW_Results, paste0("LCS_results/D366-Roads_N_",n,"_unweighted_HL.csv"), 
-            row.names = FALSE)
-  UNW_avg_res<- apply(UNW_Results, MARGIN = 2, mean)
-  write.csv(UNW_avg_res, paste0("LCS_results/D366-Roads_N_",n,"_unweighted_avg_HL.csv"),
-            row.names = FALSE)
-}
+#   write.csv(UNW_Results, paste0("LCS_results/D366-Roads_N_",n,"_unweighted_HL.csv"), 
+#             row.names = FALSE)
+#   UNW_avg_res<- apply(UNW_Results, MARGIN = 2, mean)
+#   write.csv(UNW_avg_res, paste0("LCS_results/D366-Roads_N_",n,"_unweighted_avg_HL.csv"),
+#             row.names = FALSE)
+# }
 
-print("Finished with Roads")
+# print("Finished with Roads")
 
 ###################################################
 
