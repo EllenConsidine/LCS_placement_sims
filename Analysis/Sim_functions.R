@@ -81,7 +81,6 @@ results<- function(DF, pos, error_pos=NULL, err=NULL, Name=NULL, w){
   Shown_class<- AQI_ref$Class[Shown_match]
   rm(Shown_match)
   Shown_class0<- Shown_class < 3
-  rm(Shown_class)
   
   # Calculate differences:
   eps<- abs(Shown-Real)
