@@ -11,6 +11,8 @@ write.csv(Results[[1]], paste0("LCS_results/D366-AQS_sites.csv"),
 write.csv(Results[[2]], paste0("LCS_results/D366-AQS_sites_unweighted.csv"),
           row.names = FALSE)
 
+print("Finished with AQS")
+
 
 ## Purple Air sites
 
