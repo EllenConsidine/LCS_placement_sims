@@ -16,7 +16,7 @@ my_nas0<- readRDS("LCS_data/CA_NA_pos.rds")
 
 days<- 1:366 # all
 
-# days<- c(15, 46, 75, 106,
+# days<- c(15, 46, 75, 106, 
 #          136, 167, 197, 228,
 #          259, 289, 320, 350) # 15th of each month
 
@@ -36,7 +36,7 @@ source("LCS_placement_sims/Analysis/AQI_equation.R") # includes Real_class
 Real_class<- Real_class[as.vector(sapply(days, function(x) (x-1)*n_obs+(1:n_obs)))]
                                          
 Real_class1<- Real_class > 2
-rm(Real_class)
+                                         
 
 ### For each trial:
 
@@ -84,7 +84,7 @@ results<- function(DF, pos, error_pos=NULL, err=NULL, Name=NULL, w){
   rm(Shown_class)
   
   # Calculate differences:
-#   eps<- abs(Shown-Real)
+  eps<- abs(Shown-Real)
   
   ## Non-white
   NHNW<- rep((1-DF$nonHisp.white) > quantile(1-DF$nonHisp.white, 0.80), n_days) # top quintile
@@ -94,12 +94,12 @@ results<- function(DF, pos, error_pos=NULL, err=NULL, Name=NULL, w){
   poverty<- rep(DF$poverty > quantile(DF$poverty, 0.80), n_days) # top quintile
   poverty_pos<- which(DF$poverty > quantile(DF$poverty, 0.80)) # top quintile
                  
-#   ## Large misclassifications:
-#   very_off<- abs(Real_class-Shown_class)>1
-#   very_off_NHNW<- abs(Real_class[NHNW]-Shown_class[NHNW])>1
-#   very_off_pov<- abs(Real_class[poverty]-Shown_class[poverty])>1
+  ## Large misclassifications:
+  very_off<- abs(Real_class-Shown_class)>1
+  very_off_NHNW<- abs(Real_class[NHNW]-Shown_class[NHNW])>1
+  very_off_pov<- abs(Real_class[poverty]-Shown_class[poverty])>1
                  
-  ## Misclassifications:
+  # Misclassifications:
 #   RS<- Real_class > Shown_class
 #   RS_NHNW<- Real_class[NHNW] > Shown_class[NHNW]
 #   RS_pov<- Real_class[poverty] > Shown_class[poverty]
@@ -108,9 +108,9 @@ results<- function(DF, pos, error_pos=NULL, err=NULL, Name=NULL, w){
 #   SR_NHNW<- Shown_class[NHNW] > Real_class[NHNW]
 #   SR_pov<- Shown_class[poverty] > Real_class[poverty]
                  
-#   msclf<- Real_class != Shown_class
-#   msclf_NHNW<- Real_class[NHNW] != Shown_class[NHNW]
-#   msclf_pov<- Real_class[poverty] != Shown_class[poverty]
+  msclf<- Real_class != Shown_class
+  msclf_NHNW<- Real_class[NHNW] != Shown_class[NHNW]
+  msclf_pov<- Real_class[poverty] != Shown_class[poverty]
                  
   HL<- (Real_class1)&(Shown_class0)
   HL_NHNW<- (Real_class1[NHNW])&(Shown_class0[NHNW])
@@ -119,165 +119,155 @@ results<- function(DF, pos, error_pos=NULL, err=NULL, Name=NULL, w){
   #### Getting results:
                  
   ### Weighted by population density:
-  W_Results<- rep(0,6)
-#   W_Results<- rep(0,48)
+  W_Results<- rep(0,51)
 
   PDW<- rep(DF$ppltn_d, n_days)
   PDW_NHNW<- PDW[NHNW]
   PDW_pov<- PDW[poverty]
+
+  W_Results[1]<- weighted.mean(eps, PDW)
+  W_Results[2]<- sqrt(weighted.mean((eps)^2, PDW))
+  W_Results[3]<- weighted.mean(eps[NHNW], PDW_NHNW)
+  W_Results[4]<- sqrt(weighted.mean((eps[NHNW])^2, PDW_NHNW))
+  W_Results[5]<- weighted.mean(eps[poverty], PDW_pov)
+  W_Results[6]<- sqrt(weighted.mean((eps[poverty])^2, PDW_pov))
+
+  ## AQI class:
+  W_Results[7]<- weighted.mean(Real_class > Shown_class, PDW)
+  W_Results[8]<- weighted.mean(Real_class < Shown_class, PDW)
+  W_Results[13]<- weighted.mean(very_off, PDW)
+
+  W_Results[9]<- weighted.mean(Real_class[NHNW] > Shown_class[NHNW], PDW_NHNW)
+  W_Results[10]<- weighted.mean(Real_class[NHNW] < Shown_class[NHNW], PDW_NHNW)
+  W_Results[14]<- weighted.mean(very_off_NHNW, PDW_NHNW)
+
+  W_Results[11]<- weighted.mean(Real_class[poverty] > Shown_class[poverty], PDW_pov)
+  W_Results[12]<- weighted.mean(Real_class[poverty] < Shown_class[poverty], PDW_pov)
+  W_Results[15]<- weighted.mean(very_off_pov, PDW_pov)
+
+  ## Largest errors: 
+  W_Results[16]<- weighted_quantile(eps, PDW, probs=0.95)
+  W_Results[17]<- weighted.mean(eps > 10, PDW)
+
+  W_Results[18]<- weighted_quantile(eps[NHNW], PDW_NHNW, probs=0.95)
+  W_Results[19]<- weighted.mean(eps[NHNW] > 10, PDW_NHNW)
+
+  W_Results[20]<- weighted_quantile(eps[poverty], PDW_pov, probs=0.95)
+  W_Results[21]<- weighted.mean(eps[poverty] > 10, PDW_pov)
+
+  ## Distances to NN monitor/sensor:
+  W_Results[22]<- weighted.mean(dists, DF$ppltn_d)
+  W_Results[23]<- weighted.mean(dists[NHNW_pos], DF$ppltn_d[NHNW_pos])
+  W_Results[24]<- weighted.mean(dists[poverty_pos], DF$ppltn_d[poverty_pos])
+  W_Results[25]<- weighted.mean(Dists[very_off], PDW[very_off])
+  W_Results[26]<- weighted.mean(Dists[NHNW][very_off_NHNW], PDW_NHNW[very_off_NHNW])
+  W_Results[27]<- weighted.mean(Dists[poverty][very_off_pov], PDW_pov[very_off_pov])
+
+  W_Results[28]<- weighted_quantile(dists, DF$ppltn_d, probs=0.5)
+  W_Results[29]<- weighted_quantile(dists[NHNW_pos], DF$ppltn_d[NHNW_pos], probs=0.5)
+  W_Results[30]<- weighted_quantile(dists[poverty_pos], DF$ppltn_d[poverty_pos], probs=0.5)
+  W_Results[31]<- weighted_quantile(Dists[very_off], PDW[very_off], probs=0.5)
+  W_Results[32]<- weighted_quantile(Dists[NHNW][very_off_NHNW], PDW_NHNW[very_off_NHNW], probs=0.5)
+  W_Results[33]<- weighted_quantile(Dists[poverty][very_off_pov], PDW_pov[very_off_pov], probs=0.5)
+
+  ## % LCS NNs
+  W_Results[34]<- weighted.mean(NN_pa, DF$ppltn_d)
+  W_Results[35]<- weighted.mean(NN_pa[NHNW_pos], DF$ppltn_d[NHNW_pos])
+  W_Results[36]<- weighted.mean(NN_pa[poverty_pos], DF$ppltn_d[poverty_pos])
+  W_Results[37]<- weighted.mean(NN_PA[very_off], PDW[very_off])
+  W_Results[38]<- weighted.mean(NN_PA[NHNW][very_off_NHNW], PDW_NHNW[very_off_NHNW])
+  W_Results[39]<- weighted.mean(NN_PA[poverty][very_off_pov], PDW_pov[very_off_pov])
                  
-  W_Results[1]<- weighted.mean(Real_class1, PDW)
-  W_Results[2]<- weighted.mean(Real_class1[NHNW], PDW_NHNW)
-  W_Results[3]<- weighted.mean(Real_class1[poverty], PDW_pov)
+  W_Results[40]<- weighted.mean(Dists[msclf], PDW[msclf])
+  W_Results[41]<- weighted.mean(Dists[NHNW][msclf_NHNW], PDW_NHNW[msclf_NHNW])
+  W_Results[42]<- weighted.mean(Dists[poverty][msclf_pov], PDW_pov[msclf_pov])
                  
-  W_Results[4]<- weighted.mean(HL, PDW)
-  W_Results[5]<- weighted.mean(HL_NHNW, PDW_NHNW)
-  W_Results[6]<- weighted.mean(HL_pov, PDW_pov)
+  W_Results[43]<- weighted_quantile(Dists[msclf], PDW[msclf], probs=0.5)
+  W_Results[44]<- weighted_quantile(Dists[NHNW][msclf_NHNW], PDW_NHNW[msclf_NHNW], probs=0.5)
+  W_Results[45]<- weighted_quantile(Dists[poverty][msclf_pov], PDW_pov[msclf_pov], probs=0.5)
                  
-#   W_Results[1]<- weighted.mean(Dists[msclf], PDW[msclf])
-#   W_Results[2]<- weighted.mean(Dists[NHNW][msclf_NHNW], PDW_NHNW[msclf_NHNW])
-#   W_Results[3]<- weighted.mean(Dists[poverty][msclf_pov], PDW_pov[msclf_pov])
+  W_Results[46]<- weighted.mean(NN_PA[msclf], PDW[msclf])
+  W_Results[47]<- weighted.mean(NN_PA[NHNW][msclf_NHNW], PDW_NHNW[msclf_NHNW])
+  W_Results[48]<- weighted.mean(NN_PA[poverty][msclf_pov], PDW_pov[msclf_pov])
                  
-#   W_Results[4]<- weighted_quantile(Dists[msclf], PDW[msclf], probs=0.5)
-#   W_Results[5]<- weighted_quantile(Dists[NHNW][msclf_NHNW], PDW_NHNW[msclf_NHNW], probs=0.5)
-#   W_Results[6]<- weighted_quantile(Dists[poverty][msclf_pov], PDW_pov[msclf_pov], probs=0.5)
-                 
-#   W_Results[7]<- weighted.mean(NN_PA[msclf], PDW[msclf])
-#   W_Results[8]<- weighted.mean(NN_PA[NHNW][msclf_NHNW], PDW_NHNW[msclf_NHNW])
-#   W_Results[9]<- weighted.mean(NN_PA[poverty][msclf_pov], PDW_pov[msclf_pov])
-
-#   W_Results[1]<- weighted.mean(eps, PDW)
-#   W_Results[2]<- sqrt(weighted.mean((eps)^2, PDW))
-#   W_Results[3]<- weighted.mean(eps[NHNW], PDW_NHNW)
-#   W_Results[4]<- sqrt(weighted.mean((eps[NHNW])^2, PDW_NHNW))
-#   W_Results[5]<- weighted.mean(eps[poverty], PDW_pov)
-#   W_Results[6]<- sqrt(weighted.mean((eps[poverty])^2, PDW_pov))
-
-#   ## AQI class:
-#   W_Results[7]<- weighted.mean(Real_class > Shown_class, PDW)
-#   W_Results[8]<- weighted.mean(Real_class < Shown_class, PDW)
-#   W_Results[13]<- weighted.mean(very_off, PDW)
-
-#   W_Results[9]<- weighted.mean(Real_class[NHNW] > Shown_class[NHNW], PDW_NHNW)
-#   W_Results[10]<- weighted.mean(Real_class[NHNW] < Shown_class[NHNW], PDW_NHNW)
-#   W_Results[14]<- weighted.mean(very_off_NHNW, PDW_NHNW)
-
-#   W_Results[11]<- weighted.mean(Real_class[poverty] > Shown_class[poverty], PDW_pov)
-#   W_Results[12]<- weighted.mean(Real_class[poverty] < Shown_class[poverty], PDW_pov)
-#   W_Results[15]<- weighted.mean(very_off_pov, PDW_pov)
-
-#   ## Largest errors: 
-#   W_Results[16]<- weighted_quantile(eps, PDW, probs=0.95)
-#   W_Results[17]<- weighted.mean(eps > 10, PDW)
-
-#   W_Results[18]<- weighted_quantile(eps[NHNW], PDW_NHNW, probs=0.95)
-#   W_Results[19]<- weighted.mean(eps[NHNW] > 10, PDW_NHNW)
-
-#   W_Results[20]<- weighted_quantile(eps[poverty], PDW_pov, probs=0.95)
-#   W_Results[21]<- weighted.mean(eps[poverty] > 10, PDW_pov)
-
-#   ## Distances to NN monitor/sensor:
-#   W_Results[22]<- weighted.mean(dists, DF$ppltn_d)
-#   W_Results[23]<- weighted.mean(dists[NHNW_pos], DF$ppltn_d[NHNW_pos])
-#   W_Results[24]<- weighted.mean(dists[poverty_pos], DF$ppltn_d[poverty_pos])
-#   W_Results[25]<- weighted.mean(Dists[very_off], PDW[very_off])
-#   W_Results[26]<- weighted.mean(Dists[NHNW][very_off_NHNW], PDW_NHNW[very_off_NHNW])
-#   W_Results[27]<- weighted.mean(Dists[poverty][very_off_pov], PDW_pov[very_off_pov])
-
-#   W_Results[28]<- weighted_quantile(dists, DF$ppltn_d, probs=0.5)
-#   W_Results[29]<- weighted_quantile(dists[NHNW_pos], DF$ppltn_d[NHNW_pos], probs=0.5)
-#   W_Results[30]<- weighted_quantile(dists[poverty_pos], DF$ppltn_d[poverty_pos], probs=0.5)
-#   W_Results[31]<- weighted_quantile(Dists[very_off], PDW[very_off], probs=0.5)
-#   W_Results[32]<- weighted_quantile(Dists[NHNW][very_off_NHNW], PDW_NHNW[very_off_NHNW], probs=0.5)
-#   W_Results[33]<- weighted_quantile(Dists[poverty][very_off_pov], PDW_pov[very_off_pov], probs=0.5)
-
-#   ## % LCS NNs
-#   W_Results[34]<- weighted.mean(NN_pa, DF$ppltn_d)
-#   W_Results[35]<- weighted.mean(NN_pa[NHNW_pos], DF$ppltn_d[NHNW_pos])
-#   W_Results[36]<- weighted.mean(NN_pa[poverty_pos], DF$ppltn_d[poverty_pos])
-#   W_Results[37]<- weighted.mean(NN_PA[very_off], PDW[very_off])
-#   W_Results[38]<- weighted.mean(NN_PA[NHNW][very_off_NHNW], PDW_NHNW[very_off_NHNW])
-#   W_Results[39]<- weighted.mean(NN_PA[poverty][very_off_pov], PDW_pov[very_off_pov])
+  W_Results[49]<- weighted.mean(HL, PDW)
+  W_Results[50]<- weighted.mean(HL_NHNW, PDW_NHNW)
+  W_Results[51]<- weighted.mean(HL_pov, PDW_pov)
                  
   
   ### Unweighted results:
-  UNW_Results<- rep(0,6)
-#   UNW_Results<- rep(0,48)
+  UNW_Results<- rep(0,51)
+
+  UNW_Results[1]<- mean(eps) 
+  UNW_Results[2]<- sqrt(mean((eps)^2))
+
+  UNW_Results[3]<- mean(eps[NHNW])
+  UNW_Results[4]<- sqrt(mean((eps[NHNW])^2))
+
+  UNW_Results[5]<- mean(eps[poverty])
+  UNW_Results[6]<- sqrt(mean((eps[poverty])^2))
+
+  ## AQI class:
+  UNW_Results[7]<- mean(Real_class > Shown_class)
+  UNW_Results[8]<- mean(Real_class < Shown_class)
+  UNW_Results[13]<- mean(very_off)
+
+  UNW_Results[9]<- mean(Real_class[NHNW] > Shown_class[NHNW])
+  UNW_Results[10]<- mean(Real_class[NHNW] < Shown_class[NHNW])
+  UNW_Results[14]<- mean(very_off_NHNW)
+
+  UNW_Results[11]<- mean(Real_class[poverty] > Shown_class[poverty])
+  UNW_Results[12]<- mean(Real_class[poverty] < Shown_class[poverty])
+  UNW_Results[15]<- mean(very_off_pov)
+
+  ## Largest errors:
+  UNW_Results[16]<- quantile(eps, 0.95)
+  UNW_Results[17]<- mean(eps>10)
+
+  UNW_Results[18]<- quantile(eps[NHNW], 0.95)
+  UNW_Results[19]<- mean(eps[NHNW]>10)
+
+  UNW_Results[20]<- quantile(eps[poverty], 0.95)
+  UNW_Results[21]<- mean(eps[poverty]>10)
+
+  ## Distances to NN monitor/sensor:
+  UNW_Results[22]<- mean(dists)
+  UNW_Results[23]<- mean(dists[NHNW_pos])
+  UNW_Results[24]<- mean(dists[poverty_pos])
+  UNW_Results[25]<- mean(Dists[very_off])
+  UNW_Results[26]<- mean(Dists[NHNW][very_off_NHNW])
+  UNW_Results[27]<- mean(Dists[poverty][very_off_pov])
+
+  UNW_Results[28]<- median(dists)
+  UNW_Results[29]<- median(dists[NHNW_pos])
+  UNW_Results[30]<- median(dists[poverty_pos])
+  UNW_Results[31]<- median(Dists[very_off])
+  UNW_Results[32]<- median(Dists[NHNW][very_off_NHNW])
+  UNW_Results[33]<- median(Dists[poverty][very_off_pov])
+
+  ## % LCS NNs
+  UNW_Results[34]<- mean(NN_pa)
+  UNW_Results[35]<- mean(NN_pa[NHNW_pos])
+  UNW_Results[36]<- mean(NN_pa[poverty_pos])
+  UNW_Results[37]<- mean(NN_PA[very_off])
+  UNW_Results[38]<- mean(NN_PA[NHNW][very_off_NHNW])
+  UNW_Results[39]<- mean(NN_PA[poverty][very_off_pov])
                  
-  UNW_Results[1]<- mean(Real_class1)
-  UNW_Results[2]<- mean(Real_class1[NHNW])
-  UNW_Results[3]<- mean(Real_class1[poverty])
-                 
-  UNW_Results[4]<- mean(HL)
-  UNW_Results[5]<- mean(HL_NHNW)
-  UNW_Results[6]<- mean(HL_pov)
-                 
-#   UNW_Results[1]<- mean(Dists[msclf])
-#   UNW_Results[2]<- mean(Dists[NHNW][msclf_NHNW])
-#   UNW_Results[3]<- mean(Dists[poverty][msclf_pov])
-                 
-#   UNW_Results[4]<- median(Dists[msclf])
-#   UNW_Results[5]<- median(Dists[NHNW][msclf_NHNW])
-#   UNW_Results[6]<- median(Dists[poverty][msclf_pov])
-                 
-#   UNW_Results[7]<- mean(NN_PA[msclf])
-#   UNW_Results[8]<- mean(NN_PA[NHNW][msclf_NHNW])
-#   UNW_Results[9]<- mean(NN_PA[poverty][msclf_pov])
+  UNW_Results[40]<- mean(Dists[msclf])
+  UNW_Results[41]<- mean(Dists[NHNW][msclf_NHNW])
+  UNW_Results[42]<- mean(Dists[poverty][msclf_pov])
 
-#   UNW_Results[1]<- mean(eps) 
-#   UNW_Results[2]<- sqrt(mean((eps)^2))
+  UNW_Results[43]<- median(Dists[msclf])
+  UNW_Results[44]<- median(Dists[NHNW][msclf_NHNW])
+  UNW_Results[45]<- median(Dists[poverty][msclf_pov])
 
-#   UNW_Results[3]<- mean(eps[NHNW])
-#   UNW_Results[4]<- sqrt(mean((eps[NHNW])^2))
+  UNW_Results[46]<- mean(NN_PA[msclf])
+  UNW_Results[47]<- mean(NN_PA[NHNW][msclf_NHNW])
+  UNW_Results[48]<- mean(NN_PA[poverty][msclf_pov])
 
-#   UNW_Results[5]<- mean(eps[poverty])
-#   UNW_Results[6]<- sqrt(mean((eps[poverty])^2))
-
-#   ## AQI class:
-#   UNW_Results[7]<- mean(Real_class > Shown_class)
-#   UNW_Results[8]<- mean(Real_class < Shown_class)
-#   UNW_Results[13]<- mean(very_off)
-
-#   UNW_Results[9]<- mean(Real_class[NHNW] > Shown_class[NHNW])
-#   UNW_Results[10]<- mean(Real_class[NHNW] < Shown_class[NHNW])
-#   UNW_Results[14]<- mean(very_off_NHNW)
-
-#   UNW_Results[11]<- mean(Real_class[poverty] > Shown_class[poverty])
-#   UNW_Results[12]<- mean(Real_class[poverty] < Shown_class[poverty])
-#   UNW_Results[15]<- mean(very_off_pov)
-
-#   ## Largest errors:
-#   UNW_Results[16]<- quantile(eps, 0.95)
-#   UNW_Results[17]<- mean(eps>10)
-
-#   UNW_Results[18]<- quantile(eps[NHNW], 0.95)
-#   UNW_Results[19]<- mean(eps[NHNW]>10)
-
-#   UNW_Results[20]<- quantile(eps[poverty], 0.95)
-#   UNW_Results[21]<- mean(eps[poverty]>10)
-
-#   ## Distances to NN monitor/sensor:
-#   UNW_Results[22]<- mean(dists)
-#   UNW_Results[23]<- mean(dists[NHNW_pos])
-#   UNW_Results[24]<- mean(dists[poverty_pos])
-#   UNW_Results[25]<- mean(Dists[very_off])
-#   UNW_Results[26]<- mean(Dists[NHNW][very_off_NHNW])
-#   UNW_Results[27]<- mean(Dists[poverty][very_off_pov])
-
-#   UNW_Results[28]<- median(dists)
-#   UNW_Results[29]<- median(dists[NHNW_pos])
-#   UNW_Results[30]<- median(dists[poverty_pos])
-#   UNW_Results[31]<- median(Dists[very_off])
-#   UNW_Results[32]<- median(Dists[NHNW][very_off_NHNW])
-#   UNW_Results[33]<- median(Dists[poverty][very_off_pov])
-
-#   ## % LCS NNs
-#   UNW_Results[34]<- mean(NN_pa)
-#   UNW_Results[35]<- mean(NN_pa[NHNW_pos])
-#   UNW_Results[36]<- mean(NN_pa[poverty_pos])
-#   UNW_Results[37]<- mean(NN_PA[very_off])
-#   UNW_Results[38]<- mean(NN_PA[NHNW][very_off_NHNW])
-#   UNW_Results[39]<- mean(NN_PA[poverty][very_off_pov])
+  UNW_Results[49]<- mean(HL)
+  UNW_Results[50]<- mean(HL_NHNW)
+  UNW_Results[51]<- mean(HL_pov)
     
     
 #   if(w){
@@ -325,16 +315,16 @@ run_sim<- function(seed_num, no_err_set, err_set, frac = NULL, num = 100,
 # lengths<- roads$Roads_500 + 0.1
 # rWeights<- lengths/sum(lengths)
 
-# sink("Timing_one_sim_366_HL.txt")  # _road-weighting
+sink("Timing_one_sim_ALL.txt")  # _road-weighting
                  
-# s<- Sys.time()
-# res<- run_sim(304, which(CA_clean$AQS_site==1), which(CA_clean$PA_site==1), num=1000)
+s<- Sys.time()
+res<- run_sim(304, which(CA_clean$AQS_site==1), which(CA_clean$PA_site==1), num=1000)
                  
-# # res<- run_sim(303, which(CA_clean$AQS_site==1), 1:dim(CA_clean)[1], 
-# #                     num=1000, road_weights = rWeights)
-# e<- Sys.time()
-# print(paste("Both:", e-s)) # Unweighted
-# print(res)
+# res<- run_sim(303, which(CA_clean$AQS_site==1), 1:dim(CA_clean)[1], 
+#                     num=1000, road_weights = rWeights)
+e<- Sys.time()
+print(paste("Both:", e-s)) # Unweighted
+print(res)
 # # 2.8 mins unweighted, 366 days --> would take 140 mins to run 50 trials
 # # 54 secs unweighted, 183 days (every other) --> would take 45 mins to run 50 trials
 # # 3.1 secs unweighted, 24 days --> would take 2.5 mins to run 50 trials
@@ -355,10 +345,10 @@ run_sim<- function(seed_num, no_err_set, err_set, frac = NULL, num = 100,
 # # print(paste("Weighted:", e-s)) 
 # # print(res)
 
-# print("-------")
-# print(gc())
+print("-------")
+print(gc())
                  
-# sink()
+sink()
                  
 # 2.9 mins weighted, 366 days --> would take  mins to run 50 trials
 # 58 secs weighted, 183 days (every other) --> would take  mins to run 50 trials
