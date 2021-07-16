@@ -5,13 +5,13 @@ source("LCS_placement_sims/Analysis/Sim_functions.R")
 
 #### Using numbers of sensors instead of percents:
 
-Results<- results(CA_clean, which(CA_clean$AQS_site == 1), w = TRUE)
-write.csv(Results[[1]], paste0("LCS_results/D366-AQS_sites.csv"),
-          row.names = FALSE)
-write.csv(Results[[2]], paste0("LCS_results/D366-AQS_sites_unweighted.csv"),
-          row.names = FALSE)
+# Results<- results(CA_clean, which(CA_clean$AQS_site == 1), w = TRUE)
+# write.csv(Results[[1]], paste0("LCS_results/D366-AQS_sites.csv"),
+#           row.names = FALSE)
+# write.csv(Results[[2]], paste0("LCS_results/D366-AQS_sites_unweighted.csv"),
+#           row.names = FALSE)
 
-print("Finished with AQS")
+# print("Finished with AQS")
 
 
 ## Purple Air sites
