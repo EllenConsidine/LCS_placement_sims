@@ -47,7 +47,7 @@ source("LCS_placement_sims/Analysis/Sim_functions.R")
 
 ## School sites
 
-for(n in c(100, 250, 500, 1000)){ ## ADD BACK IN 50!
+for(n in c(500, 1000)){ ## ADD BACK IN 50, 100, 250!
   Results<- run_sim(303, which(CA_clean$AQS_site==1), which(CA_clean$School==1), 
                     num=n, weighted = TRUE)
   W_Results<- Results[[1]]
