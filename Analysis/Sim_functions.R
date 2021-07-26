@@ -61,13 +61,12 @@ results<- function(DF, pos, error_pos=NULL, err=NULL, Name=NULL, w){
                          
   RwE<- Real
   
-  # Sys.time()
-  if(!is.null(error_pos)){ ## Simulating measurement errors from low-cost sensors
-    eps<- sapply(Deciles[error_pos], function(q) sample(Q_resids[[q]], size=1))
-    # eps<- sapply(Real[error_pos], function(x) rnorm(1,mean=0,sd=err*x))
-    RwE[error_pos]<- Real[error_pos]+eps
-  } 
-  # Sys.time() # 20s
+  ### Simulating measurement errors from the LCSs: 
+#   if(!is.null(error_pos)){ 
+#     eps<- sapply(Deciles[error_pos], function(q) sample(Q_resids[[q]], size=1))
+#     # eps<- sapply(Real[error_pos], function(x) rnorm(1,mean=0,sd=err*x))
+#     RwE[error_pos]<- Real[error_pos]+eps
+#   } 
   
   Shown<- RwE[Get]
   rm(RwE)
@@ -155,24 +154,24 @@ results<- function(DF, pos, error_pos=NULL, err=NULL, Name=NULL, w){
   W_Results[21]<- weighted.mean(eps[poverty] > 10, PDW_pov)
 
   ## Distances to NN monitor/sensor:
-  W_Results[22]<- weighted.mean(dists, DF$ppltn_d)
-  W_Results[23]<- weighted.mean(dists[NHNW_pos], DF$ppltn_d[NHNW_pos])
-  W_Results[24]<- weighted.mean(dists[poverty_pos], DF$ppltn_d[poverty_pos])
+#   W_Results[22]<- weighted.mean(dists, DF$ppltn_d)
+#   W_Results[23]<- weighted.mean(dists[NHNW_pos], DF$ppltn_d[NHNW_pos])
+#   W_Results[24]<- weighted.mean(dists[poverty_pos], DF$ppltn_d[poverty_pos])
   W_Results[25]<- weighted.mean(Dists[very_off], PDW[very_off])
   W_Results[26]<- weighted.mean(Dists[NHNW][very_off_NHNW], PDW_NHNW[very_off_NHNW])
   W_Results[27]<- weighted.mean(Dists[poverty][very_off_pov], PDW_pov[very_off_pov])
 
-  W_Results[28]<- weighted_quantile(dists, DF$ppltn_d, probs=0.5)
-  W_Results[29]<- weighted_quantile(dists[NHNW_pos], DF$ppltn_d[NHNW_pos], probs=0.5)
-  W_Results[30]<- weighted_quantile(dists[poverty_pos], DF$ppltn_d[poverty_pos], probs=0.5)
+#   W_Results[28]<- weighted_quantile(dists, DF$ppltn_d, probs=0.5)
+#   W_Results[29]<- weighted_quantile(dists[NHNW_pos], DF$ppltn_d[NHNW_pos], probs=0.5)
+#   W_Results[30]<- weighted_quantile(dists[poverty_pos], DF$ppltn_d[poverty_pos], probs=0.5)
   W_Results[31]<- weighted_quantile(Dists[very_off], PDW[very_off], probs=0.5)
   W_Results[32]<- weighted_quantile(Dists[NHNW][very_off_NHNW], PDW_NHNW[very_off_NHNW], probs=0.5)
   W_Results[33]<- weighted_quantile(Dists[poverty][very_off_pov], PDW_pov[very_off_pov], probs=0.5)
 
   ## % LCS NNs
-  W_Results[34]<- weighted.mean(NN_pa, DF$ppltn_d)
-  W_Results[35]<- weighted.mean(NN_pa[NHNW_pos], DF$ppltn_d[NHNW_pos])
-  W_Results[36]<- weighted.mean(NN_pa[poverty_pos], DF$ppltn_d[poverty_pos])
+#   W_Results[34]<- weighted.mean(NN_pa, DF$ppltn_d)
+#   W_Results[35]<- weighted.mean(NN_pa[NHNW_pos], DF$ppltn_d[NHNW_pos])
+#   W_Results[36]<- weighted.mean(NN_pa[poverty_pos], DF$ppltn_d[poverty_pos])
   W_Results[37]<- weighted.mean(NN_PA[very_off], PDW[very_off])
   W_Results[38]<- weighted.mean(NN_PA[NHNW][very_off_NHNW], PDW_NHNW[very_off_NHNW])
   W_Results[39]<- weighted.mean(NN_PA[poverty][very_off_pov], PDW_pov[very_off_pov])
@@ -230,24 +229,24 @@ results<- function(DF, pos, error_pos=NULL, err=NULL, Name=NULL, w){
   UNW_Results[21]<- mean(eps[poverty]>10)
 
   ## Distances to NN monitor/sensor:
-  UNW_Results[22]<- mean(dists)
-  UNW_Results[23]<- mean(dists[NHNW_pos])
-  UNW_Results[24]<- mean(dists[poverty_pos])
+#   UNW_Results[22]<- mean(dists)
+#   UNW_Results[23]<- mean(dists[NHNW_pos])
+#   UNW_Results[24]<- mean(dists[poverty_pos])
   UNW_Results[25]<- mean(Dists[very_off])
   UNW_Results[26]<- mean(Dists[NHNW][very_off_NHNW])
   UNW_Results[27]<- mean(Dists[poverty][very_off_pov])
 
-  UNW_Results[28]<- median(dists)
-  UNW_Results[29]<- median(dists[NHNW_pos])
-  UNW_Results[30]<- median(dists[poverty_pos])
+#   UNW_Results[28]<- median(dists)
+#   UNW_Results[29]<- median(dists[NHNW_pos])
+#   UNW_Results[30]<- median(dists[poverty_pos])
   UNW_Results[31]<- median(Dists[very_off])
   UNW_Results[32]<- median(Dists[NHNW][very_off_NHNW])
   UNW_Results[33]<- median(Dists[poverty][very_off_pov])
 
   ## % LCS NNs
-  UNW_Results[34]<- mean(NN_pa)
-  UNW_Results[35]<- mean(NN_pa[NHNW_pos])
-  UNW_Results[36]<- mean(NN_pa[poverty_pos])
+#   UNW_Results[34]<- mean(NN_pa)
+#   UNW_Results[35]<- mean(NN_pa[NHNW_pos])
+#   UNW_Results[36]<- mean(NN_pa[poverty_pos])
   UNW_Results[37]<- mean(NN_PA[very_off])
   UNW_Results[38]<- mean(NN_PA[NHNW][very_off_NHNW])
   UNW_Results[39]<- mean(NN_PA[poverty][very_off_pov])
@@ -314,16 +313,16 @@ run_sim<- function(seed_num, no_err_set, err_set, frac = NULL, num = 100,
 # lengths<- roads$Roads_500 + 0.1
 # rWeights<- lengths/sum(lengths)
 
-# sink("Timing_one_sim_ALL.txt")  # _road-weighting
+sink("Timing_one_sim_SA.txt")  # _road-weighting
                  
-# s<- Sys.time()
-# res<- run_sim(304, which(CA_clean$AQS_site==1), which(CA_clean$PA_site==1), num=1000)
+s<- Sys.time()
+res<- run_sim(304, which(CA_clean$AQS_site==1), which(CA_clean$PA_site==1), num=1000)
                  
-# # res<- run_sim(303, which(CA_clean$AQS_site==1), 1:dim(CA_clean)[1], 
-# #                     num=1000, road_weights = rWeights)
-# e<- Sys.time()
-# print(paste("Both:", e-s)) # Unweighted
-# print(res)
+# res<- run_sim(303, which(CA_clean$AQS_site==1), 1:dim(CA_clean)[1], 
+#                     num=1000, road_weights = rWeights)
+e<- Sys.time()
+print(paste("Both:", e-s)) # Unweighted
+print(res)
 # # 2.8 mins unweighted, 366 days --> would take 140 mins to run 50 trials
 # # 54 secs unweighted, 183 days (every other) --> would take 45 mins to run 50 trials
 # # 3.1 secs unweighted, 24 days --> would take 2.5 mins to run 50 trials
@@ -344,10 +343,10 @@ run_sim<- function(seed_num, no_err_set, err_set, frac = NULL, num = 100,
 # # print(paste("Weighted:", e-s)) 
 # # print(res)
 
-# print("-------")
-# print(gc())
+print("-------")
+print(gc())
                  
-# sink()
+sink()
                  
 # 2.9 mins weighted, 366 days --> would take  mins to run 50 trials
 # 58 secs weighted, 183 days (every other) --> would take  mins to run 50 trials
