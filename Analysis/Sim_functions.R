@@ -62,11 +62,11 @@ results<- function(DF, pos, error_pos=NULL, err=NULL, Name=NULL, w){
   RwE<- Real
   
   ### Simulating measurement errors from the LCSs: 
-#   if(!is.null(error_pos)){ 
-#     eps<- sapply(Deciles[error_pos], function(q) sample(Q_resids[[q]], size=1))
-#     # eps<- sapply(Real[error_pos], function(x) rnorm(1,mean=0,sd=err*x))
-#     RwE[error_pos]<- Real[error_pos]+eps
-#   } 
+  if(!is.null(error_pos)){ 
+    eps<- sapply(Deciles[error_pos], function(q) sample(Q_resids[[q]], size=1))
+    # eps<- sapply(Real[error_pos], function(x) rnorm(1,mean=0,sd=err*x))
+    RwE[error_pos]<- Real[error_pos]+eps
+  } 
   
   Shown<- RwE[Get]
   rm(RwE)
