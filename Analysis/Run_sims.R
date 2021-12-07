@@ -25,7 +25,7 @@ source("LCS_placement_sims/Analysis/Sim_functions.R")
 
 ## Purple Air sites
 
-for(n in c(50, 100, 250, 500, 1000)){
+for(n in c(250, 500, 1000)){ # c(50, 100, 250, 500, 1000) # had to restart
   Results<- run_sim(303, which(CA_clean$AQS_site==1), which(CA_clean$PA_site==1), 
                     num=n, weighted = TRUE)
   W_Results<- Results[[1]]
