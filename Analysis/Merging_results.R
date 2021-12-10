@@ -38,7 +38,7 @@ UNW_Names<- sapply(UNW_names, function(x) paste0(str_split(x, "0_")[[1]][1], "0"
 UNW<- matrix(0, nrow=51, ncol=25)
 
 for(i in 1:25){
-  results<- read.csv(paste0(directory,files[unweighted][i]))
+  results<- read.csv(paste0(directory, "/", files[unweighted][i]))
   UNW[,i]<- t(results)
 }
 
@@ -59,7 +59,7 @@ W_Names<- sapply(W_names, function(x) paste0(str_split(x, "0_")[[1]][1], "0"))
 W<- matrix(0, nrow=51, ncol=25)
 
 for(i in 1:25){
-  results<- read.csv(paste0(directory, files[weighted][i]))
+  results<- read.csv(paste0(directory, "/", files[weighted][i]))
   W[,i]<- t(results)
 }
 
