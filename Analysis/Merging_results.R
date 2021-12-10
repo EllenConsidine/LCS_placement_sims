@@ -20,9 +20,11 @@ Metrics<- c(rep(c("MAE", "RMSE"),3),
 prefix<- "D366-"
 suffix<- "_avg.csv"
 
-pre_files<- list.files("/n/home13/econsidine/New_LCS_results",
+directory<- "New_LCS_results"
+
+pre_files<- list.files(directory,
            prefix)
-suff_files<- list.files("/n/home13/econsidine/New_LCS_results",
+suff_files<- list.files(directory,
                         suffix)
 files<- intersect(pre_files, suff_files)
 
@@ -36,14 +38,14 @@ UNW_Names<- sapply(UNW_names, function(x) paste0(str_split(x, "0_")[[1]][1], "0"
 UNW<- matrix(0, nrow=51, ncol=25)
 
 for(i in 1:25){
-  results<- read.csv(files[unweighted][i])
+  results<- read.csv(paste0(directory,files[unweighted][i]))
   UNW[,i]<- t(results)
 }
 
 colnames(UNW)<- UNW_Names
 row.names(UNW)<- Metrics
 
-write.csv(UNW, "New_LCS_results/Results_366_days_unweighted.csv")
+write.csv(UNW, paste0(directory, "/Results_366_days_unweighted.csv"))
 
 
 # Get weighted
@@ -57,20 +59,20 @@ W_Names<- sapply(W_names, function(x) paste0(str_split(x, "0_")[[1]][1], "0"))
 W<- matrix(0, nrow=51, ncol=25)
 
 for(i in 1:25){
-  results<- read.csv(files[weighted][i])
+  results<- read.csv(paste0(directory, files[weighted][i]))
   W[,i]<- t(results)
 }
 
 colnames(W)<- W_Names
 row.names(W)<- Metrics
 
-write.csv(W, "New_LCS_results/Results_366_days_weighted.csv")
+write.csv(W, paste0(directory,"/Results_366_days_weighted.csv"))
 
 #####################################################################
 ############ Putting everything together to prepare for Shiny:
 
-pdw<- read.csv("New_LCS_results/Results_366_days_weighted.csv")
-unw<- read.csv("New_LCS_results/Results_366_days_unweighted.csv")
+pdw<- read.csv(paste0(directory, "/Results_366_days_weighted.csv"))
+unw<- read.csv(paste0(directory, "/Results_366_days_unweighted.csv"))
 
 names(pdw)[1]<- "X"
 names(unw)[1]<- "X"
@@ -96,8 +98,8 @@ unw[,1]<- Metrics
 
 ## Add in AQS-only results
 
-aqs_w<- read.csv("New_LCS_results/D366-AQS_sites.csv")
-aqs_unw<- read.csv("New_LCS_results/D366-AQS_sites_unweighted.csv")
+aqs_w<- read.csv(paste0(directory, "/D366-AQS_sites.csv"))
+aqs_unw<- read.csv(paste0(directory, "/D366-AQS_sites_unweighted.csv"))
 
 pdw$AQS<- as.numeric(unlist(aqs_w))
 unw$AQS<- as.numeric(unlist(aqs_unw))
@@ -129,14 +131,14 @@ unw[54,2:27]<- as.numeric(unw[51,2:27])/unhealthy_unw[3]
 names(pdw)<- Names
 names(unw)<- Names
 
-write.csv(pdw, "New_LCS_results/LCS_final_results_12-10-21_weighted.csv", row.names=FALSE)
-write.csv(unw, "New_LCS_results/LCS_final_results_12-10-21_unweighted.csv", row.names=FALSE)
+write.csv(pdw, paste0(directory, "/LCS_final_results_12-10-21_weighted.csv"), row.names=FALSE)
+write.csv(unw, paste0(directory, "/LCS_final_results_12-10-21_unweighted.csv"), row.names=FALSE)
                  
 #################################
 
 ### All PA sites:
-pdw<- read.csv("New_LCS_results/D366-All_PA_sites.csv")
-unw<- read.csv("New_LCS_results/D366-All_PA_sites_unweighted.csv")
+pdw<- read.csv(paste0(directory, "/D366-All_PA_sites.csv"))
+unw<- read.csv(paste0(directory, "/D366-All_PA_sites_unweighted.csv"))
 
 DF<- data.frame(Metrics, PDW=pdw, UNW=unw)
-write.csv(DF, "All_PA_sites_results_12-10-21.csv", row.names=FALSE)
+write.csv(DF, paste0(directory, "All_PA_sites_results_12-10-21.csv"), row.names=FALSE)
