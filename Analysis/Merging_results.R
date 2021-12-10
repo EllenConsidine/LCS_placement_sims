@@ -141,4 +141,4 @@ pdw<- read.csv(paste0(directory, "/D366-All_PA_sites.csv"))
 unw<- read.csv(paste0(directory, "/D366-All_PA_sites_unweighted.csv"))
 
 DF<- data.frame(Metrics, PDW=pdw, UNW=unw)
-write.csv(DF, paste0(directory, "All_PA_sites_results_12-10-21.csv"), row.names=FALSE)
+write.csv(DF, paste0(directory, "/All_PA_sites_results_12-10-21.csv"), row.names=FALSE)
