@@ -20,9 +20,9 @@ Metrics<- c(rep(c("MAE", "RMSE"),3),
 prefix<- "D366-"
 suffix<- "_avg.csv"
 
-pre_files<- list.files("~/New_LCS_results",
+pre_files<- list.files("/n/home13/econsidine/New_LCS_results",
            prefix)
-suff_files<- list.files("~/New_LCS_results",
+suff_files<- list.files("/n/home13/econsidine/New_LCS_results",
                         suffix)
 files<- intersect(pre_files, suff_files)
 
