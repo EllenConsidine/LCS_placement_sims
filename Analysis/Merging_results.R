@@ -17,7 +17,7 @@ Metrics<- c(rep(c("MAE", "RMSE"),3),
             rep("Median distance to NN monitor/sensor, among all misclassifications",3),
             rep("Mean % of NNs that are LCSs, among all misclassifications",3),
             rep("% Unhealthy and Showing Healthy",3))
-prefix<- "D366-"
+prefix<- "SA-025-" # "D366-"
 suffix<- "_avg.csv"
 
 directory<- "New_LCS_results"
@@ -45,7 +45,7 @@ for(i in 1:25){
 colnames(UNW)<- UNW_Names
 row.names(UNW)<- Metrics
 
-write.csv(UNW, paste0(directory, "/Results_366_days_unweighted.csv"))
+write.csv(UNW, paste0(directory, "/SA-025-Results_366_days_unweighted.csv"))
 
 
 # Get weighted
@@ -66,13 +66,13 @@ for(i in 1:25){
 colnames(W)<- W_Names
 row.names(W)<- Metrics
 
-write.csv(W, paste0(directory,"/Results_366_days_weighted.csv"))
+write.csv(W, paste0(directory,"/SA-025-Results_366_days_weighted.csv"))
 
 #####################################################################
 ############ Putting everything together to prepare for Shiny:
 
-pdw<- read.csv(paste0(directory, "/Results_366_days_weighted.csv"))
-unw<- read.csv(paste0(directory, "/Results_366_days_unweighted.csv"))
+pdw<- read.csv(paste0(directory, "/SA-025-Results_366_days_weighted.csv"))
+unw<- read.csv(paste0(directory, "/SA-025-Results_366_days_unweighted.csv"))
 
 names(pdw)[1]<- "X"
 names(unw)[1]<- "X"
@@ -131,14 +131,14 @@ unw[54,2:27]<- as.numeric(unw[51,2:27])/unhealthy_unw[3]
 names(pdw)<- Names
 names(unw)<- Names
 
-write.csv(pdw, paste0(directory, "/LCS_final_results_12-10-21_weighted.csv"), row.names=FALSE)
-write.csv(unw, paste0(directory, "/LCS_final_results_12-10-21_unweighted.csv"), row.names=FALSE)
+write.csv(pdw, paste0(directory, "/SA-025-LCS_final_results_12-10-21_weighted.csv"), row.names=FALSE)
+write.csv(unw, paste0(directory, "/SA-025-LCS_final_results_12-10-21_unweighted.csv"), row.names=FALSE)
                  
 #################################
 
-### All PA sites:
-pdw<- read.csv(paste0(directory, "/D366-All_PA_sites.csv"))
-unw<- read.csv(paste0(directory, "/D366-All_PA_sites_unweighted.csv"))
+# ### All PA sites:
+# pdw<- read.csv(paste0(directory, "/D366-All_PA_sites.csv"))
+# unw<- read.csv(paste0(directory, "/D366-All_PA_sites_unweighted.csv"))
 
-DF<- data.frame(Metrics, PDW=pdw, UNW=unw)
-write.csv(DF, paste0(directory, "/All_PA_sites_results_12-10-21.csv"), row.names=FALSE)
+# DF<- data.frame(Metrics, PDW=pdw, UNW=unw)
+# write.csv(DF, paste0(directory, "/All_PA_sites_results_12-10-21.csv"), row.names=FALSE)
