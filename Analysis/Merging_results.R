@@ -136,9 +136,9 @@ write.csv(unw, paste0(directory, "/SA-025-LCS_final_results_12-10-21_unweighted.
                  
 #################################
 
-# ### All PA sites:
-# pdw<- read.csv(paste0(directory, "/D366-All_PA_sites.csv"))
-# unw<- read.csv(paste0(directory, "/D366-All_PA_sites_unweighted.csv"))
+### All PA sites:
+pdw<- read.csv(paste0(directory, "/SA-025-All_PA_sites.csv"))
+unw<- read.csv(paste0(directory, "/SA-025-All_PA_sites_unweighted.csv"))
 
-# DF<- data.frame(Metrics, PDW=pdw, UNW=unw)
-# write.csv(DF, paste0(directory, "/All_PA_sites_results_12-10-21.csv"), row.names=FALSE)
+DF<- data.frame(Metrics, PDW=pdw, UNW=unw)
+write.csv(DF, paste0(directory, "/SA-025-All_PA_sites_results_12-10-21.csv"), row.names=FALSE)
