@@ -64,7 +64,7 @@ results<- function(DF, pos, error_pos=NULL, err=NULL, Name=NULL, w){
   ### Simulating measurement errors from the LCSs: 
   if(!is.null(error_pos)){ 
     Error_pos<- as.vector(sapply(1:n_days, function(x) (x-1)*n_obs+(error_pos)))
-    eps<- sapply(Real[Error_pos], function(x) rnorm(1,mean=0,sd=0.25*x)) # 0.25 based off of literature
+    eps<- sapply(Real[Error_pos], function(x) rnorm(1,mean=0,sd=0.1*x)) # fraction based off of literature
 #     eps<- sapply(Deciles[Error_pos], function(q) sample(Q_resids[[q]], size=1))
     RwE[Error_pos]<- Real[Error_pos]+eps
   } 
