@@ -17,7 +17,7 @@ Metrics<- c(rep(c("MAE", "RMSE"),3),
             rep("Median distance to NN monitor/sensor, among all misclassifications",3),
             rep("Mean % of NNs that are LCSs, among all misclassifications",3),
             rep("% Unhealthy and Showing Healthy",3))
-prefix<- "SA-010-" # "D366-"
+prefix<- "SA-clsad-025-" # "D366-"
 suffix<- "_avg.csv"
 
 directory<- "New_LCS_results"
