@@ -3,7 +3,7 @@ setwd("/n/home13/econsidine")
 ## Using functions from Sim_functions.R
 source("LCS_placement_sims/Analysis/Sim_functions.R")
 
-name<- "SA-clsad-025"
+name<- "SA-clsad-010"
 
 ### All PA sensor locations:
 Results<- run_sim(303, which(CA_clean$AQS_site==1), which(CA_clean$PA_site==1), 
@@ -12,6 +12,7 @@ write.csv(Results[[1]], paste0("New_LCS_results/", name, "-All_PA_sites.csv"),
           row.names = FALSE)
 write.csv(Results[[2]], paste0("New_LCS_results/", name, "-All_PA_sites_unweighted.csv"),
           row.names = FALSE)
+print("Finished with All-PurpleAir")
 
 
 # ### Using numbers of sensors instead of percents:
