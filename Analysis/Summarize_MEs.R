@@ -1,19 +1,19 @@
 
 library(Hmisc)
 
-# setwd("/n/home13/econsidine")
+setwd("/n/home13/econsidine")
 
-# CA_clean<- readRDS("LCS_data/CA_clean_projected.rds")
-# n_obs<- dim(CA_clean)[1]
-# my_nas0<- readRDS("LCS_data/CA_NA_pos.rds")
+CA_clean<- readRDS("LCS_data/CA_clean_projected.rds")
+n_obs<- dim(CA_clean)[1]
+my_nas0<- readRDS("LCS_data/CA_NA_pos.rds")
 
-# days<- 1:366 # all
+days<- 1:366 # all
 
 n_days<- length(days)
 
-# Real<- readRDS("LCS_data/Daily_PM25_CA.rds")[as.vector(sapply(days, function(x) (x-1)*length(my_nas0)+(1:length(my_nas0))))][rep(!my_nas0,n_days)]
+Real<- readRDS("LCS_data/Daily_PM25_CA.rds")[as.vector(sapply(days, function(x) (x-1)*length(my_nas0)+(1:length(my_nas0))))][rep(!my_nas0,n_days)]
 
-# source("LCS_placement_sims/Analysis/Calibrate_PA.R") # includes Deciles for Real
+source("LCS_placement_sims/Analysis/Calibrate_PA.R") # includes Deciles for Real
 Deciles<- Deciles[as.vector(sapply(days, function(x) (x-1)*n_obs+(1:n_obs)))]
 
 
