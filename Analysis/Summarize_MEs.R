@@ -58,7 +58,8 @@ for(i in 1:50){
   Pop_dens[[1]]<- append(Pop_dens[[1]], PDW)
   Pop_dens[[2]]<- append(Pop_dens[[2]], PDW[NHNW])
   Pop_dens[[3]]<- append(Pop_dens[[3]], PDW[poverty])
-  
+                 
+  print(i)
 }
 
 
