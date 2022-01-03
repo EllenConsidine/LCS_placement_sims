@@ -28,7 +28,7 @@ pdw<- rep(DF$ppltn_d, n_days)
 
 num<- sum(DF$PA_site == 1)
 
-for(i in 1:3){ # change back to 50!
+for(i in 1:50){ 
   set.seed(303*i)
   
   error_pos<- sample(which(DF$PA_site == 1), num, replace=FALSE)
