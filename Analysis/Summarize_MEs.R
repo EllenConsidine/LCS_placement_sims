@@ -1,3 +1,4 @@
+### Calculating the standard deviation (weighted and unweighted) of sensor measurement error when simulating differentially (either 10% of 25% of true PM2.5, or drawing from EPA calibration residuals)
 
 library(Hmisc)
 
@@ -17,7 +18,7 @@ source("LCS_placement_sims/Analysis/Calibrate_PA.R") # includes Deciles for Real
 Deciles<- Deciles[as.vector(sapply(days, function(x) (x-1)*n_obs+(1:n_obs)))]
 
 
-ME_010<- list(c(), c(), c()) # one sublist for each group: overall, high % NW, high % poverty
+ME_010<- list(c(), c(), c()) # one sublist for each group: overall, Q5 % NW, Q5 % poverty
 ME_025<- list(c(), c(), c())
 ME_epa<- list(c(), c(), c())
 Pop_dens<- list(c(), c(), c())
