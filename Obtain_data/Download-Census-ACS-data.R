@@ -1,3 +1,5 @@
+### Download code adapted from code by Ben Sabath
+
 library(tidycensus)
 library(tigris)
 library(dplyr)
@@ -22,7 +24,7 @@ get_variables <- function(plan, var, year) {
   return(plan[[var]][[data_key]])
 }
 
-variable_path <- "Getting data/census_vars3.yml" # OR "census_vars_tracts.yml" 
+variable_path <- "Getting data/census_vars.yml" # OR "census_vars_tracts.yml" for the variables only available at Census tract (not block group) level
 
 variable_plan <- yaml.load_file(variable_path)
 
@@ -54,7 +56,7 @@ for (year in data_years) {
   
   ## Make API calls
   if (!is.null(acs_vars)) {
-    acs_data <- get_acs("tract", state = "CA", # OR "block group"
+    acs_data <- get_acs("block group", state = "CA", # OR "tract"
                         variables = acs_vars, year = year)
     acs_data$moe <- NULL
     acs_data <- pivot_wider(acs_data,id_cols = c(GEOID, NAME),  names_from  = variable, values_from  = estimate)
@@ -138,13 +140,8 @@ for (year in data_years) {
 }
 
 ## For separate variables:
-write.csv(out, "Getting data/Block_non-Hispanic-white.csv", row.names=FALSE)
-write.csv(out, "Getting data/Tract_non-Hispanic-white.csv", row.names=FALSE)
-write.csv(out, "Getting data/Block_crowded.csv", row.names = FALSE)
-write.csv(out, "Getting data/Tract_crowded.csv", row.names = FALSE)
-write.csv(out, "Getting data/Tract_vars.csv", row.names = FALSE)
 write.csv(out, "Getting data/Block_vars.csv", row.names = FALSE)
-write.csv(out, "Getting data/Tract_vars_for_block_NAs.csv", row.names = FALSE)
+write.csv(out, "Getting data/Tract_vars.csv", row.names = FALSE)
 
 ## Create framework to allow missingness
 # map_data <- block_groups(state = "CA") # 50 MB
