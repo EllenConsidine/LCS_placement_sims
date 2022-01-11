@@ -62,23 +62,21 @@ results<- function(DF, pos, error_pos=NULL, err=NULL, Name=NULL, w){
     RwE[Error_pos]<- Real[Error_pos]+eps # adding ME to the locations with LCS
   } 
   
-  Shown<- RwE[Get]
+  Shown<- RwE[Get] # each grid point "sees" information from its nearest monitor/sensor
   rm(RwE)
-  Shown[which(Shown < 0)]<- 0
+  Shown[which(Shown < 0)]<- 0 # assume all negative values are just reported as zero
   
-  # Sys.time()
-  # Calculate AQI / Class (real already calculated):
+  ## Calculate AQI / Class for Shown (Real_class already calculated):
   Shown_match<- match(round(Shown), AQI_ref$PM)
-  # Sys.time() # 15 s
   # Shown_aqi<- AQI_ref$AQI[Shown_match]
   Shown_class<- AQI_ref$Class[Shown_match]
   rm(Shown_match)
-  Shown_class0<- Shown_class < 3
+  Shown_class0<- Shown_class < 3 # indicator for whether the AQI classification is "Healthy" or not
   
-  # Calculate differences:
+  ## Calculate errors between what is reported and experienced at each grid point:
   eps<- abs(Shown-Real)
   
-  ## Non-white
+  ## % non-white or Hispanic:
   NHNW<- rep((1-DF$nonHisp.white) > quantile(1-DF$nonHisp.white, 0.80), n_days) # top quintile
   NHNW_pos<- which((1-DF$nonHisp.white) > quantile(1-DF$nonHisp.white, 0.80)) # top quintile
   
@@ -91,19 +89,12 @@ results<- function(DF, pos, error_pos=NULL, err=NULL, Name=NULL, w){
   very_off_NHNW<- abs(Real_class[NHNW]-Shown_class[NHNW])>1
   very_off_pov<- abs(Real_class[poverty]-Shown_class[poverty])>1
                  
-  # Misclassifications:
-#   RS<- Real_class > Shown_class
-#   RS_NHNW<- Real_class[NHNW] > Shown_class[NHNW]
-#   RS_pov<- Real_class[poverty] > Shown_class[poverty]
-                 
-#   SR<- Shown_class > Real_class
-#   SR_NHNW<- Shown_class[NHNW] > Real_class[NHNW]
-#   SR_pov<- Shown_class[poverty] > Real_class[poverty]
-                 
+  ## All misclassifications:      
   msclf<- Real_class != Shown_class
   msclf_NHNW<- Real_class[NHNW] != Shown_class[NHNW]
   msclf_pov<- Real_class[poverty] != Shown_class[poverty]
-                 
+                                 
+  ## Unhealthy-Healthy (UH) misclassifications:
   HL<- (Real_class1)&(Shown_class0)
   HL_NHNW<- (Real_class1[NHNW])&(Shown_class0[NHNW])
   HL_pov<- (Real_class1[poverty])&(Shown_class0[poverty])
@@ -116,7 +107,8 @@ results<- function(DF, pos, error_pos=NULL, err=NULL, Name=NULL, w){
   PDW<- rep(DF$ppltn_d, n_days)
   PDW_NHNW<- PDW[NHNW]
   PDW_pov<- PDW[poverty]
-
+  
+  ## MAE and RMSE:
   W_Results[1]<- weighted.mean(eps, PDW)
   W_Results[2]<- sqrt(weighted.mean((eps)^2, PDW))
   W_Results[3]<- weighted.mean(eps[NHNW], PDW_NHNW)
@@ -181,7 +173,8 @@ results<- function(DF, pos, error_pos=NULL, err=NULL, Name=NULL, w){
   W_Results[46]<- weighted.mean(NN_PA[msclf], PDW[msclf])
   W_Results[47]<- weighted.mean(NN_PA[NHNW][msclf_NHNW], PDW_NHNW[msclf_NHNW])
   W_Results[48]<- weighted.mean(NN_PA[poverty][msclf_pov], PDW_pov[msclf_pov])
-                 
+  
+  ## Unhealthy-Healthy (UH) misclassifications:
   W_Results[49]<- weighted.mean(HL, PDW)
   W_Results[50]<- weighted.mean(HL_NHNW, PDW_NHNW)
   W_Results[51]<- weighted.mean(HL_pov, PDW_pov)
@@ -190,12 +183,11 @@ results<- function(DF, pos, error_pos=NULL, err=NULL, Name=NULL, w){
   ### Unweighted results:
   UNW_Results<- rep(0,51)
 
+  ## MAE and RMSE:
   UNW_Results[1]<- mean(eps) 
   UNW_Results[2]<- sqrt(mean((eps)^2))
-
   UNW_Results[3]<- mean(eps[NHNW])
   UNW_Results[4]<- sqrt(mean((eps[NHNW])^2))
-
   UNW_Results[5]<- mean(eps[poverty])
   UNW_Results[6]<- sqrt(mean((eps[poverty])^2))
 
@@ -257,26 +249,20 @@ results<- function(DF, pos, error_pos=NULL, err=NULL, Name=NULL, w){
   UNW_Results[47]<- mean(NN_PA[NHNW][msclf_NHNW])
   UNW_Results[48]<- mean(NN_PA[poverty][msclf_pov])
 
+  ## Unhealthy-Healthy (UH) misclassifications
   UNW_Results[49]<- mean(HL)
   UNW_Results[50]<- mean(HL_NHNW)
   UNW_Results[51]<- mean(HL_pov)
     
-    
-#   if(w){
-           
-#     return(W_Results)
-
-#   }else{
-
-#     return(UNW_Results)
-#   }
   return(list(W_Results, UNW_Results))
 }
 
-## Run all trials for one experiment:
+                                 
+### Run all trials for one experiment:
+                                 
 run_sim<- function(seed_num, no_err_set, err_set, frac = NULL, num = 100, 
                    road_weights = NULL, err=NULL, weighted=FALSE){
-  # road_weights can also be CES score weights!
+  # road_weights can also be CES or Pollution Score weights!
   
   set.seed(7*seed_num)
   if(is.null(road_weights)){
@@ -300,6 +286,7 @@ run_sim<- function(seed_num, no_err_set, err_set, frac = NULL, num = 100,
     return(results(CA_clean, unique(c(no_err_set,these)), error_pos=these, err=err, w = weighted))
   }
 }
+
 
 # ## Testing:
                  
@@ -327,36 +314,6 @@ run_sim<- function(seed_num, no_err_set, err_set, frac = NULL, num = 100,
 # # abline(0,0.5)
 
 
-# # s<- Sys.time()
-# # res<- run_sim(304, which(CA_clean$AQS_site==1), which(CA_clean$PA_site==1), num=1000,
-# #               weighted=TRUE)
-                 
-# # # res<- run_sim(303, which(CA_clean$AQS_site==1), 1:dim(CA_clean)[1], 
-# # #                     num=1000, road_weights = rWeights, weighted = TRUE)
-# # e<- Sys.time()
-# # print(paste("Weighted:", e-s)) 
-# # print(res)
-
-# print("-------")
-# print(gc())
-                 
-# sink()
-                 
-# 2.9 mins weighted, 366 days --> would take  mins to run 50 trials
-# 58 secs weighted, 183 days (every other) --> would take  mins to run 50 trials
-# 4.4 secs weighted, 24 days --> would take  mins to run 50 trials
-# 1.5 secs weighted, 12 days --> would take  mins to run 50 trials
-
-# plot(c(12, 24, 183, 366), c(1.5, 4.4, 58, 2.9*60)*50/60,
-#      xlab = "Days of Data", ylab = "Minutes / 50 Trials", col = "red", 
-#      main = "PD-weighted = red, unweighted = blue") 
-# points(c(12, 24, 183, 366), c(1.7, 3.1, 54, 2.8*60)*50/60, col="blue") # basically the same
-# x<- c(12, 24, 183, 366)
-# x2<- x^2
-# y<- c(1.5, 4.4, 58, 2.9*60)*50/60
-# test<- lm(y ~ x2)
-# lines(x, test$coefficients[1] + test$coefficients[2]*x2)
-
 
 ### Density plot of errors vs real obs
 
@@ -369,6 +326,7 @@ run_sim<- function(seed_num, no_err_set, err_set, frac = NULL, num = 100,
 # 
 # pos<- unique(c(no_err_set,these))
 # error_pos<- these
+# # Then use code from results function to get Shown variable...
 
 # Errors<- Shown - Real
 # # Randomly sample 1000 observations at which to assess NN impact
@@ -381,34 +339,4 @@ run_sim<- function(seed_num, no_err_set, err_set, frac = NULL, num = 100,
 #   scale_y_continuous(limits=c(min(xy$Errors),max(xy$Errors))) + 
 #   geom_rug(col=rgb(.5,0,0,alpha=.2))
 # scatter
-
-# # Histograms for different levels of real PM:
-# windows()
-# par(mfrow=c(2,2))
-# hist(Errors[which(Real <= 12)],
-#      main = "Errors from Good AQ", breaks = seq(-70, 80, 5))
-# hist(Errors[which(Real <= 35.5 & Real > 12)], 
-#      main = "Errors from Moderate AQ", breaks = seq(-70, 80, 5))
-# hist(Errors[which(Real <= 55.5 & Real > 35.5)],  
-#      main = "Errors from AQ Unhealthy for Sensitive Groups", breaks = seq(-70, 80, 5))
-# hist(Errors[which(Real > 55.5)], 
-#      main = "Errors from Unhealthy AQ", breaks = seq(-70, 80, 5))
-
-# ## Heat map:
-# err_seq<- seq(min(Errors[error_pos]), max(Errors[error_pos]), length.out = 100) # Errors<- Shown - Real
-# real_seq<- seq(min(Real[error_pos]), max(Real[error_pos]), length.out = 100)
-# res<- matrix(0,nrow=100, ncol=100)
-# for(i in 1:length(error_pos)){
-#   x<- 1
-#   y<- 1
-#   while(Real[error_pos][i] > real_seq[x]){ x<- x+1 }
-#   while(Errors[error_pos][i] > err_seq[y]){ y<- y+1 }
-#   res[x,y]<- res[x,y] + 1
-# }
-
-# res_df<- data.frame(Real=rep(real_seq, 100), Errors=sort(rep(err_seq, 100)),
-#                     Density = as.vector(res)/sum(res))
-
-# ggplot(res_df, aes(Real, Errors)) + geom_raster(aes(fill=Density))
-
 
