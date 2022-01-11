@@ -3,7 +3,7 @@ Comparing distributions of low-cost sensors in terms of accuracy and equity of r
 
 ## Obtaining Data
 
-
+* PurpleAir data obtained on 1/11/22.
 
 ## Analysis
 
