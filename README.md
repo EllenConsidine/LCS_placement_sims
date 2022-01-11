@@ -8,15 +8,18 @@ Comparing distributions of low-cost sensors in terms of accuracy and equity of r
 ## Analysis
 
 #### Functions used:
-* AQI_equation.R -- used to calculate the EPA AQI classifications from the "observed" concentrations
-* Calibrate_PA.R -- Preparing the PurpleAir (PA) data and comparing it with nearby reference measurements, to inform the simulation of LCS measurement error
+* AQI_equation.R -- used to calculate the EPA AQI classifications from the "observed" concentrations.
+* Calibrate_PA.R -- Preparing the PurpleAir (PA) data and comparing it with nearby reference measurements, to inform the simulation of LCS measurement error.
 * Sim_functions.R -- for each trial, samples locations to "deploy" LCS, simulates measurement error at those locations, assigns each grid point the PM2.5 information from the nearest monitor/sensor, and calculates metrics comparing the air quality that is reported vs experienced, overall and for marginalized subpopulations, weighted and unweighted by population density.
 
-*There are several lines to change manually between the simulations (with different types and amounts of sensor measurement error (ME):*
-1. In the __results__ function in the Sim_functions.R script, uncomment / comment out the line corresponding to the type of ME you're using
-2. In the Run_sims.R script, change the variable "name" on line 6, to update all the file names to what you want for that type of ME
-3. In the Merging_results.R script, change the variable "prefix" on line 20, to update all the file names to what you want for that type of ME
+*There are several lines to change manually between the simulations, with different types and amounts of sensor measurement error (ME):*
+* In the __results__ function in the Sim_functions.R script, uncomment / comment out the line corresponding to the type of ME you're using.
+* In the Run_sims.R script, change the variable "name" on line 6, to update all the file names to what you want for that type of ME.
+* In the Merging_results.R script, change the variable "prefix" on line 20, to update all the file names to what you want for that type of ME. Might also want to change the date in the final file names, lines 135-145. 
 
 #### Scripts in order:
-* Run_sims.R -- 
-* Merging_results.R -- combines the results across the placement strategies and numbers of LCS "deployed", creating two results files weighted and unweighted by population density, respectively
+1. Run_sims.R -- runs 50 trials per placement strategy and number of LCS "deployed", saving both the results from each trial and the average metrics across the 50 trials. *Note: I ended up running these simulations sequentially due to the queuing structure of our university's cluster, however, they are set up to be easy to run in parallel should that be easier on a different platform.*
+2. Merging_results.R -- combines the results across the placement strategies and numbers of LCS "deployed", creating two results files weighted and unweighted by population density, respectively.
+3. Plot_multiple_MEs.R -- generates plots for manuscript (can easily run locally after transferring results files from cluster).
+
+*Additionally, the Summarize_MEs.R script can be used to calculate the standard deviation (weighted and unweighted by population density) of sensor measurement error when simulating differentially (either from a Normal distribution with mean zero and a standard deviation of 10% of 25% of "true" PM2.5, or drawing from EPA calibration residuals associated with the same decile of "true" PM2.5) at all the locations of PurpleAir sensors.* 
