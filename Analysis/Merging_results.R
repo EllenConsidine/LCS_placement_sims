@@ -17,7 +17,7 @@ Metrics<- c(rep(c("MAE", "RMSE"),3),
             rep("Median distance to NN monitor/sensor, among all misclassifications",3),
             rep("Mean % of NNs that are LCSs, among all misclassifications",3),
             rep("% Unhealthy and Showing Healthy",3))
-prefix<- "SA-clsad-010-" # "D366-"
+prefix<- "SA-clsad-010-" # Change this name to reflect the type and amount of measurement error in the current simulation
 suffix<- "_avg.csv"
 
 directory<- "New_LCS_results"
