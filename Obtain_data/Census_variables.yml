@@ -1,0 +1,52 @@
+population:
+    
+    2018:
+        acs:
+            num: B01001_001
+
+poverty:
+
+    2018:
+        acs:
+            num:
+                - B17001_002
+            den:
+                - B17001_001
+hispanic_pct:
+
+    2018:
+        acs:
+            num: B03003_003
+            den: B03003_001
+
+blk_pct:
+    
+    2018: 
+        acs:
+            num: B02001_003
+            den: B02001_001
+
+white_pct:
+    
+    2018: 
+        acs:
+            num: B02001_002
+            den: B02001_001
+native_pct:
+    
+    2018: 
+        acs:
+            num: B02001_004
+            den: B02001_001
+asian_pct:
+    
+    2018: 
+        acs:
+            num: B02001_005
+            den: B02001_001
+nonHisp white:
+
+    2018:
+        acs:
+            num: B03002_003
+            den: B03002_001
