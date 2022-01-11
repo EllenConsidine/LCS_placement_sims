@@ -7,6 +7,9 @@ Comparing distributions of low-cost sensors in terms of accuracy and equity of r
 
 #### Scripts used to process these data sets:
 * 
+* __Combining_Di_data.R__ -- used to combine the daily PM2.5 files created by Di et al. into one file (to be read in all at once). 
+* __Download-Census-ACS-data.R__ -- downloads and combines sociodemographic variables at the block group and tract levels with a shapefile of all the block groups, which contains general information such as population density. The variables downloaded can be changed in __Census_variables.yml__ or __Census_variables_tracts.yml__
+*  
 
 
 
