@@ -1,9 +1,11 @@
+### Preparing the PurpleAir (PA) data and comparing it with nearby reference measurements, to inform the simulation of LCS measurement error
+
 library(dplyr)
 
 setwd("/n/home13/econsidine")
 
 # df<- read.csv("Getting data/NN_PA_AQS.csv")
-# aqs<- read.csv("Intermediate data/CA_AQS_2020.csv")
+# aqs<- read.csv("Intermediate data/CA_AQS_2020.csv") # EPA summary file
 # pa<- read.csv("Getting data/PA_2020_NNs.csv")
 # names(pa)[which(names(pa) == "PM2.5..CF.1..ug.m3")]<- "PA_PM25"
 # names(pa)[which(names(pa) == "Temperature_F")]<- "Temp"
@@ -43,18 +45,18 @@ setwd("/n/home13/econsidine")
 
 ## Calibration / error analysis part:
 Daily<- read.csv("LCS_data/Daily_AQS_PA_2020.csv")
-outdoor<- read.csv("LCS_data/PA_outside.csv")$id
+outdoor<- read.csv("LCS_data/PA_outside.csv")$id # only use PA sensors that are located outdoors
 
 Daily<- Daily[which(Daily$PA.ID %in% outdoor),]
 rm(outdoor)
 
-# Do some QA/QC first?
-high<- which(Daily$PA_PM25 > 500) # Five obs
+## Do some QA/QC first:
+high<- which(Daily$PA_PM25 > 500) # Five observations above 500
 Daily<- Daily[-high,]
 
 
 ## EPA calibration:
-Daily$EPA_PA<- 0.52*Daily$PA_PM25 - 0.085*Daily$RH + 5.71 # From downloaded slides
+Daily$EPA_PA<- 0.52*Daily$PA_PM25 - 0.085*Daily$RH + 5.71 # National calibration equation from EPA report
 epa_errors<- Daily$EPA_PA - Daily$PM2.5 # R^2 = 0.897
 
 
@@ -71,12 +73,10 @@ epa_errors<- Daily$EPA_PA - Daily$PM2.5 # R^2 = 0.897
 # plot(Daily$Temp, epa_errors)
 # abline(0,0)
 
-## Simulating wrt PM2.5:
-
-# Empirical drawing:
+## Empirical drawing of residuals, by decile of true PM2.5:
 pm_q<- quantile(Daily$PM2.5, seq(0.1, 0.9, 0.1))
 
-PM_q<- function(x){
+PM_q<- function(x){ # there's probably a better way to do this in R...
   if(x > pm_q[5]){
     if(x > pm_q[7]){
       if(x > pm_q[9]){
@@ -121,7 +121,7 @@ for(i in 1:10){
 # my_nas0<- readRDS("CA_NA_pos.rds")
 # Real<- readRDS("Daily_PM25_CA.rds")[rep(!my_nas0,366)]
 # 
-# # Parallelize:
+# # Parallelize to calculate deciles for all PM2.5 observations in the study
 # num<- 10000
 # my_seq<- round(seq(1,length(Real), length.out=num))
 # my_list<- c()
@@ -159,29 +159,9 @@ for(i in 1:10){
 #   Deciles<- append(Deciles, d)
 #   print(i)
 # }
-# saveRDS(Deciles, "Analysis/Real_deciles.rds")
+# saveRDS(Deciles, "Analysis/Real_deciles.rds") # file path is local, below is where this file is stored on the cluster
 
 
 Deciles<- readRDS("LCS_data/Real_deciles.rds")
 
-# emp_sim<- sapply(Daily$Decile, function(q) sample(Q_resids[[q]], size=1))
-# plot(log(Daily$PM2.5), emp_sim, ylim=c(-20, 40))
-# abline(0,0)
-# 
-# plot(log(Daily$PM2.5), epa_errors, ylim=c(-20, 40))
-# abline(0,0)
-# 
-# # Original synthetic approach (could use for sensitivity analysis?)
-# 
-# my_breaks<- seq(-55, 55, 5)
-# hist(epa_errors, my_breaks)
-# 
-# synthetic<- sapply(Daily$PM2.5, function(x) rnorm(1, 0, sd = 1 + 0.2*x))
-# hist(synthetic, my_breaks)
-# 
-# plot(log(Daily$PM2.5), synthetic, ylim=c(-20, 40))
-# abline(0,0)
-# 
-# plot(log(Daily$PM2.5), epa_errors, ylim=c(-20, 40))
-# abline(0,0)
 
