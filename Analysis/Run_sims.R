@@ -3,7 +3,7 @@ setwd("/n/home13/econsidine")
 ## Using functions from Sim_functions.R
 source("LCS_placement_sims/Analysis/Sim_functions.R")
 
-name<- "SA-000"
+name<- "SA-000" # Change this name to reflect the type and amount of measurement error in the current simulation
 
 ### All PA sensor locations:
 Results<- run_sim(303, which(CA_clean$AQS_site==1), which(CA_clean$PA_site==1), 
