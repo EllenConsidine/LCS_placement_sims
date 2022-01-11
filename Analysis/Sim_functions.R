@@ -1,74 +1,65 @@
+### Functions used for each trial in each simulation
+
 ## Packages:
 library(FNN)
 library(MetricsWeighted)
-# library(ggplot2)
 
 ## Reading in data:
-
 setwd("/n/home13/econsidine")
 
-CA_clean<- readRDS("LCS_data/CA_clean_projected.rds")
+CA_clean<- readRDS("LCS_data/CA_clean_projected.rds") # sociodemographic and other data about each grid point in California in 2016
 n_obs<- dim(CA_clean)[1]
-my_nas0<- readRDS("LCS_data/CA_NA_pos.rds")
-
-# ann_avg<- readRDS("CA_2016_averages.rds")
-# ann_avg<- ann_avg[!my_nas0]
+my_nas0<- readRDS("LCS_data/CA_NA_pos.rds") # the positions of NAs 
 
 days<- 1:366 # all
 
 # days<- c(15, 46, 75, 106, 
 #          136, 167, 197, 228,
-#          259, 289, 320, 350) # 15th of each month
+#          259, 289, 320, 350) # 15th of each month, to test locally
 
-# days<- c(1, 15, 32, 46, 61, 75, 92, 106,
-#          122, 136, 153, 167, 183, 197, 214, 228,
-#          245, 259, 275, 289, 306, 320, 336, 350) # 1st and 15th of each month
-
-# days<- seq(2,366,by=2) # every other day
 n_days<- length(days)
 
 Real<- readRDS("LCS_data/Daily_PM25_CA.rds")[as.vector(sapply(days, function(x) (x-1)*length(my_nas0)+(1:length(my_nas0))))][rep(!my_nas0,n_days)]
 
-# load("Analysis/Simulate_PA_ME.RData")
-source("LCS_placement_sims/Analysis/Calibrate_PA.R") # includes Deciles for Real
+source("LCS_placement_sims/Analysis/Calibrate_PA.R") # includes Deciles for Real (Di et al. PM2.5 estimates)
 Deciles<- Deciles[as.vector(sapply(days, function(x) (x-1)*n_obs+(1:n_obs)))]
-source("LCS_placement_sims/Analysis/AQI_equation.R") # includes Real_class
+source("LCS_placement_sims/Analysis/AQI_equation.R") # includes Real_class (AQI classification of the estimates)
 Real_class<- Real_class[as.vector(sapply(days, function(x) (x-1)*n_obs+(1:n_obs)))]
                                          
-Real_class1<- Real_class > 2
+Real_class1<- Real_class > 2 # indicator for whether the AQI classification is "Unhealthy" or not
                                          
 
 ### For each trial:
 
 results<- function(DF, pos, error_pos=NULL, err=NULL, Name=NULL, w){
          
-  NN<- get.knnx(DF[pos,c("Easting", "Northing")], DF[,c("Easting", "Northing")], k=1)
+  NN<- get.knnx(DF[pos,c("Easting", "Northing")], DF[,c("Easting", "Northing")], k=1) # finding the nearest neighbor (NN) monitor/sensor to each grid point in CA
   IDs<- DF[pos,"ID"][NN$nn.index]
   get<- match(IDs, DF$ID)
-  Get<- as.vector(sapply(1:n_days, function(x) (x-1)*n_obs+(get)))
+  Get<- as.vector(sapply(1:n_days, function(x) (x-1)*n_obs+(get))) # the index of which location to be "looking" to for data
                          
-  dists<- NN$nn.dist
+  dists<- NN$nn.dist # the distance to the NN monitor/sensor, in meters because "Easting" & "Northing" are projections in meters
   Dists<- rep(dists, n_days)
   
-  if(is.null(error_pos)){
+  if(is.null(error_pos)){ # When there are no LCS "deployed"
          NN_pa<- DF[pos,"PA_site"][NN$nn.index] 
-  }else{
+  }else{ 
          DF$error_site<- 0
          DF$error_site[error_pos]<- 1
-         NN_pa<- DF[pos,"error_site"][NN$nn.index] 
+         NN_pa<- DF[pos,"error_site"][NN$nn.index] # whether or not the NN monitor/sensor is a LCS (as opposed to an AQS monitor)
   }
   NN_PA<- rep(NN_pa, n_days)
                          
   RwE<- Real
   
-  ### Simulating measurement errors from the LCSs: 
+  ### Simulating measurement errors from the LCS: 
   if(!is.null(error_pos)){ 
     Error_pos<- as.vector(sapply(1:n_days, function(x) (x-1)*n_obs+(error_pos)))
-      eps<- 0
-#     eps<- rnorm(length(Real[Error_pos]), mean=0, sd=0.5) # 0.25*5 = 1.25, 0.1*5 = 0.5
-#     eps<- sapply(Real[Error_pos], function(x) rnorm(1,mean=0,sd=0.1*x)) # fraction based on literature
-#     eps<- sapply(Deciles[Error_pos], function(q) sample(Q_resids[[q]], size=1))
-    RwE[Error_pos]<- Real[Error_pos]+eps
+      eps<- 0 # when there is no sensor measurement error (ME)
+#     eps<- rnorm(length(Real[Error_pos]), mean=0, sd=0.5) # Non-differential ME: 0.1*5 = 0.5, 0.25*5 = 1.25; the average unweighted PM2.5 in the study region/period is ~ 5 ug/m3
+#     eps<- sapply(Real[Error_pos], function(x) rnorm(1,mean=0,sd=0.1*x)) # Differential ME: 10% or 25% (fractions based on literature)
+#     eps<- sapply(Deciles[Error_pos], function(q) sample(Q_resids[[q]], size=1)) # EPA residual sampling
+    RwE[Error_pos]<- Real[Error_pos]+eps # adding ME to the locations with LCS
   } 
   
   Shown<- RwE[Get]
