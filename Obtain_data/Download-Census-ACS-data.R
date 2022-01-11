@@ -24,7 +24,7 @@ get_variables <- function(plan, var, year) {
   return(plan[[var]][[data_key]])
 }
 
-variable_path <- "Getting data/census_vars.yml" # OR "census_vars_tracts.yml" for the variables only available at Census tract (not block group) level
+variable_path <- "Getting data/Census_variables.yml" # OR "Census_variables_tracts.yml" for the variables only available at Census tract (not block group) level
 
 variable_plan <- yaml.load_file(variable_path)
 
