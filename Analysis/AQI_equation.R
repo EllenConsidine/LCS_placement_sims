@@ -10,7 +10,7 @@ AQI_high<- c(50, 100, 150, 200, 300, 500)
 
 AQI_table<- data.frame(Class=1:6, Conc_low, Conc_high, AQI_low, AQI_high)
 
-## Function
+## Function to calculate AQI:
 AQI_x<- function(x){ #takes in concentration of interest
   n_r<- which((AQI_table$Conc_low <= x)&(AQI_table$Conc_high > x))
   aqi<-(AQI_table$AQI_high[n_r]-AQI_table$AQI_low[n_r])/(AQI_table$Conc_high[n_r]-AQI_table$Conc_low[n_r])*(x-AQI_table$Conc_low[n_r])+AQI_table$AQI_low[n_r]
@@ -18,6 +18,7 @@ AQI_x<- function(x){ #takes in concentration of interest
   # return(c(round(aqi), AQI_table$Class[n_r]))
 }
 
+## Function to calculate AQI classification:
 AQI_class<- function(x){ #takes in concentration of interest
   n_r<- which((AQI_table$Conc_low <= x)&(AQI_table$Conc_high > x))
   aqi<-(AQI_table$AQI_high[n_r]-AQI_table$AQI_low[n_r])/(AQI_table$Conc_high[n_r]-AQI_table$Conc_low[n_r])*(x-AQI_table$Conc_low[n_r])+AQI_table$AQI_low[n_r]
@@ -30,7 +31,7 @@ AQI<- unlist(sapply(PM, AQI_x))
 AQI_ref<- data.frame(PM=0:500, AQI=c(AQI, 500)) # gives one less row for some reason
 AQI_ref$Class<- c(unlist(sapply(PM, AQI_class)), 6)
 
-## Calculate AQI + classes for Daily_PM:
+## Calculate AQI + classes for Daily_PM (all 366 days of "observations" from Di et al. estimates)
 
 # Real_match<- match(round(Daily_PM), AQI_ref$PM)
 # Real_aqi<- AQI_ref$AQI[Real_match]
@@ -41,7 +42,3 @@ AQI_ref$Class<- c(unlist(sapply(PM, AQI_class)), 6)
 # Real_aqi<- readRDS("Daily_PM_AQI.rds")
 Real_class<- readRDS("LCS_data/Daily_PM_AQI-class.rds")
 
-# these<- seq(10, 200, 10)
-# these_aqis<- sapply(these, AQI)
-# 
-# plot(these, these_aqis)
