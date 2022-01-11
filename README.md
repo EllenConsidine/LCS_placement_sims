@@ -10,6 +10,8 @@ Comparing distributions of low-cost sensors in terms of accuracy and equity of r
   * __QD_locations.R__ -- identifies which grid points in each file created by Di et al. are in California using a spatial overlay. 
   * __QD_get_CA.R__ -- cycles through the daily PM2.5 Di et al. files and extracts the measurements for grid points in California.
   * __Combining_Di_data.R__ -- combines the daily PM2.5 estimates for California into one file (to be read in all at once). 
+* __Get_Nearest_PA_locations.R__ -- identifies PurpleAir sensors which are located within 50 meters of an AQS reference monitor in California.
+* __PA_historical_data.ipynb__ -- uses a wrapper module for the PurpleAir API to download data from outdoor PurpleAir sensors in California.
 * __School-Locs.R__ -- extracts the locations of public schools in California from a national shapefile.
 * __Road_lengths.R__ -- calculates lengths of major roads/highways within 50, 100, 250, and 500 meters (circular buffers) of each grid point in California.
 * __Download-Census-ACS-data.R__ -- downloads and combines sociodemographic variables at the block group and tract levels with a shapefile of all the block groups, which contains general information such as population density. The variables downloaded can be changed in __Census_variables.yml__ or __Census_variables_tracts.yml__
