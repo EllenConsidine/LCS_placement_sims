@@ -6,10 +6,12 @@ Comparing distributions of low-cost sensors in terms of accuracy and equity of r
 *PurpleAir data (from 2020) obtained via the API on 1/11/22.*
 
 #### Scripts used to process these data sets:
-* Di PM2.5 exposures:
+* Di et al. PM2.5 exposure estimates:
   * __QD_locations.R__ -- identifies which grid points in each file created by Di et al. are in California using a spatial overlay. 
   * __QD_get_CA.R__ -- cycles through the daily PM2.5 Di et al. files and extracts the measurements for grid points in California.
   * __Combining_Di_data.R__ -- combines the daily PM2.5 estimates for California into one file (to be read in all at once). 
+* __School-Locs.R__ -- extracts the locations of public schools in California from a national shapefile.
+* __Road_lengths.R__ -- calculates lengths of major roads/highways within 50, 100, 250, and 500 meters (circular buffers) of each grid point in California.
 * __Download-Census-ACS-data.R__ -- downloads and combines sociodemographic variables at the block group and tract levels with a shapefile of all the block groups, which contains general information such as population density. The variables downloaded can be changed in __Census_variables.yml__ or __Census_variables_tracts.yml__
 *  
 
