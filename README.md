@@ -6,6 +6,7 @@ Comparing distributions of low-cost sensors in terms of accuracy and equity of r
 *PurpleAir data (from 2020) obtained via the API on 1/11/22.*
 
 #### Scripts used to download and process these data sets:
+* __EPA_AQS.R__ --
 * Di et al. PM2.5 exposure estimates:
   * __QD_locations.R__ -- identifies which grid points in each file created by Di et al. are in California using a spatial overlay. 
   * __QD_get_CA.R__ -- cycles through the daily PM2.5 Di et al. files and extracts the measurements for grid points in California.
