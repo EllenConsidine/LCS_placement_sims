@@ -18,10 +18,10 @@ Metrics<- c(rep(c("MAE", "RMSE"),3),
             rep("Mean % of NNs that are LCSs, among all misclassifications",3),
             rep("% Unhealthy and Showing Healthy",3))
 
-prefix<- "SA-clsad-010-" # Change this name to reflect the type and amount of measurement error in the current simulation
+prefix<- "EPA-resids" # Change this name to reflect the type and amount of measurement error in the current simulation
 suffix<- "_avg.csv"
 
-directory<- "New_LCS_results"
+directory<- "LCS_results"
 
 pre_files<- list.files(directory,
            prefix)
@@ -46,7 +46,7 @@ for(i in 1:25){
 colnames(UNW)<- UNW_Names
 row.names(UNW)<- Metrics
 
-write.csv(UNW, paste0(directory, "/", prefix, "Results_366_days_unweighted.csv"))
+write.csv(UNW, paste0(directory, "/", prefix, "-Results_366_days_unweighted.csv"))
 
 
 ## Get weighted:
@@ -67,13 +67,13 @@ for(i in 1:25){
 colnames(W)<- W_Names
 row.names(W)<- Metrics
 
-write.csv(W, paste0(directory,"/", prefix, "Results_366_days_weighted.csv"))
+write.csv(W, paste0(directory,"/", prefix, "-Results_366_days_weighted.csv"))
 
 #####################################################################
 ############ Putting everything together to prepare for Shiny / other plotting functions:
 
-pdw<- read.csv(paste0(directory, "/", prefix, "Results_366_days_weighted.csv"))
-unw<- read.csv(paste0(directory, "/", prefix, "Results_366_days_unweighted.csv"))
+pdw<- read.csv(paste0(directory, "/", prefix, "-Results_366_days_weighted.csv"))
+unw<- read.csv(paste0(directory, "/", prefix, "-Results_366_days_unweighted.csv"))
 
 names(pdw)[1]<- "X"
 names(unw)[1]<- "X"
@@ -132,14 +132,14 @@ unw[54,2:27]<- as.numeric(unw[51,2:27])/unhealthy_unw[3]
 names(pdw)<- Names
 names(unw)<- Names
 
-write.csv(pdw, paste0(directory, "/", prefix, "LCS_final_results_12-23-21_weighted.csv"), row.names=FALSE)
-write.csv(unw, paste0(directory, "/", prefix, "LCS_final_results_12-23-21_unweighted.csv"), row.names=FALSE)
+write.csv(pdw, paste0(directory, "/", prefix, "-LCS_final_results_weighted.csv"), row.names=FALSE)
+write.csv(unw, paste0(directory, "/", prefix, "-LCS_final_results_unweighted.csv"), row.names=FALSE)
                  
 #################################
 
 ### Merging results from all PA sites being used:
-pdw<- read.csv(paste0(directory, "/", prefix, "All_PA_sites.csv"))
-unw<- read.csv(paste0(directory, "/", prefix, "All_PA_sites_unweighted.csv"))
+pdw<- read.csv(paste0(directory, "/", prefix, "-All_PA_sites.csv"))
+unw<- read.csv(paste0(directory, "/", prefix, "-All_PA_sites_unweighted.csv"))
 
 DF<- data.frame(Metrics, PDW=pdw, UNW=unw)
-write.csv(DF, paste0(directory, "/", prefix, "All_PA_sites_results_12-23-21.csv"), row.names=FALSE)
+write.csv(DF, paste0(directory, "/", prefix, "-All_PA_sites_results.csv"), row.names=FALSE)
