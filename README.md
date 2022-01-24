@@ -11,7 +11,7 @@ Investigating factors affecting accuracy and equity of real-time air quality inf
 *There are several lines to change manually between the simulations, with different types and amounts of sensor measurement error (ME):*
 * In the __results__ function in the __Sim_functions.R__ script, uncomment / comment out the line corresponding to the type of ME you're using.
 * In the __Run_sims.R__ script, change the variable "name" on line 6, to update all the file names to what you want for that type of ME.
-* In the __Merging_results.R__ script, change the variable "prefix" on line 20, to update all the file names to what you want for that type of ME. Might also want to change the date in the final file names, lines 135-145. 
+* In the __Merging_results.R__ script, change the variable "prefix" on line 20, to update all the file names to what you want for that type of ME.
 
 #### Scripts in order:
 1. __Run_sims.R__ -- runs 50 trials per placement strategy and number of LCS "deployed", saving both the results from each trial and the average metrics across the 50 trials. *Note: I ended up running these simulations sequentially due to the queuing structure of our university's cluster, however, they are set up to be easy to run in parallel should that be easier on a different platform.*
