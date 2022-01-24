@@ -3,7 +3,7 @@ Investigating factors affecting accuracy and equity of real-time air quality inf
 
 ## Obtaining Data
 
-#### Scripts used to download and process these data sets:
+#### Scripts used to download and process the data sets upon which the simulations are based:
 * __EPA_AQS.R__ -- processes AQS monitoring data from California, setting a few negative values to zero and only keeping daily averages from days with 18 or more hours observed. The AQS summary files can be found on [the EPA website](https://aqs.epa.gov/aqsweb/airdata/download_files.html). We used the PM2.5 88101 and 88502 summary files from 2020. 
 * Di et al. PM2.5 exposure estimates: _these data can now be accessed [here](https://sedac.ciesin.columbia.edu/data/set/aqdh-pm2-5-concentrations-contiguous-us-1-km-2000-2016), however, they are in a slightly different format than what we originally received from the authors and used in our code._
   * __QD_locations.R__ -- identifies which grid points in each file created by Di et al. are in California using a spatial overlay. 
