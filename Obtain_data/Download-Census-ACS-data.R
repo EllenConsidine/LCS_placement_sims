@@ -9,13 +9,14 @@ library(sf)
 
 readRenviron("~/.Renviron")
 
-# ## Exploring:
+## Exploring available variables:
 v16 <- load_variables(2016, "acs5", cache = TRUE)
 View(v16)
 
 v0 <- load_variables(2000, "sf3", cache = TRUE)
 View(v0)
 
+## Setup:
 setwd("C:/Users/ellen/OneDrive/MyDocs/Graduate Research/Low-cost AQ sensor epi")
 
 get_variables <- function(plan, var, year) {
@@ -24,12 +25,13 @@ get_variables <- function(plan, var, year) {
   return(plan[[var]][[data_key]])
 }
 
+## Specify the variables you want to download:
 variable_path <- "Getting data/Census_variables.yml" # OR "Census_variables_tracts.yml" for the variables only available at Census tract (not block group) level
 
 variable_plan <- yaml.load_file(variable_path)
 
 ## ACS 5 year data available from 2009 forward, decennial data in 2000, 2010
-data_years <- c(2016)
+data_years <- c(2016) # change this if you want data from a different year
 
 out <- NULL
 for (year in data_years) {
@@ -139,11 +141,11 @@ for (year in data_years) {
   
 }
 
-## For separate variables:
+## For separate variables, once you run each one with the corresponding variable list (yaml file):
 write.csv(out, "Getting data/Block_vars.csv", row.names = FALSE)
 write.csv(out, "Getting data/Tract_vars.csv", row.names = FALSE)
 
-## Create framework to allow missingness
+## Create framework to allow missingness by using existing shapefile of Census block groups:
 # map_data <- block_groups(state = "CA") # 50 MB
 # map_vars<- c("COUNTYFP", "TRACTCE", "GEOID", "INTPTLAT", "INTPTLON", "geometry")
 # map_data <- as.tbl(data.frame(fips = map_data$GEOID,
