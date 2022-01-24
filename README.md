@@ -37,4 +37,6 @@ Additionally, the __Summarize_MEs.R__ script can be used to calculate the standa
 * __Merge_CA.R__ -- combines static information (locations of monitors and sensors, sociodemographic info, etc.) to use in the simulations. The CalEnviroScreen (CES) data can be downloaded [here](https://oehha.ca.gov/calenviroscreen/report/calenviroscreen-30). We used CES 3.0 in this analysis; now, CES 4.0 is available.
 
 
+## Questions? 
+#### Contact Ellen Considine, ellen_considine@g.harvard.edu
 
