@@ -34,7 +34,7 @@ Additionally, the __Summarize_MEs.R__ script can be used to calculate the standa
 * __School-Locs.R__ -- extracts the locations of public schools in California from a national shapefile, accessible [here](https://nces.ed.gov/programs/edge/geographic/schoollocations).
 * __Road_lengths.R__ -- calculates lengths of major roads/highways within 50, 100, 250, and 500 meters (circular buffers) of each grid point in California, using the National Highway Planning Network shapefile, which can be accessed [here](https://data-usdot.opendata.arcgis.com/datasets/national-highway-planning-network/explore?location=45.117500%2C63.327200%2C3.46).
 * __Download-Census-ACS-data.R__ -- downloads and combines sociodemographic variables at the Census block group and Census tract levels with a shapefile of all the block groups, which contains general information such as population density. The script uses the package __tidycensus__. The variables downloaded can be changed in __Census_variables.yml__ or __Census_variables_tracts.yml__
-* __Merge_CA.R__ -- combines static information (locations of monitors and sensors, sociodemographic info, etc.) to use in the simulations. 
+* __Merge_CA.R__ -- combines static information (locations of monitors and sensors, sociodemographic info, etc.) to use in the simulations. The CalEnviroScreen (CES) data can be downloaded [here](https://oehha.ca.gov/calenviroscreen/report/calenviroscreen-30). We used CES 3.0 in this analysis; now, CES 4.0 is available.
 
 
 
