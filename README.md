@@ -1,9 +1,7 @@
 # LCS_placement_sims
-Comparing distributions of low-cost sensors in terms of accuracy and equity of real-time air quality information
+Investigating factors affecting accuracy and equity of real-time air quality information, resulting from deployment of low-cost sensors. 
 
 ## Obtaining Data
-
-*PurpleAir data (from 2020) obtained via the API on 1/11/22 (channel A) and 1/23/22 (channel B).*
 
 #### Scripts used to download and process these data sets:
 * __EPA_AQS.R__ -- processes AQS monitoring data from California, setting a few negative values to zero and only keeping daily averages from days with 18 or more hours observed. The AQS summary files can be found on [the EPA website](https://aqs.epa.gov/aqsweb/airdata/download_files.html). We used the PM2.5 88101 and 88502 summary files from 2020. 
@@ -12,7 +10,7 @@ Comparing distributions of low-cost sensors in terms of accuracy and equity of r
   * __QD_get_CA.R__ -- cycles through the daily PM2.5 Di et al. files and extracts the measurements for grid points in California.
   * __Combining_Di_data.R__ -- combines the daily PM2.5 estimates for California into one file (to be read in all at once). 
 * __Get_Nearest_PA_locations.R__ -- identifies PurpleAir sensors which are located within 50 meters of an AQS reference monitor in California. Uses a list of PurpleAir located outdoors, which is obtained in PA_historical_data.ipynb (below). 
-* __PA_historical_data.ipynb__ -- uses [a wrapper module for the PurpleAir API](https://github.com/ReagentX/purple_air_api/) to download data from outdoor PurpleAir sensors in California. As currently written, the user must specify "parent" or "child" (in the places indicated in the script) to obtain data from PurpleAir channels A or B, respectively.
+* __PA_historical_data.ipynb__ -- uses [a wrapper module for the PurpleAir API](https://github.com/ReagentX/purple_air_api/) to download data from outdoor PurpleAir sensors in California. As currently written, the user must specify "parent" or "child" (in the places indicated in the script) to obtain data from PurpleAir channels A or B, respectively. *PurpleAir data (from 2020) obtained via the API on 1/11/22 (channel A) and 1/23/22 (channel B).*
 * __School-Locs.R__ -- extracts the locations of public schools in California from a national shapefile, accessible [here](https://nces.ed.gov/programs/edge/geographic/schoollocations).
 * __Road_lengths.R__ -- calculates lengths of major roads/highways within 50, 100, 250, and 500 meters (circular buffers) of each grid point in California, using the National Highway Planning Network shapefile, which can be accessed [here](https://data-usdot.opendata.arcgis.com/datasets/national-highway-planning-network/explore?location=45.117500%2C63.327200%2C3.46).
 * __Download-Census-ACS-data.R__ -- downloads and combines sociodemographic variables at the Census block group and Census tract levels with a shapefile of all the block groups, which contains general information such as population density. The script uses the package __tidycensus__. The variables downloaded can be changed in __Census_variables.yml__ or __Census_variables_tracts.yml__
