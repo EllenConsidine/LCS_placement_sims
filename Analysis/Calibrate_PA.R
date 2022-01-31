@@ -236,6 +236,7 @@ for(i in 1:10){
 
 Deciles<- readRDS("LCS_data/Real_deciles_updated_1-24-2022.rds")
 
+## Used to generate SI Table A.1:
 # for(i in 1:10){
 #   print(i)
 #   print(summary(Real[which(Deciles == i)]))
