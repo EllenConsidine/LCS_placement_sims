@@ -1,4 +1,4 @@
-### Measurement Error Illustrations:
+#### Used to generate SI Figure A.3
 
 Daily<- read.csv("Intermediate data/Daily_AQS_PA_2020_both-channels.csv")
 outdoor<- read.csv("Getting data/PA_outside.csv")$id
