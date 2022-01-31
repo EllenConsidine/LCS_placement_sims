@@ -81,15 +81,15 @@ my_plot<- function(df, j, t, units = "", ylab = NULL, Ylim = NULL){
 
 ### MAE and distance plots: five ME variations and distance to NN -- 3x2, equal sized
 
-d<- my_plot(df = read.csv("Analysis/Results/Clsad results/SA-clsad-025-LCS_final_results_12-23-21_weighted.csv"),
+d<- my_plot(df = read.csv("Analysis/Results/Clsad results/SA-clsad-025-LCS_final_results_weighted.csv"),
             j = 10, t = "Distance to Nearest Monitor or Sensor", ylab = "Avg. Distance (m)")
-m1<- my_plot(df = read.csv("Analysis/Results/Sensitivity Analysis/LCS_final_results_SA_weighted.csv"),
+m1<- my_plot(df = read.csv("Analysis/Results/Sensitivity Analysis/LCS_final_results_SA_weighted.csv"), # No sensor ME
              j = 6, t = "No Sensor Measurement Error: MAE", ylab = "MAE (ug/m^3)")
-m2<- my_plot(df = read.csv("Analysis/Results/Clsad results/SA-clsad-025-LCS_final_results_12-23-21_weighted.csv"),
+m2<- my_plot(df = read.csv("Analysis/Results/Clsad results/SA-clsad-025-LCS_final_results_weighted.csv"),
              j = 6, t = "25% Non-differential Measurement Error: MAE", ylab = "MAE (ug/m^3)")
-m3<- my_plot(df = read.csv("Analysis/Results/New_results/SA-010-LCS_final_results_12-23-21_weighted.csv"),
+m3<- my_plot(df = read.csv("Analysis/Results/New_results/SA-010-LCS_final_results_weighted.csv"),
              j = 6, t = "10% Differential Measurement Error: MAE", ylab = "MAE (ug/m^3)")
-m4<- my_plot(df = read.csv("Analysis/Results/New_results/SA-025-LCS_final_results_12-10-21_weighted.csv"),
+m4<- my_plot(df = read.csv("Analysis/Results/New_results/SA-025-LCS_final_results_weighted.csv"),
              j = 6, t = "25% Differential Measurement Error: MAE", ylab = "MAE (ug/m^3)")
 m5<- my_plot(df = read.csv("Analysis/Results/Final EPA results/EPA-resids-LCS_final_results_weighted.csv"),
              j = 6, t = "EPA Calibration Residual Draws: MAE", ylab = "MAE (ug/m^3)")
@@ -117,16 +117,16 @@ dev.off()
 uh1<- my_plot(df = read.csv("Analysis/Results/Sensitivity Analysis/LCS_final_results_SA_weighted.csv"),
              j = 2, t = "No Sensor Measurement Error: UHM", 
              ylab = "UH Misclassifications (%)", Ylim = c(0.08, 0.28))
-uh2<- my_plot(df = read.csv("Analysis/Results/Clsad results/SA-clsad-010-LCS_final_results_12-23-21_weighted.csv"),
+uh2<- my_plot(df = read.csv("Analysis/Results/Clsad results/SA-clsad-010-LCS_final_results_weighted.csv"),
                     j = 2, t = "10% Non-differential Measurement Error: UHM", 
               ylab = "UH Misclassifications (%)", Ylim = c(0.08, 0.28))
-uh3<- my_plot(df = read.csv("Analysis/Results/Clsad results/SA-clsad-025-LCS_final_results_12-23-21_weighted.csv"),
+uh3<- my_plot(df = read.csv("Analysis/Results/Clsad results/SA-clsad-025-LCS_final_results_weighted.csv"),
              j = 2, t = "25% Non-differential Measurement Error: UHM", 
              ylab = "UH Misclassifications (%)", Ylim = c(0.08, 0.28))
-uh4<- my_plot(df = read.csv("Analysis/Results/New_results/SA-010-LCS_final_results_12-23-21_weighted.csv"),
+uh4<- my_plot(df = read.csv("Analysis/Results/New_results/SA-010-LCS_final_results_weighted.csv"),
              j = 2, t = "10% Differential Measurement Error: UHM", 
              ylab = "UH Misclassifications (%)", Ylim = c(0.08, 0.28))
-uh5<- my_plot(df = read.csv("Analysis/Results/New_results/SA-025-LCS_final_results_12-10-21_weighted.csv"),
+uh5<- my_plot(df = read.csv("Analysis/Results/New_results/SA-025-LCS_final_results_weighted.csv"),
              j = 2, t = "25% Differential Measurement Error: UHM", 
              ylab = "UH Misclassifications (%)", Ylim = c(0.08, 0.28))
 uh6<- my_plot(df = read.csv("Analysis/Results/Final EPA results/EPA-resids-LCS_final_results_weighted.csv"),
@@ -157,13 +157,13 @@ dev.off()
 
 dm1<- my_plot(df = read.csv("Analysis/Results/Sensitivity Analysis/LCS_final_results_SA_weighted.csv"),
               j = 12, t = "No Sensor ME: Distance Among Misclass. > 1", ylab = "Avg. Distance (m)")
-dm2<- my_plot(df = read.csv("Analysis/Results/Clsad results/SA-clsad-010-LCS_final_results_12-23-21_weighted.csv"),
+dm2<- my_plot(df = read.csv("Analysis/Results/Clsad results/SA-clsad-010-LCS_final_results_weighted.csv"),
               j = 12, t = "10% Non-differential ME: Distance Among Misclass. > 1", ylab = "Avg. Distance (m)")
-dm3<- my_plot(df = read.csv("Analysis/Results/Clsad results/SA-clsad-025-LCS_final_results_12-23-21_weighted.csv"),
+dm3<- my_plot(df = read.csv("Analysis/Results/Clsad results/SA-clsad-025-LCS_final_results_weighted.csv"),
               j = 12, t = "25% Non-differential ME: Distance Among Misclass. > 1", ylab = "Avg. Distance (m)")
-dm4<- my_plot(df = read.csv("Analysis/Results/New_results/SA-010-LCS_final_results_12-23-21_weighted.csv"),
+dm4<- my_plot(df = read.csv("Analysis/Results/New_results/SA-010-LCS_final_results_weighted.csv"),
               j = 12, t = "10% Differential ME: Distance Among Misclass. > 1", ylab = "Avg. Distance (m)")
-dm5<- my_plot(df = read.csv("Analysis/Results/New_results/SA-025-LCS_final_results_12-10-21_weighted.csv"),
+dm5<- my_plot(df = read.csv("Analysis/Results/New_results/SA-025-LCS_final_results_weighted.csv"),
               j = 12, t = "25% Differential ME: Distance Among Misclass. > 1", ylab = "Avg. Distance (m)")
 dm6<- my_plot(df = read.csv("Analysis/Results/New_results/LCS_final_results_12-10-21_weighted.csv"),
               j = 12, t = "EPA Calibration Residuals: Distance Among Misclass. > 1", ylab = "Avg. Distance (m)")
@@ -185,41 +185,6 @@ legend<- get_legend(dm1 + theme(legend.position = "bottom", legend.box = "vertic
 plot_grid(DMrow, legend, ncol = 1, rel_heights = c(4, 0.5))
 
 dev.off()
-
-## Distance to NN among misclass. > 1
-
-dm1<- my_plot(df = read.csv("Analysis/Results/Sensitivity Analysis/LCS_final_results_SA_weighted.csv"),
-              j = 12, t = "No Sensor ME: Distance Among Misclass. > 1", ylab = "Avg. Distance (m)")
-dm2<- my_plot(df = read.csv("Analysis/Results/Clsad results/SA-clsad-010-LCS_final_results_12-23-21_weighted.csv"),
-              j = 12, t = "10% Non-differential ME: Distance Among Misclass. > 1", ylab = "Avg. Distance (m)")
-dm3<- my_plot(df = read.csv("Analysis/Results/Clsad results/SA-clsad-025-LCS_final_results_12-23-21_weighted.csv"),
-              j = 12, t = "25% Non-differential ME: Distance Among Misclass. > 1", ylab = "Avg. Distance (m)")
-dm4<- my_plot(df = read.csv("Analysis/Results/New_results/SA-010-LCS_final_results_12-23-21_weighted.csv"),
-              j = 12, t = "10% Differential ME: Distance Among Misclass. > 1", ylab = "Avg. Distance (m)")
-dm5<- my_plot(df = read.csv("Analysis/Results/New_results/SA-025-LCS_final_results_12-10-21_weighted.csv"),
-              j = 12, t = "25% Differential ME: Distance Among Misclass. > 1", ylab = "Avg. Distance (m)")
-dm6<- my_plot(df = read.csv("Analysis/Results/Final EPA results/EPA-resids-LCS_final_results_weighted.csv"),
-              j = 12, t = "EPA Calibration Residuals: Distance Among Misclass. > 1", ylab = "Avg. Distance (m)")
-
-DMrow<- plot_grid(dm1 + theme(legend.position="none"),
-                 dm2 + theme(legend.position="none"),
-                 dm3 + theme(legend.position="none"),
-                 dm4 + theme(legend.position="none"),
-                 dm5 + theme(legend.position="none"),
-                 dm6 + theme(legend.position="none"),
-                 nrow = 3)
-
-png("Final Plots/Dist-Large-Misclass_weighted.png", width = 795, height = 645)
-
-legend<- get_legend(dm1 + theme(legend.position = "bottom", legend.box = "vertical",
-                                legend.key.width = unit(2, "line"),
-                                legend.spacing.y = unit(0.1, "cm")))
-
-plot_grid(DMrow, legend, ncol = 1, rel_heights = c(4, 0.5))
-
-dev.off()
-
-
 
 
 
