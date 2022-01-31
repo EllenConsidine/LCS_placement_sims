@@ -186,6 +186,38 @@ plot_grid(DMrow, legend, ncol = 1, rel_heights = c(4, 0.5))
 
 dev.off()
 
+## Distance to NN among misclass. > 1
+
+dm1<- my_plot(df = read.csv("Analysis/Results/Sensitivity Analysis/LCS_final_results_SA_weighted.csv"),
+              j = 12, t = "No Sensor ME: Distance Among Misclass. > 1", ylab = "Avg. Distance (m)")
+dm2<- my_plot(df = read.csv("Analysis/Results/Clsad results/SA-clsad-010-LCS_final_results_12-23-21_weighted.csv"),
+              j = 12, t = "10% Non-differential ME: Distance Among Misclass. > 1", ylab = "Avg. Distance (m)")
+dm3<- my_plot(df = read.csv("Analysis/Results/Clsad results/SA-clsad-025-LCS_final_results_12-23-21_weighted.csv"),
+              j = 12, t = "25% Non-differential ME: Distance Among Misclass. > 1", ylab = "Avg. Distance (m)")
+dm4<- my_plot(df = read.csv("Analysis/Results/New_results/SA-010-LCS_final_results_12-23-21_weighted.csv"),
+              j = 12, t = "10% Differential ME: Distance Among Misclass. > 1", ylab = "Avg. Distance (m)")
+dm5<- my_plot(df = read.csv("Analysis/Results/New_results/SA-025-LCS_final_results_12-10-21_weighted.csv"),
+              j = 12, t = "25% Differential ME: Distance Among Misclass. > 1", ylab = "Avg. Distance (m)")
+dm6<- my_plot(df = read.csv("Analysis/Results/Final EPA results/EPA-resids-LCS_final_results_weighted.csv"),
+              j = 12, t = "EPA Calibration Residuals: Distance Among Misclass. > 1", ylab = "Avg. Distance (m)")
+
+DMrow<- plot_grid(dm1 + theme(legend.position="none"),
+                 dm2 + theme(legend.position="none"),
+                 dm3 + theme(legend.position="none"),
+                 dm4 + theme(legend.position="none"),
+                 dm5 + theme(legend.position="none"),
+                 dm6 + theme(legend.position="none"),
+                 nrow = 3)
+
+png("Final Plots/Dist-Large-Misclass_weighted.png", width = 795, height = 645)
+
+legend<- get_legend(dm1 + theme(legend.position = "bottom", legend.box = "vertical",
+                                legend.key.width = unit(2, "line"),
+                                legend.spacing.y = unit(0.1, "cm")))
+
+plot_grid(DMrow, legend, ncol = 1, rel_heights = c(4, 0.5))
+
+dev.off()
 
 
 
