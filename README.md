@@ -15,10 +15,13 @@ Investigating factors affecting accuracy and equity of real-time air quality inf
 
 #### Scripts in order:
 1. __Run_sims.R__ -- runs 50 trials per placement strategy and number of LCS "deployed", saving both the results from each trial and the average metrics across the 50 trials. *Note: I ended up running these simulations sequentially due to the queuing structure of our university's cluster, however, they are set up to be easy to run in parallel should that be easier on a different platform.*
-2. __Merging_results.R__ -- combines the results across the placement strategies and numbers of LCS "deployed", creating two results files weighted and unweighted by population density, respectively.
+2. __Merging_results.R__ -- combines the results across the placement strategies and numbers of LCS "deployed", creating two results files weighted and unweighted by population density, respectively, as well as a file with the weighted and unweighted results using all the PurpleAir locations (n=4,343).
 3. __Plot_multiple_MEs.R__ -- generates plots for manuscript (can easily run locally after transferring results files from cluster).
 
 Additionally, the __Summarize_MEs.R__ script can be used to calculate the standard deviation (weighted and unweighted by population density) of sensor measurement error when simulating differentially (either from a Normal distribution with mean zero and a standard deviation of 10% of 25% of "true" PM2.5, or drawing from EPA calibration residuals associated with the same decile of "true" PM2.5) at all the locations of PurpleAir sensors.
+
+#### All scripts used to generate figures and tables are in the subfolder Generate-Figures-Tables-Info.
+
 
 
 ## Obtaining Data (chronologically, prior to Analysis)
