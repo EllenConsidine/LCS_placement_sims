@@ -56,9 +56,9 @@ results<- function(DF, pos, error_pos=NULL, err=NULL, Name=NULL, w){
   if(!is.null(error_pos)){ 
     Error_pos<- as.vector(sapply(1:n_days, function(x) (x-1)*n_obs+(error_pos)))
 #     eps<- 0 # when there is no sensor measurement error (ME)
-#     eps<- rnorm(length(Real[Error_pos]), mean=0, sd=0.5) # Non-differential ME: 0.1*5 = 0.5, 0.25*5 = 1.25; the average unweighted PM2.5 in the study region/period is ~ 5 ug/m3
+    eps<- rnorm(length(Real[Error_pos]), mean=0, sd=0.5) # Non-differential ME: 0.1*5 = 0.5, 0.25*5 = 1.25; the average unweighted PM2.5 in the study region/period is ~ 5 ug/m3
 #     eps<- sapply(Real[Error_pos], function(x) rnorm(1,mean=0,sd=0.1*x)) # Differential ME: 10% or 25% (fractions based on literature)
-    eps<- sapply(Deciles[Error_pos], function(q) sample(Q_resids[[q]], size=1)) # EPA residual sampling
+#     eps<- sapply(Deciles[Error_pos], function(q) sample(Q_resids[[q]], size=1)) # EPA residual sampling
     RwE[Error_pos]<- Real[Error_pos]+eps # adding ME to the locations with LCS
   } 
   
