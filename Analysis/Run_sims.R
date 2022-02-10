@@ -50,7 +50,7 @@ write.csv(UNW_Results, paste0(folder, name, "-PA_N_",n,"_unweighted.csv"),
 UNW_avg_res<- apply(UNW_Results, MARGIN = 2, mean)
 write.csv(UNW_avg_res, paste0(folder, name, "-PA_N_",n,"_unweighted_avg.csv"),
           row.names = FALSE)
-print(paste("Finished with All-PurpleAir", name)
+print(paste("Finished with All-PurpleAir", name))
 
 # ## Purple Air sites:
 
