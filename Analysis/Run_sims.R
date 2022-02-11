@@ -13,7 +13,7 @@ source("LCS_placement_sims/Analysis/Sim_functions.R")
 # print("Finished with AQS")
 
 #### For each different type & amount of sensor measurement error:
-name<- "Diff-010" # Change this name
+name<- "Diff-025" # Change this name
 folder<- "LCS_results/"
 
 ## All PurpleAir sensor locations:
