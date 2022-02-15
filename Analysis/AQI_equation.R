@@ -1,5 +1,8 @@
 ## Recreate PM2.5 table
-  ## https://forum.airnowtech.org/t/the-aqi-equation/169
+  ## Reference: https://forum.airnowtech.org/t/the-aqi-equation/169
+  ## Note: one minor discrepancy in our AQI calculation (that we caught after running all the simulations for the paper) is that in the reference, 
+  ## they truncate PM2.5 concentrations to 0.1 ug/m^3, while we rounded to the nearest integer. However, this was consistent across the Real and Shown
+  ## values in our simulations.
 
 Class<- c("Good", "Moderate", "Unhealthy for Sensitive Groups",
           "Unhealthy", "Very Unhealthy", "Hazardous")
