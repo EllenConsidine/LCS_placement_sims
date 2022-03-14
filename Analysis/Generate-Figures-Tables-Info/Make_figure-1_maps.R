@@ -1,7 +1,7 @@
 library(ggplot2)
 library(maps)
 library(raster)
-library(gridExtra)
+library(cowplot)
 
 setwd("C:/Users/ellen/OneDrive/MyDocs/Graduate Research/Low-cost AQ sensor epi")
 
@@ -51,6 +51,6 @@ p4<- ggplot(data=CES, aes(x=Lon, y=Lat, color=Pollution_score)) +
   ggtitle("Pollution Score") + labs(color = "Pollution Score") + theme_void()
 
 png("Writing/Maps_CBF.png", width = 800, height = 800)
-grid.arrange(p1, p2, p4, p3, nrow=2, labels = c("(a)", "(b)", "(c)", "(d)"))
+plot_grid(p1, p2, p4, p3, nrow=2, labels = c("(a)", "(b)", "(c)", "(d)"))
 dev.off()
 
