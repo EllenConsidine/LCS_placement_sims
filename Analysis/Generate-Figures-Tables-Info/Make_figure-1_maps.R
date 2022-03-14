@@ -33,7 +33,7 @@ p1<- ggplot() + geom_polygon(data=CA, aes(x=long, y=lat),
              color = CBF[8], size = 0.75) +
   geom_point(data = DF[which(DF$AQS_site == 1),], 
              aes(x=Lon, y=Lat), color = CBF[1], shape = 17, size = 1.5) + 
-  ggtitle("AQS Monitors (triangles) and PurpleAir LCS (dots)") + theme_void()
+  ggtitle("EPA Monitors (triangles) and PurpleAir LCS (dots)") + theme_void()
 
 p2<- ggplot() + geom_polygon(data=CA, aes(x=long, y=lat), 
                              color="darkgray", fill = "white") + 
@@ -51,6 +51,6 @@ p4<- ggplot(data=CES, aes(x=Lon, y=Lat, color=Pollution_score)) +
   ggtitle("Pollution Score") + labs(color = "Pollution Score") + theme_void()
 
 png("Writing/Maps_CBF.png", width = 800, height = 800)
-grid.arrange(p1, p2, p4, p3, nrow=2)
+grid.arrange(p1, p2, p4, p3, nrow=2, labels = c("(a)", "(b)", "(c)", "(d)"))
 dev.off()
 
