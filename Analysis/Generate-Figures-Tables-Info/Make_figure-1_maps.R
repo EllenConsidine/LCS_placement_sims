@@ -33,24 +33,31 @@ p1<- ggplot() + geom_polygon(data=CA, aes(x=long, y=lat),
              color = CBF[8], size = 0.75) +
   geom_point(data = DF[which(DF$AQS_site == 1),], 
              aes(x=Lon, y=Lat), color = CBF[1], shape = 17, size = 1.5) + 
-  ggtitle("EPA Monitors (triangles) and PurpleAir LCS (dots)") + theme_void()
+#   ggtitle("EPA Monitors (triangles) and PurpleAir LCS (dots)") + 
+  theme_void()
 
 p2<- ggplot() + geom_polygon(data=CA, aes(x=long, y=lat), 
                              color="darkgray", fill = "white") + 
   geom_path(data=roads_df, aes(x=long, y=lat, group=group), color = "navy") +
   geom_point(data = DF[which(DF$School == 1),], aes(x=Lon, y=Lat),
              color = CBF[3], size = 0.75) +
-  ggtitle("Public Schools and Highways") + theme_void()
+#   ggtitle("Public Schools and Highways") + 
+  theme_void()
 
 p3<- ggplot(data=CES, aes(x=Lon, y=Lat, color=CES_score)) + 
   geom_point(size = 0.5) + scale_color_gradient(low="white", high=CBF[7]) +
-  ggtitle("CES Score") + labs(color = "CES Score") + theme_void()
+#   ggtitle("CES Score") + 
+  labs(color = "CES Score") + theme_void()
 
 p4<- ggplot(data=CES, aes(x=Lon, y=Lat, color=Pollution_score)) + 
   geom_point(size = 0.5) + scale_color_gradient(low="white", high=CBF[2]) + 
-  ggtitle("Pollution Score") + labs(color = "Pollution Score") + theme_void()
+#   ggtitle("Pollution Score") +
+  labs(color = "Pollution Score") + theme_void()
 
 png("Writing/Maps_CBF.png", width = 800, height = 800)
-plot_grid(p1, p2, p4, p3, nrow=2, labels = c("(a)", "(b)", "(c)", "(d)"))
+plot_grid(p1, p2, p4, p3, nrow=2, labels = c("(a) EPA Monitors (triangles) and PurpleAir LCS (dots)", 
+                                             "(b) Public Schools and Highways", 
+                                             "(c) CES Score", 
+                                             "(d) Pollution Score"))
 dev.off()
 
