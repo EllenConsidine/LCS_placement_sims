@@ -161,18 +161,23 @@ dev.off()
 ################################## UNWEIGHTED by pop. density
 
 ### MAE and distance: five ME variations and distance to NN -- 3x2, equal sized
-d<- my_plot(df = read.csv("Analysis/Results/Clsad results/SA-clsad-025-LCS_final_results_unweighted.csv"),
+d<- my_plot(df = read.csv("Analysis/Results/Clsad results/SA-clsad-025-LCS_final_results_12-23-21_unweighted.csv"),
             j = 10, t = "Distance to Nearest Monitor or Sensor", ylab = "Avg. Distance (m)")
 m1<- my_plot(df = read.csv("Analysis/Results/Sensitivity Analysis/LCS_final_results_SA_unweighted.csv"),
-             j = 6, t = "No Sensor Measurement Error: MAE", ylab = "MAE (ug/m^3)")
-m2<- my_plot(df = read.csv("Analysis/Results/Clsad results/SA-clsad-025-LCS_final_results_unweighted.csv"),
-             j = 6, t = "25% Non-differential Measurement Error: MAE", ylab = "MAE (ug/m^3)")
-m3<- my_plot(df = read.csv("Analysis/Results/New_results/SA-010-LCS_final_results_unweighted.csv"),
-             j = 6, t = "10% Differential Measurement Error: MAE", ylab = "MAE (ug/m^3)")
-m4<- my_plot(df = read.csv("Analysis/Results/New_results/SA-025-LCS_final_results_unweighted.csv"),
-             j = 6, t = "25% Differential Measurement Error: MAE", ylab = "MAE (ug/m^3)")
+             j = 6, t = "No Sensor Measurement Error: MAE", 
+             ylab = as.expression(bquote(~"MAE (" * mu * "g/"*m^3*")")))
+m2<- my_plot(df = read.csv("Analysis/Results/Clsad results/SA-clsad-025-LCS_final_results_12-23-21_unweighted.csv"),
+             j = 6, t = "25% Non-differential Measurement Error: MAE", 
+             ylab = as.expression(bquote(~"MAE (" * mu * "g/"*m^3*")")))
+m3<- my_plot(df = read.csv("Analysis/Results/New results/SA-010-LCS_final_results_12-23-21_unweighted.csv"),
+             j = 6, t = "10% Differential Measurement Error: MAE", 
+             ylab = as.expression(bquote(~"MAE (" * mu * "g/"*m^3*")")))
+m4<- my_plot(df = read.csv("Analysis/Results/New results/SA-025-LCS_final_results_12-10-21_unweighted.csv"),
+             j = 6, t = "25% Differential Measurement Error: MAE", 
+             ylab = as.expression(bquote(~"MAE (" * mu * "g/"*m^3*")")))
 m5<- my_plot(df = read.csv("Analysis/Results/Final EPA results/EPA-resids-LCS_final_results_unweighted.csv"),
-             j = 6, t = "EPA Calibration Residual Draws: MAE", ylab = "MAE (ug/m^3)")
+             j = 6, t = "EPA Calibration Residual Draws: MAE", 
+             ylab = as.expression(bquote(~"MAE (" * mu * "g/"*m^3*")")))
 
 Mrow<- plot_grid(d + theme(legend.position="none"),
                  m1 + theme(legend.position="none"),
