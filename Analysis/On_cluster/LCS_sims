@@ -1,0 +1,6 @@
+Rscript LCS_placement_sims/Run_sims.R "No-ME"
+Rscript LCS_placement_sims/Run_sims.R "NDf-10"
+Rscript LCS_placement_sims/Run_sims.R "NDf-25"
+Rscript LCS_placement_sims/Run_sims.R "Df-10"
+Rscript LCS_placement_sims/Run_sims.R "Df-25"
+Rscript LCS_placement_sims/Run_sims.R "EPA-resids"
