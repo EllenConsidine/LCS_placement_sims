@@ -16,5 +16,5 @@ source ~/.bashrc
 module load R/4.0.2-fasrc01
 export R_LIBS_USER=$HOME/apps/R_4-0-2:$R_LIBS_USER
 module load python/3.9.12-fasrc01
-python On_cluster/pylauncher.py --job_file="./On_cluster/LCS_sims" --i $SLURM_ARRAY_TASK_ID
+python LCS_placement_sims/Analysis/On_cluster/pylauncher.py --job_file="./LCS_placement_sims/Analysis/On_cluster/LCS_sims" --i $SLURM_ARRAY_TASK_ID
 
