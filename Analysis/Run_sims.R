@@ -14,7 +14,7 @@ print("Finished with AQS")
 
 #### For each different type & amount of sensor measurement error:
 name<- "Diff-025" # Change this name
-folder<- "LCS_results/"
+folder<- "Revised_LCS_results/"
 
 ### All PurpleAir sensor locations:
 
