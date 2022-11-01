@@ -4,7 +4,7 @@ setwd("/n/home13/econsidine")
 source("LCS_placement_sims/Analysis/Sim_functions.R")
 
 ## AQS monitors only (just have to do this once, then can comment out for the rest of the simulations):
-Results<- results(CA_clean, which(CA_clean$AQS_site == 1), w = TRUE)
+Results<- results(CA_clean, which(CA_clean$AQS_site == 1), w = TRUE, name = "AQS")
 write.csv(Results[[1]], paste0("New_LCS_results/D366-AQS_sites.csv"),
           row.names = FALSE)
 write.csv(Results[[2]], paste0("New_LCS_results/D366-AQS_sites_unweighted.csv"),
