@@ -3,19 +3,23 @@ setwd("/n/home13/econsidine")
 ## Using functions from Sim_functions.R
 source("LCS_placement_sims/Analysis/Sim_functions.R")
 
-## AQS monitors only (just have to do this once, then can comment out for the rest of the simulations):
-Results<- results(CA_clean, which(CA_clean$AQS_site == 1), w = TRUE, name = "AQS")
-write.csv(Results[[1]], paste0("New_LCS_results/D366-AQS_sites.csv"),
-          row.names = FALSE)
-write.csv(Results[[2]], paste0("New_LCS_results/D366-AQS_sites_unweighted.csv"),
-          row.names = FALSE)
+args<- commandArgs(trailing = TRUE)
 
-print("Finished with AQS")
-
-#### For each different type & amount of sensor measurement error:
-args<- commandArgs(trailing = TRUE) # Need to pass in the type+amount of sensor ME via command line
 name<- args[1] 
 folder<- "Revised_LCS_results/"
+
+## AQS monitors only (just have to do this once):
+if(args[2] == TRUE){
+          Results<- results(CA_clean, which(CA_clean$AQS_site == 1), w = TRUE, name = "AQS")
+          write.csv(Results[[1]], paste0(folder, "/D366-AQS_sites.csv"),
+                    row.names = FALSE)
+          write.csv(Results[[2]], paste0(folder, "/D366-AQS_sites_unweighted.csv"),
+                    row.names = FALSE)
+
+          print("Finished with AQS")
+}
+
+#### For each different type & amount of sensor measurement error:
 
 ### All PurpleAir sensor locations:
 
