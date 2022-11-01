@@ -31,7 +31,7 @@ Real_class1<- Real_class > 2 # indicator for whether the AQI classification is "
 
 ### For each trial:
 
-results<- function(DF, pos, error_pos=NULL, err=NULL, Name=NULL, w){
+results<- function(DF, pos, error_pos=NULL, err=NULL, w, name){
          
   NN<- get.knnx(DF[pos,c("Easting", "Northing")], DF[,c("Easting", "Northing")], k=1) # finding the nearest neighbor (NN) monitor/sensor to each grid point in CA
   IDs<- DF[pos,"ID"][NN$nn.index]
@@ -261,7 +261,7 @@ results<- function(DF, pos, error_pos=NULL, err=NULL, Name=NULL, w){
 ### Run all trials for one experiment:
                                  
 run_sim<- function(seed_num, no_err_set, err_set, frac = NULL, num = 100, 
-                   road_weights = NULL, err=NULL, weighted=FALSE){
+                   road_weights = NULL, err=NULL, weighted=FALSE, name){
   # road_weights can also be CES or Pollution Score weights!
   
   set.seed(7*seed_num)
@@ -281,9 +281,9 @@ run_sim<- function(seed_num, no_err_set, err_set, frac = NULL, num = 100,
   
   # print(seed_num)
   if(is.null(err)){
-    return(results(CA_clean, unique(c(no_err_set,these)), error_pos=these, w = weighted))
+    return(results(CA_clean, unique(c(no_err_set,these)), error_pos=these, w = weighted, name))
   }else{
-    return(results(CA_clean, unique(c(no_err_set,these)), error_pos=these, err=err, w = weighted))
+    return(results(CA_clean, unique(c(no_err_set,these)), error_pos=these, err=err, w = weighted, name))
   }
 }
 
