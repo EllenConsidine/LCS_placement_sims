@@ -26,14 +26,14 @@ folder<- "LCS_results/"
 #           row.names = FALSE)
 # print("Finished with All-PurpleAir")
 
-## Running each of the sims with sensor measurement error 50 times:
+## Running each of the All-PurpleAir sims with sensor measurement error 100 times:
 n<- sum(CA_clean$PA_site==1)
 Results<- run_sim(303, which(CA_clean$AQS_site==1), which(CA_clean$PA_site==1), 
                     num=n, weighted = TRUE)
 W_Results<- Results[[1]]
 UNW_Results<- Results[[2]]
 
-for(i in 2:50){
+for(i in 2:100){
   Results<- run_sim(303*i, which(CA_clean$AQS_site==1), 
                                    which(CA_clean$PA_site==1), 
                                    num=n, weighted = TRUE)
@@ -54,6 +54,34 @@ write.csv(UNW_avg_res, paste0(folder, name, "-PA_N_",n,"_unweighted_avg.csv"),
           row.names = FALSE)
 print(paste("Finished with All-PurpleAir", name))
 
+## Running each of the All-Schools sims with sensor measurement error 100 times:
+n<- sum(CA_clean$School==1)
+Results<- run_sim(303, which(CA_clean$AQS_site==1), which(CA_clean$School==1), 
+                    num=n, weighted = TRUE)
+W_Results<- Results[[1]]
+UNW_Results<- Results[[2]]
+
+for(i in 2:100){
+  Results<- run_sim(303*i, which(CA_clean$AQS_site==1), 
+                                   which(CA_clean$School==1), 
+                                   num=n, weighted = TRUE)
+  W_Results<- rbind(W_Results, Results[[1]])
+  UNW_Results<- rbind(UNW_Results, Results[[2]])
+  print(i)
+}
+write.csv(W_Results, paste0(folder, name, "-School_N_",n,".csv"), 
+          row.names = FALSE)
+W_avg_res<- apply(W_Results, MARGIN = 2, mean)
+write.csv(W_avg_res, paste0(folder, name, "-School_N_",n,"_avg.csv"),
+          row.names = FALSE)
+
+write.csv(UNW_Results, paste0(folder, name, "-School_N_",n,"_unweighted.csv"), 
+          row.names = FALSE)
+UNW_avg_res<- apply(UNW_Results, MARGIN = 2, mean)
+write.csv(UNW_avg_res, paste0(folder, name, "-School_N_",n,"_unweighted_avg.csv"),
+          row.names = FALSE)
+print(paste("Finished with All-Schools", name))
+
 ## Purple Air sites:
 
 for(n in c(50, 100, 250, 500, 1000)){
@@ -62,7 +90,7 @@ for(n in c(50, 100, 250, 500, 1000)){
   W_Results<- Results[[1]]
   UNW_Results<- Results[[2]]
   
-  for(i in 2:50){
+  for(i in 2:100){
     Results<- run_sim(303*i, which(CA_clean$AQS_site==1), 
                                      which(CA_clean$PA_site==1), 
                                      num=n, weighted = TRUE)
@@ -93,7 +121,7 @@ for(n in c(50, 100, 250, 500, 1000)){
   W_Results<- Results[[1]]
   UNW_Results<- Results[[2]]
           
-  for(i in 2:50){
+  for(i in 2:100){
     Results<- run_sim(303*i, which(CA_clean$AQS_site==1), 
                                      which(CA_clean$School==1), 
                                      num=n, weighted = TRUE)
@@ -130,7 +158,7 @@ for(n in c(50, 100, 250, 500, 1000)){
                     num=n, road_weights = rWeights, weighted = TRUE)
   W_Results<- Results[[1]]
   UNW_Results<- Results[[2]]
-  for(i in 2:50){
+  for(i in 2:100){
     Results<- run_sim(303*i, which(CA_clean$AQS_site==1), 
                                      1:dim(CA_clean)[1], 
                                      num=n, road_weights = rWeights, 
@@ -186,7 +214,7 @@ for(n in c(50, 100, 250, 500, 1000)){
                     num=n, road_weights = pWeights, weighted = TRUE)
   W_Results<- Results[[1]]
   UNW_Results<- Results[[2]]
-  for(i in 2:50){
+  for(i in 2:100){
     Results<- run_sim(303*i, which(CES$AQS_site==1), 
                                      1:dim(CES)[1], 
                                      num=n, road_weights = pWeights, 
@@ -239,7 +267,7 @@ for(n in c(50, 100, 250, 500, 1000)){
                     num=n, road_weights = cWeights, weighted = TRUE)
   W_Results<- Results[[1]]
   UNW_Results<- Results[[2]]
-  for(i in 2:50){
+  for(i in 2:100){
     Results<- run_sim(303*i, which(CES$AQS_site==1), 
                                      1:dim(CES)[1], 
                                      num=n, road_weights = cWeights, 
