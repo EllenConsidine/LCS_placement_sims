@@ -9,6 +9,7 @@
 #SBATCH --array 0-5
 #SBATCH -o ./slurm/lcs.%a.out
 #SBATCH --mail-user=ellen_considine@g.harvard.edu
+#SBATCH --mail-type=BEGIN
 #SBATCH --mail-type=END
 
 #
