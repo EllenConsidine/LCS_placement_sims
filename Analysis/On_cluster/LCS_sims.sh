@@ -1,5 +1,6 @@
 #!/bin/bash
 
+#SBATCH -J my_LCS
 #SBATCH -N 1
 #SBATCH -n 8
 #SBATCH -p shared
@@ -12,5 +13,7 @@
 
 #
 source ~/.bashrc
+module load R/4.0.2-fasrc01
+export R_LIBS_USER=$HOME/apps/R_4-0-2:$R_LIBS_USER
 python On_cluster/pylauncher.py --job_file="./On_cluster/LCS_sims" --i $SLURM_ARRAY_TASK_ID
 
