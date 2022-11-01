@@ -13,13 +13,14 @@ write.csv(Results[[2]], paste0("New_LCS_results/D366-AQS_sites_unweighted.csv"),
 print("Finished with AQS")
 
 #### For each different type & amount of sensor measurement error:
-name<- "Diff-025" # Change this name
+args<- commandArgs(trailing = TRUE) # Need to pass in the type+amount of sensor ME via command line
+name<- args[1] 
 folder<- "Revised_LCS_results/"
 
 ### All PurpleAir sensor locations:
 
 # Results<- run_sim(303, which(CA_clean$AQS_site==1), which(CA_clean$PA_site==1), 
-#                   num=sum(CA_clean$PA_site), weighted = TRUE)
+#                   num=sum(CA_clean$PA_site), weighted = TRUE, name)
 # write.csv(Results[[1]], paste0(folder, name, "-All_PA_sites.csv"),
 #           row.names = FALSE)
 # write.csv(Results[[2]], paste0(folder, name, "-All_PA_sites_unweighted.csv"),
@@ -29,14 +30,14 @@ folder<- "Revised_LCS_results/"
 ## Running each of the All-PurpleAir sims with sensor measurement error 100 times:
 n<- sum(CA_clean$PA_site==1)
 Results<- run_sim(303, which(CA_clean$AQS_site==1), which(CA_clean$PA_site==1), 
-                    num=n, weighted = TRUE)
+                    num=n, weighted = TRUE, name)
 W_Results<- Results[[1]]
 UNW_Results<- Results[[2]]
 
 for(i in 2:100){
   Results<- run_sim(303*i, which(CA_clean$AQS_site==1), 
                                    which(CA_clean$PA_site==1), 
-                                   num=n, weighted = TRUE)
+                                   num=n, weighted = TRUE, name)
   W_Results<- rbind(W_Results, Results[[1]])
   UNW_Results<- rbind(UNW_Results, Results[[2]])
   print(i)
@@ -57,14 +58,14 @@ print(paste("Finished with All-PurpleAir", name))
 ## Running each of the All-Schools sims with sensor measurement error 100 times:
 n<- sum(CA_clean$School==1)
 Results<- run_sim(303, which(CA_clean$AQS_site==1), which(CA_clean$School==1), 
-                    num=n, weighted = TRUE)
+                    num=n, weighted = TRUE, name)
 W_Results<- Results[[1]]
 UNW_Results<- Results[[2]]
 
 for(i in 2:100){
   Results<- run_sim(303*i, which(CA_clean$AQS_site==1), 
                                    which(CA_clean$School==1), 
-                                   num=n, weighted = TRUE)
+                                   num=n, weighted = TRUE, name)
   W_Results<- rbind(W_Results, Results[[1]])
   UNW_Results<- rbind(UNW_Results, Results[[2]])
   print(i)
@@ -86,14 +87,14 @@ print(paste("Finished with All-Schools", name))
 
 for(n in c(50, 100, 250, 500, 1000)){
   Results<- run_sim(303, which(CA_clean$AQS_site==1), which(CA_clean$PA_site==1), 
-                    num=n, weighted = TRUE)
+                    num=n, weighted = TRUE, name)
   W_Results<- Results[[1]]
   UNW_Results<- Results[[2]]
   
   for(i in 2:100){
     Results<- run_sim(303*i, which(CA_clean$AQS_site==1), 
                                      which(CA_clean$PA_site==1), 
-                                     num=n, weighted = TRUE)
+                                     num=n, weighted = TRUE, name)
     W_Results<- rbind(W_Results, Results[[1]])
     UNW_Results<- rbind(UNW_Results, Results[[2]])
     print(i)
@@ -117,14 +118,14 @@ print("Finished with PA")
 
 for(n in c(50, 100, 250, 500, 1000)){ 
   Results<- run_sim(303, which(CA_clean$AQS_site==1), which(CA_clean$School==1), 
-                    num=n, weighted = TRUE)
+                    num=n, weighted = TRUE, name)
   W_Results<- Results[[1]]
   UNW_Results<- Results[[2]]
           
   for(i in 2:100){
     Results<- run_sim(303*i, which(CA_clean$AQS_site==1), 
                                      which(CA_clean$School==1), 
-                                     num=n, weighted = TRUE)
+                                     num=n, weighted = TRUE, name)
     W_Results<- rbind(W_Results, Results[[1]])
     UNW_Results<- rbind(UNW_Results, Results[[2]])
     print(i)
@@ -155,14 +156,14 @@ rWeights<- lengths/sum(lengths)
 
 for(n in c(50, 100, 250, 500, 1000)){
   Results<- run_sim(303, which(CA_clean$AQS_site==1), 1:dim(CA_clean)[1], 
-                    num=n, road_weights = rWeights, weighted = TRUE)
+                    num=n, road_weights = rWeights, weighted = TRUE, name)
   W_Results<- Results[[1]]
   UNW_Results<- Results[[2]]
   for(i in 2:100){
     Results<- run_sim(303*i, which(CA_clean$AQS_site==1), 
                                      1:dim(CA_clean)[1], 
                                      num=n, road_weights = rWeights, 
-                                     weighted = TRUE)
+                                     weighted = TRUE, name)
     W_Results<- rbind(W_Results, Results[[1]])
     UNW_Results<- rbind(UNW_Results, Results[[2]])
     print(i)
@@ -211,14 +212,14 @@ pWeights<- CES$Pollution_score/sum(CES$Pollution_score)
 
 for(n in c(50, 100, 250, 500, 1000)){
   Results<- run_sim(303, which(CES$AQS_site==1), 1:dim(CES)[1], 
-                    num=n, road_weights = pWeights, weighted = TRUE)
+                    num=n, road_weights = pWeights, weighted = TRUE, name)
   W_Results<- Results[[1]]
   UNW_Results<- Results[[2]]
   for(i in 2:100){
     Results<- run_sim(303*i, which(CES$AQS_site==1), 
                                      1:dim(CES)[1], 
                                      num=n, road_weights = pWeights, 
-                                     weighted = TRUE)
+                                     weighted = TRUE, name)
     W_Results<- rbind(W_Results, Results[[1]])
     UNW_Results<- rbind(UNW_Results, Results[[2]])
     print(i)
@@ -264,14 +265,14 @@ cWeights<- CES$CES_score/sum(CES$CES_score)
 
 for(n in c(50, 100, 250, 500, 1000)){
   Results<- run_sim(303, which(CES$AQS_site==1), 1:dim(CES)[1], 
-                    num=n, road_weights = cWeights, weighted = TRUE)
+                    num=n, road_weights = cWeights, weighted = TRUE, name)
   W_Results<- Results[[1]]
   UNW_Results<- Results[[2]]
   for(i in 2:100){
     Results<- run_sim(303*i, which(CES$AQS_site==1), 
                                      1:dim(CES)[1], 
                                      num=n, road_weights = cWeights, 
-                                     weighted = TRUE)
+                                     weighted = TRUE, name)
     W_Results<- rbind(W_Results, Results[[1]])
     UNW_Results<- rbind(UNW_Results, Results[[2]])
     print(i)
