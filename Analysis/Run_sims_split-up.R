@@ -65,7 +65,7 @@ if(strategy=="PurpleAir"){
 
 if(weight_samp == FALSE){
   Results<- run_sim(303, which(CA_clean$AQS_site==1), locs, 
-                    num=num_locs, weighted = TRUE, name=name)
+                    num=num_lcs, weighted = TRUE, name=name)
   W_Results<- Results[[1]]
   UNW_Results<- Results[[2]]
   
@@ -78,7 +78,7 @@ if(weight_samp == FALSE){
   }
 }else{
   Results<- run_sim(303, which(CA_clean$AQS_site==1), locs, 
-                    num=num_locs, weighted = TRUE, name=name, road_weights=rWeights)
+                    num=num_lcs, weighted = TRUE, name=name, road_weights=rWeights)
   W_Results<- Results[[1]]
   UNW_Results<- Results[[2]]
   
