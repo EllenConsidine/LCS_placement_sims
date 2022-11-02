@@ -291,9 +291,9 @@ run_sim<- function(seed_num, no_err_set, err_set, frac = NULL, num = 100,
   
   # print(seed_num)
   if(is.null(err)){
-    return(results(CA_clean, unique(c(no_err_set,these)), error_pos=these, w = weighted, name))
+    return(results(CA_clean, unique(c(no_err_set,these)), error_pos=these, w = weighted, name=name))
   }else{
-    return(results(CA_clean, unique(c(no_err_set,these)), error_pos=these, err=err, w = weighted, name))
+    return(results(CA_clean, unique(c(no_err_set,these)), error_pos=these, err=err, w = weighted, name=name))
   }
 }
 
