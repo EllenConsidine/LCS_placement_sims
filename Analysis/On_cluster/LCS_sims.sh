@@ -1,8 +1,7 @@
 #!/bin/bash
-
 #SBATCH -J my_LCS
 #SBATCH -N 1
-#SBATCH -n 8
+#SBATCH -n 1
 #SBATCH -p shared
 #SBATCH -t 70:00:00
 #SBATCH --mem 55G
@@ -11,7 +10,6 @@
 #SBATCH --mail-user=ellen_considine@g.harvard.edu
 #SBATCH --mail-type=BEGIN
 #SBATCH --mail-type=END
-
 #
 source ~/.bashrc
 module load R/4.0.2-fasrc01
