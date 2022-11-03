@@ -12,6 +12,10 @@ strategy<- args[3]
 
 # print(args)
 
+if(file.exists(paste0(folder, name, "_", strategy, "_", num_lcs,"_avg.csv"))){
+  quit()
+}
+
 ## Prepare data:
 
 weight_samp<- FALSE
