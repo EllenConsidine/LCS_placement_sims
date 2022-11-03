@@ -4,7 +4,7 @@
 #SBATCH -n 1
 #SBATCH -p test # shared
 #SBATCH -t 0-0:30 
-#SBATCH --mem 1G 
+#SBATCH --mem 15G 
 #SBATCH --array 0-2
 #SBATCH -o ./slurm/lcs.%a.out
 #SBATCH --mail-user=ellen_considine@g.harvard.edu
