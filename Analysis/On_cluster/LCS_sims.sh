@@ -2,10 +2,10 @@
 #SBATCH -J my_LCS
 #SBATCH -N 1
 #SBATCH -n 1
-#SBATCH -p test # shared
-#SBATCH -t 0-0:30 
-#SBATCH --mem 15G 
-#SBATCH --array 0-2
+#SBATCH -p shared
+#SBATCH -t 0-5:00
+#SBATCH --mem 55G 
+#SBATCH --array 0-161
 #SBATCH -o ./slurm/lcs.%a.out
 #SBATCH --mail-user=ellen_considine@g.harvard.edu
 #SBATCH --mail-type=BEGIN
