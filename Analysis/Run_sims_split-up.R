@@ -79,13 +79,13 @@ if(weight_samp == FALSE){
     print(i)
   }
 }else{
-  Results<- run_sim(303, which(CA_clean$AQS_site==1), locs, 
+  Results<- run_sim(303, which(CA_clean$AQS_site==1), 1:dim(CA_clean)[1], 
                     num=num_lcs, weighted = TRUE, name=name, road_weights=rWeights)
   W_Results<- Results[[1]]
   UNW_Results<- Results[[2]]
   
   for(i in 2:100){
-    Results<- run_sim(303*i, which(CA_clean$AQS_site==1), locs, 
+    Results<- run_sim(303*i, which(CA_clean$AQS_site==1), 1:dim(CA_clean)[1], 
                       num=num_lcs, weighted = TRUE, name=name, road_weights=rWeights)
     W_Results<- rbind(W_Results, Results[[1]])
     UNW_Results<- rbind(UNW_Results, Results[[2]])
