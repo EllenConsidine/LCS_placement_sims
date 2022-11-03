@@ -1,7 +1,4 @@
 Rscript LCS_placement_sims/Analysis/Run_sims_split-up.R 'No-ME' 50 'PurpleAir'
 Rscript LCS_placement_sims/Analysis/Run_sims_split-up.R 'No-ME' 100 'PurpleAir'
 Rscript LCS_placement_sims/Analysis/Run_sims_split-up.R 'No-ME' 250 'PurpleAir'
-Rscript LCS_placement_sims/Analysis/Run_sims_split-up.R 'No-ME' 500 'PurpleAir'
-Rscript LCS_placement_sims/Analysis/Run_sims_split-up.R 'No-ME' 1000 'PurpleAir'
-Rscript LCS_placement_sims/Analysis/Run_sims_split-up.R 'No-ME' 4343 'PurpleAir'
 
