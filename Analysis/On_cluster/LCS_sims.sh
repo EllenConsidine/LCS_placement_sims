@@ -3,7 +3,7 @@
 #SBATCH -N 1
 #SBATCH -n 1
 #SBATCH -p shared
-#SBATCH -t 0-5:00
+#SBATCH -t 0-6:00
 #SBATCH --mem 55G 
 #SBATCH --array 0-161
 #SBATCH -o ./slurm/lcs.%a.out
