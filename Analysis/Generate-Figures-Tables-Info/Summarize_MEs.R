@@ -29,7 +29,7 @@ pdw<- rep(DF$ppltn_d, n_days)
 
 num<- sum(DF$PA_site == 1)
 
-for(i in 1:50){ 
+for(i in 1:100){ 
   set.seed(303*i)
   
   error_pos<- sample(which(DF$PA_site == 1), num, replace=FALSE)
@@ -63,6 +63,7 @@ for(i in 1:50){
   print(i)
 }
 
+sink("Revised_LCS_results/All-PA_ME.txt")
 
 print("ME 10% differential:")
 print("Unweighted:")
@@ -93,3 +94,5 @@ print("Weighted:")
 sqrt(wtd.var(ME_epa[[1]], Pop_dens[[1]]))
 sqrt(wtd.var(ME_epa[[2]], Pop_dens[[2]]))
 sqrt(wtd.var(ME_epa[[3]], Pop_dens[[3]]))
+                 
+sink()
