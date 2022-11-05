@@ -7,8 +7,8 @@ CA_clean<- readRDS("CA_clean_projected.rds")
 ## For reference: Sacramento County = 067, LA County = 037
 
 sample_city<- function(err_set, num, road_weights = NULL, fips = "067"){
-  city_N<- rep(0,50)
-  for(i in 1:50){
+  city_N<- rep(0,100)
+  for(i in 1:100){
     set.seed(7*303*i)
     if(is.null(road_weights)){
       these<- sample(err_set, num, replace=FALSE)
