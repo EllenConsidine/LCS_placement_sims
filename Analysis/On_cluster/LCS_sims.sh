@@ -5,7 +5,7 @@
 #SBATCH -p shared
 #SBATCH -t 0-8:00
 #SBATCH --mem 55G 
-#SBATCH --array 0-3
+#SBATCH --array 0
 #SBATCH -o ./slurm/lcs.%a.out
 #SBATCH --mail-user=ellen_considine@g.harvard.edu
 #SBATCH --mail-type=BEGIN
