@@ -1,7 +1,4 @@
-Rscript LCS_placement_sims/Analysis/Run_sims_split-up.R 'Df-25' 7548 'Schools'
-Rscript LCS_placement_sims/Analysis/Run_sims_split-up.R 'No-ME' 1000 'CES'
-Rscript LCS_placement_sims/Analysis/Run_sims_split-up.R 'Df-10' 1000 'CES'
-Rscript LCS_placement_sims/Analysis/Run_sims_split-up.R 'Df-25' 1000 'Pollution'
+Rscript LCS_placement_sims/Analysis/Run_sims_split-up.R 'EPA-resids' 250 'PurpleAir'
 
 
 
