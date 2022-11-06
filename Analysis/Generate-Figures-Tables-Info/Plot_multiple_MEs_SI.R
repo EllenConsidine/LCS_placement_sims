@@ -43,12 +43,12 @@ my_plot<- function(df, j, t, units = "", ylab = NULL, Ylim = NULL){
   
   ggplot(DF, aes(Num, Y1)) + xlab("Number of LCS") + ylab(Ylab) +
     theme_bw() + ylim(c(low, high)) + 
-    geom_line(aes(color = "Pollution Score  ", linetype = "Overall  "), lwd = 1) +
-    geom_line(aes(Num, Y2, color = "Pollution Score  ", linetype = "High % Nonwhite  "), lwd = 1) +
-    geom_line(aes(Num, Y3, color = "Pollution Score  ", linetype = "High % Poverty  "), lwd = 1) +
-    geom_line(aes(Num, Y4, color = "CES Score  ", linetype = "Overall  "), lwd = 1) +
-    geom_line(aes(Num, Y5, color = "CES Score  ", linetype = "High % Nonwhite  "), lwd = 1) +
-    geom_line(aes(Num, Y6, color = "CES Score  ", linetype = "High % Poverty  "), lwd = 1) +
+    geom_line(aes(color = "CES Score  ", linetype = "Overall  "), lwd = 1) +
+    geom_line(aes(Num, Y2, color = "CES Score  ", linetype = "High % Nonwhite  "), lwd = 1) +
+    geom_line(aes(Num, Y3, color = "CES Score  ", linetype = "High % Poverty  "), lwd = 1) +
+    geom_line(aes(Num, Y4, color ="Pollution Score  ", linetype = "Overall  "), lwd = 1) +
+    geom_line(aes(Num, Y5, color = "Pollution Score  ", linetype = "High % Nonwhite  "), lwd = 1) +
+    geom_line(aes(Num, Y6, color = "Pollution Score  ", linetype = "High % Poverty  "), lwd = 1) +
     geom_line(aes(Num, Y7, color = "PurpleAir  ", linetype = "Overall  "), lwd = 1) +
     geom_line(aes(Num, Y8, color = "PurpleAir  ", linetype = "High % Nonwhite  "), lwd = 1) +
     geom_line(aes(Num, Y9, color = "PurpleAir  ", linetype = "High % Poverty  "), lwd = 1) +
@@ -80,22 +80,22 @@ my_plot<- function(df, j, t, units = "", ylab = NULL, Ylim = NULL){
 
 ## % R > S
 
-rs1<- my_plot(df = read.csv("Analysis/Results/Sensitivity Analysis/LCS_final_results_SA_weighted.csv"),
+rs1<- my_plot(df = read.csv("Analysis/Results/Revisions/No-ME-LCS_final_results_weighted.csv"),
               j = 16, t = "(a)    No Sensor ME: Real Class > Shown Class", 
               ylab = "Fraction of Days", Ylim = c(0.02, 0.10))
-rs2<- my_plot(df = read.csv("Analysis/Results/Clsad results/SA-clsad-010-LCS_final_results_12-23-21_weighted.csv"),
+rs2<- my_plot(df = read.csv("Analysis/Results/Revisions/NDf-10-LCS_final_results_weighted.csv"),
               j = 16, t = "(b)    10% Non-differential ME: Real Class > Shown Class", 
               ylab = "Fraction of Days", Ylim = c(0.02, 0.10))
-rs3<- my_plot(df = read.csv("Analysis/Results/Clsad results/SA-clsad-025-LCS_final_results_12-23-21_weighted.csv"),
+rs3<- my_plot(df = read.csv("Analysis/Results/Revisions/NDf-25-LCS_final_results_weighted.csv"),
               j = 16, t = "(c)    25% Non-differential ME: Real Class > Shown Class", 
               ylab = "Fraction of Days", Ylim = c(0.02, 0.10))
-rs4<- my_plot(df = read.csv("Analysis/Results/New results/SA-010-LCS_final_results_12-23-21_weighted.csv"),
+rs4<- my_plot(df = read.csv("Analysis/Results/Revisions/Df-10-LCS_final_results_weighted.csv"),
               j = 16, t = "(d)    10% Differential ME: Real Class > Shown Class",
               ylab = "Fraction of Days", Ylim = c(0.02, 0.10))
-rs5<- my_plot(df = read.csv("Analysis/Results/New results/SA-025-LCS_final_results_12-10-21_weighted.csv"),
+rs5<- my_plot(df = read.csv("Analysis/Results/Revisions/Df-25-LCS_final_results_weighted.csv"),
               j = 16, t = "(e)    25% Differential ME: Real Class > Shown Class", 
               ylab = "Fraction of Days", Ylim = c(0.02, 0.10))
-rs6<- my_plot(df = read.csv("Analysis/Results/Final EPA results/EPA-resids-LCS_final_results_weighted.csv"),
+rs6<- my_plot(df = read.csv("Analysis/Results/Revisions/EPA-resids-LCS_final_results_weighted.csv"),
               j = 16, t = "(f)    EPA Calibration Residuals: Real Class > Shown Class", 
               ylab = "Fraction of Days", Ylim = c(0.02, 0.10))
 
@@ -107,7 +107,7 @@ RSrow<- plot_grid(rs1 + theme(legend.position="none"),
                   rs6 + theme(legend.position="none"),
                   nrow = 3)
 
-png("Final Plots/Real-greater-than-Shown_weighted.png", width = 795, height = 645)
+png("Revisions/Real-greater-than-Shown_weighted.png", width = 795, height = 645)
 
 legend<- get_legend(rs1 + theme(legend.position = "bottom", legend.box = "vertical",
                                 legend.key.width = unit(2, "line"),
@@ -120,22 +120,22 @@ dev.off()
 
 ## % S > R
 
-sr1<- my_plot(df = read.csv("Analysis/Results/Sensitivity Analysis/LCS_final_results_SA_weighted.csv"),
+sr1<- my_plot(df = read.csv("Analysis/Results/Revisions/No-ME-LCS_final_results_weighted.csv"),
               j = 18, t = "(a)    No Sensor ME: Shown Class > Real Class", 
               ylab = "Fraction of Days", Ylim = c(0.02, 0.28))
-sr2<- my_plot(df = read.csv("Analysis/Results/Clsad results/SA-clsad-010-LCS_final_results_12-23-21_weighted.csv"),
+sr2<- my_plot(df = read.csv("Analysis/Results/Revisions/NDf-10-LCS_final_results_weighted.csv"),
               j = 18, t = "(b)    10% Non-differential ME: Shown Class > Real Class", 
               ylab = "Fraction of Days", Ylim = c(0.02, 0.28))
-sr3<- my_plot(df = read.csv("Analysis/Results/Clsad results/SA-clsad-025-LCS_final_results_12-23-21_weighted.csv"),
+sr3<- my_plot(df = read.csv("Analysis/Results/Revisions/NDf-25-LCS_final_results_weighted.csv"),
               j = 18, t = "(c)    25% Non-differential ME: Shown Class > Real Class", 
               ylab = "Fraction of Days", Ylim = c(0.02, 0.28))
-sr4<- my_plot(df = read.csv("Analysis/Results/New results/SA-010-LCS_final_results_12-23-21_weighted.csv"),
+sr4<- my_plot(df = read.csv("Analysis/Results/Revisions/Df-10-LCS_final_results_weighted.csv"),
               j = 18, t = "(d)    10% Differential ME: Shown Class > Real Class",
               ylab = "Fraction of Days", Ylim = c(0.02, 0.28))
-sr5<- my_plot(df = read.csv("Analysis/Results/New results/SA-025-LCS_final_results_12-10-21_weighted.csv"),
+sr5<- my_plot(df = read.csv("Analysis/Results/Revisions/Df-25-LCS_final_results_weighted.csv"),
               j = 18, t = "(e)    25% Differential ME: Shown Class > Real Class", 
               ylab = "Fraction of Days", Ylim = c(0.02, 0.28))
-sr6<- my_plot(df = read.csv("Analysis/Results/Final EPA results/EPA-resids-LCS_final_results_weighted.csv"),
+sr6<- my_plot(df = read.csv("Analysis/Results/Revisions/EPA-resids-LCS_final_results_weighted.csv"),
               j = 18, t = "(f)    EPA Calibration Residuals: Shown Class > Real Class", 
               ylab = "Fraction of Days", Ylim = c(0.02, 0.28))
 
@@ -147,7 +147,7 @@ SRrow<- plot_grid(sr1 + theme(legend.position="none"),
                   sr6 + theme(legend.position="none"),
                   nrow = 3)
 
-png("Final Plots/Shown-greater-than-Real_weighted.png", width = 795, height = 645)
+png("Revisions/Shown-greater-than-Real_weighted.png", width = 795, height = 645)
 
 legend<- get_legend(sr1 + theme(legend.position = "bottom", legend.box = "vertical",
                                 legend.key.width = unit(2, "line"),
@@ -161,21 +161,21 @@ dev.off()
 ################################## UNWEIGHTED by pop. density
 
 ### MAE and distance: five ME variations and distance to NN -- 3x2, equal sized
-d<- my_plot(df = read.csv("Analysis/Results/Clsad results/SA-clsad-025-LCS_final_results_12-23-21_unweighted.csv"),
+d<- my_plot(df = read.csv("Analysis/Results/Revisions/NDf-25-LCS_final_results_unweighted.csv"),
             j = 10, t = "(a)    Distance to Nearest Monitor or Sensor", ylab = "Avg. Distance (m)")
-m1<- my_plot(df = read.csv("Analysis/Results/Sensitivity Analysis/LCS_final_results_SA_unweighted.csv"),
+m1<- my_plot(df = read.csv("Analysis/Results/Revisions/No-ME-LCS_final_results_unweighted.csv"),
              j = 6, t = "(b)    No Sensor Measurement Error: MAE", 
              ylab = as.expression(bquote(~"MAE (" * mu * "g/"*m^3*")")))
-m2<- my_plot(df = read.csv("Analysis/Results/Clsad results/SA-clsad-025-LCS_final_results_12-23-21_unweighted.csv"),
+m2<- my_plot(df = read.csv("Analysis/Results/Revisions/NDf-25-LCS_final_results_unweighted.csv"),
              j = 6, t = "(c)    25% Non-differential Measurement Error: MAE", 
              ylab = as.expression(bquote(~"MAE (" * mu * "g/"*m^3*")")))
-m3<- my_plot(df = read.csv("Analysis/Results/New results/SA-010-LCS_final_results_12-23-21_unweighted.csv"),
+m3<- my_plot(df = read.csv("Analysis/Results/Revisions/Df-10-LCS_final_results_unweighted.csv"),
              j = 6, t = "(d)    10% Differential Measurement Error: MAE", 
              ylab = as.expression(bquote(~"MAE (" * mu * "g/"*m^3*")")))
-m4<- my_plot(df = read.csv("Analysis/Results/New results/SA-025-LCS_final_results_12-10-21_unweighted.csv"),
+m4<- my_plot(df = read.csv("Analysis/Results/Revisions/Df-25-LCS_final_results_unweighted.csv"),
              j = 6, t = "(e)    25% Differential Measurement Error: MAE", 
              ylab = as.expression(bquote(~"MAE (" * mu * "g/"*m^3*")")))
-m5<- my_plot(df = read.csv("Analysis/Results/Final EPA results/EPA-resids-LCS_final_results_unweighted.csv"),
+m5<- my_plot(df = read.csv("Analysis/Results/Revisions/EPA-resids-LCS_final_results_unweighted.csv"),
              j = 6, t = "(f)    EPA Calibration Residual Draws: MAE", 
              ylab = as.expression(bquote(~"MAE (" * mu * "g/"*m^3*")")))
 
@@ -187,7 +187,13 @@ Mrow<- plot_grid(d + theme(legend.position="none"),
                  m5 + theme(legend.position="none"),
                  nrow = 3)
 
-png("Final Plots/MAE-distance_unweighted.png", width = 795, height = 645)
+# legend<- get_legend(m1 + theme(legend.position = "top", legend.box = "vertical",
+#                                legend.key.width = unit(2, "line"),
+#                                legend.spacing.y = unit(0.1, "cm")))
+# 
+# plot_grid(legend, Mrow, ncol = 1, rel_heights = c(0.5, 4))
+
+png("Revisions/MAE-distance_unweighted.png", width = 795, height = 645)
 
 legend<- get_legend(m1 + theme(legend.position = "bottom", legend.box = "vertical",
                                legend.key.width = unit(2, "line"),
@@ -199,19 +205,19 @@ dev.off()
 
 ### UH Misclassifications: five ME variations -- no ME big across top, then 2x2 for rest
 
-uh1<- my_plot(df = read.csv("Analysis/Results/Sensitivity Analysis/LCS_final_results_SA_unweighted.csv"),
+uh1<- my_plot(df = read.csv("Analysis/Results/Revisions/No-ME-LCS_final_results_unweighted.csv"),
               j = 2, t = "(a)    No Sensor Measurement Error: UHM", 
-              ylab = "UH Misclassifications (%)")
-uh2<- my_plot(df = read.csv("Analysis/Results/Clsad results/SA-clsad-010-LCS_final_results_12-23-21_unweighted.csv"),
-              j = 2, t = "(b)    10% Non-differential Measurement Error: UHM", ylab = "UH Misclassifications (%)")
-uh3<- my_plot(df = read.csv("Analysis/Results/Clsad results/SA-clsad-025-LCS_final_results_12-23-21_unweighted.csv"),
-              j = 2, t = "(c)    25% Non-differential Measurement Error: UHM", ylab = "UH Misclassifications (%)")
-uh4<- my_plot(df = read.csv("Analysis/Results/New results/SA-010-LCS_final_results_12-23-21_unweighted.csv"),
-              j = 2, t = "(d)    10% Differential Measurement Error: UHM", ylab = "UH Misclassifications (%)")
-uh5<- my_plot(df = read.csv("Analysis/Results/New results/SA-025-LCS_final_results_12-10-21_unweighted.csv"),
-              j = 2, t = "(e)    25% Differential Measurement Error: UHM", ylab = "UH Misclassifications (%)")
-uh6<- my_plot(df = read.csv("Analysis/Results/Final EPA results/EPA-resids-LCS_final_results_unweighted.csv"),
-              j = 2, t = "(f)    EPA Calibration Residual Draws: UHM", ylab = "UH Misclassifications (%)")
+              ylab = "UH Misclassification Rate")
+uh2<- my_plot(df = read.csv("Analysis/Results/Revisions/NDf-10-LCS_final_results_unweighted.csv"),
+              j = 2, t = "(b)    10% Non-differential Measurement Error: UHM", ylab = "UH Misclassification Rate")
+uh3<- my_plot(df = read.csv("Analysis/Results/Revisions/NDf-25-LCS_final_results_unweighted.csv"),
+              j = 2, t = "(c)    25% Non-differential Measurement Error: UHM", ylab = "UH Misclassification Rate")
+uh4<- my_plot(df = read.csv("Analysis/Results/Revisions/Df-10-LCS_final_results_unweighted.csv"),
+              j = 2, t = "(d)    10% Differential Measurement Error: UHM", ylab = "UH Misclassification Rate")
+uh5<- my_plot(df = read.csv("Analysis/Results/Revisions/Df-25-LCS_final_results_unweighted.csv"),
+              j = 2, t = "(e)    25% Differential Measurement Error: UHM", ylab = "UH Misclassification Rate")
+uh6<- my_plot(df = read.csv("Analysis/Results/Revisions/EPA-resids-LCS_final_results_unweighted.csv"),
+              j = 2, t = "(f)    EPA Calibration Residual Draws: UHM", ylab = "UH Misclassification Rate")
 
 Hrow<- plot_grid(uh1 + theme(legend.position="none"),
                  uh2 + theme(legend.position="none"),
@@ -221,7 +227,13 @@ Hrow<- plot_grid(uh1 + theme(legend.position="none"),
                  uh6 + theme(legend.position="none"),
                  nrow = 3)
 
-png("Final Plots/UHM-all-6_unweighted.png", width = 795, height = 645)
+# legend<- get_legend(m1 + theme(legend.position = "top", legend.box = "vertical",
+#                                legend.key.width = unit(2, "line"),
+#                                legend.spacing.y = unit(0.1, "cm")))
+# 
+# plot_grid(legend, Mrow, ncol = 1, rel_heights = c(0.5, 4))
+
+png("Revisions/UHM-all-6_unweighted.png", width = 795, height = 645)
 
 legend<- get_legend(uh1 + theme(legend.position = "bottom", legend.box = "vertical",
                                 legend.key.width = unit(2, "line"),
@@ -234,22 +246,22 @@ dev.off()
 
 ## Distance to NN among misclass. > 1
 
-dm1<- my_plot(df = read.csv("Analysis/Results/Sensitivity Analysis/LCS_final_results_SA_unweighted.csv"),
+dm1<- my_plot(df = read.csv("Analysis/Results/Revisions/No-ME-LCS_final_results_unweighted.csv"),
               j = 12, t = "(a)    No Sensor ME: Dist. Among Misclass. > 1",
               ylab = "Avg. Distance (m)")
-dm2<- my_plot(df = read.csv("Analysis/Results/Clsad results/SA-clsad-010-LCS_final_results_12-23-21_unweighted.csv"),
+dm2<- my_plot(df = read.csv("Analysis/Results/Revisions/NDf-10-LCS_final_results_unweighted.csv"),
               j = 12, t = "(b)    10% Non-differential ME: Dist. Among Misclass. > 1", 
               ylab = "Avg. Distance (m)")
-dm3<- my_plot(df = read.csv("Analysis/Results/Clsad results/SA-clsad-025-LCS_final_results_12-23-21_unweighted.csv"),
+dm3<- my_plot(df = read.csv("Analysis/Results/Revisions/NDf-25-LCS_final_results_unweighted.csv"),
               j = 12, t = "(c)    25% Non-differential ME: Dist. Among Misclass. > 1", 
               ylab = "Avg. Distance (m)")
-dm4<- my_plot(df = read.csv("Analysis/Results/New results/SA-010-LCS_final_results_12-23-21_unweighted.csv"),
+dm4<- my_plot(df = read.csv("Analysis/Results/Revisions/Df-10-LCS_final_results_unweighted.csv"),
               j = 12, t = "(d)    10% Differential ME: Dist. Among Misclass. > 1", 
               ylab = "Avg. Distance (m)")
-dm5<- my_plot(df = read.csv("Analysis/Results/New results/SA-025-LCS_final_results_12-10-21_unweighted.csv"),
+dm5<- my_plot(df = read.csv("Analysis/Results/Revisions/Df-25-LCS_final_results_unweighted.csv"),
               j = 12, t = "(e)    25% Differential ME: Dist. Among Misclass. > 1", 
               ylab = "Avg. Distance (m)")
-dm6<- my_plot(df = read.csv("Analysis/Results/Final EPA results/EPA-resids-LCS_final_results_unweighted.csv"),
+dm6<- my_plot(df = read.csv("Analysis/Results/Revisions/EPA-resids-LCS_final_results_unweighted.csv"),
               j = 12, t = "(f)    EPA Calibration Residuals: Dist. Among Misclass. > 1", 
               ylab = "Avg. Distance (m)")
 
@@ -261,7 +273,7 @@ DMrow<- plot_grid(dm1 + theme(legend.position="none"),
                   dm6 + theme(legend.position="none"),
                   nrow = 3)
 
-png("Final Plots/Dist-Large-Misclass_unweighted.png", width = 795, height = 645)
+png("Revisions/Dist-Large-Misclass_unweighted.png", width = 795, height = 645)
 
 legend<- get_legend(dm1 + theme(legend.position = "bottom", legend.box = "vertical",
                                 legend.key.width = unit(2, "line"),
@@ -274,22 +286,22 @@ dev.off()
 
 ## % R > S
 
-rs1<- my_plot(df = read.csv("Analysis/Results/Sensitivity Analysis/LCS_final_results_SA_unweighted.csv"),
+rs1<- my_plot(df = read.csv("Analysis/Results/Revisions/No-ME-LCS_final_results_unweighted.csv"),
               j = 16, t = "(a)    No Sensor ME: Real Class > Shown Class", 
               ylab = "Fraction of Days", Ylim = c(0.01, 0.06))
-rs2<- my_plot(df = read.csv("Analysis/Results/Clsad results/SA-clsad-010-LCS_final_results_12-23-21_unweighted.csv"),
+rs2<- my_plot(df = read.csv("Analysis/Results/Revisions/NDf-10-LCS_final_results_unweighted.csv"),
               j = 16, t = "(b)    10% Non-differential ME: Real Class > Shown Class", 
               ylab = "Fraction of Days", Ylim = c(0.01, 0.06))
-rs3<- my_plot(df = read.csv("Analysis/Results/Clsad results/SA-clsad-025-LCS_final_results_12-23-21_unweighted.csv"),
+rs3<- my_plot(df = read.csv("Analysis/Results/Revisions/NDf-25-LCS_final_results_unweighted.csv"),
               j = 16, t = "(c)    25% Non-differential ME: Real Class > Shown Class", 
               ylab = "Fraction of Days", Ylim = c(0.01, 0.06))
-rs4<- my_plot(df = read.csv("Analysis/Results/New results/SA-010-LCS_final_results_12-23-21_unweighted.csv"),
+rs4<- my_plot(df = read.csv("Analysis/Results/Revisions/Df-10-LCS_final_results_unweighted.csv"),
               j = 16, t = "(d)    10% Differential ME: Real Class > Shown Class",
               ylab = "Fraction of Days", Ylim = c(0.01, 0.06))
-rs5<- my_plot(df = read.csv("Analysis/Results/New results/SA-025-LCS_final_results_12-10-21_unweighted.csv"),
+rs5<- my_plot(df = read.csv("Analysis/Results/Revisions/Df-25-LCS_final_results_unweighted.csv"),
               j = 16, t = "(e)    25% Differential ME: Real Class > Shown Class", 
               ylab = "Fraction of Days", Ylim = c(0.01, 0.06))
-rs6<- my_plot(df = read.csv("Analysis/Results/Final EPA results/EPA-resids-LCS_final_results_unweighted.csv"),
+rs6<- my_plot(df = read.csv("Analysis/Results/Revisions/EPA-resids-LCS_final_results_unweighted.csv"),
               j = 16, t = "(f)    EPA Calibration Residuals: Real Class > Shown Class", 
               ylab = "Fraction of Days", Ylim = c(0.01, 0.06))
 
@@ -301,7 +313,7 @@ RSrow<- plot_grid(rs1 + theme(legend.position="none"),
                   rs6 + theme(legend.position="none"),
                   nrow = 3)
 
-png("Final Plots/Real-greater-than-Shown_unweighted.png", width = 795, height = 645)
+png("Revisions/Real-greater-than-Shown_unweighted.png", width = 795, height = 645)
 
 legend<- get_legend(rs1 + theme(legend.position = "bottom", legend.box = "vertical",
                                 legend.key.width = unit(2, "line"),
@@ -313,22 +325,22 @@ dev.off()
 
 ## % S > R
 
-sr1<- my_plot(df = read.csv("Analysis/Results/Sensitivity Analysis/LCS_final_results_SA_unweighted.csv"),
+sr1<- my_plot(df = read.csv("Analysis/Results/Revisions/No-ME-LCS_final_results_unweighted.csv"),
               j = 18, t = "(a)    No Sensor ME: Shown Class > Real Class", 
               ylab = "Fraction of Days", Ylim = c(0, 0.15))
-sr2<- my_plot(df = read.csv("Analysis/Results/Clsad results/SA-clsad-010-LCS_final_results_12-23-21_unweighted.csv"),
+sr2<- my_plot(df = read.csv("Analysis/Results/Revisions/NDf-10-LCS_final_results_unweighted.csv"),
               j = 18, t = "(b)    10% Non-differential ME: Shown Class > Real Class", 
               ylab = "Fraction of Days", Ylim = c(0, 0.15))
-sr3<- my_plot(df = read.csv("Analysis/Results/Clsad results/SA-clsad-025-LCS_final_results_12-23-21_unweighted.csv"),
+sr3<- my_plot(df = read.csv("Analysis/Results/Revisions/NDf-25-LCS_final_results_unweighted.csv"),
               j = 18, t = "(c)    25% Non-differential ME: Shown Class > Real Class", 
               ylab = "Fraction of Days", Ylim = c(0, 0.15))
-sr4<- my_plot(df = read.csv("Analysis/Results/New results/SA-010-LCS_final_results_12-23-21_unweighted.csv"),
+sr4<- my_plot(df = read.csv("Analysis/Results/Revisions/Df-10-LCS_final_results_unweighted.csv"),
               j = 18, t = "(d)    10% Differential ME: Shown Class > Real Class",
               ylab = "Fraction of Days", Ylim = c(0, 0.15))
-sr5<- my_plot(df = read.csv("Analysis/Results/New results/SA-025-LCS_final_results_12-10-21_unweighted.csv"),
+sr5<- my_plot(df = read.csv("Analysis/Results/Revisions/Df-25-LCS_final_results_unweighted.csv"),
               j = 18, t = "(e)    25% Differential ME: Shown Class > Real Class", 
               ylab = "Fraction of Days", Ylim = c(0, 0.15))
-sr6<- my_plot(df = read.csv("Analysis/Results/Final EPA results/EPA-resids-LCS_final_results_unweighted.csv"),
+sr6<- my_plot(df = read.csv("Analysis/Results/Revisions/EPA-resids-LCS_final_results_unweighted.csv"),
               j = 18, t = "(f)    EPA Calibration Residuals: Shown Class > Real Class", 
               ylab = "Fraction of Days", Ylim = c(0, 0.15))
 
@@ -340,7 +352,7 @@ SRrow<- plot_grid(sr1 + theme(legend.position="none"),
                   sr6 + theme(legend.position="none"),
                   nrow = 3)
 
-png("Final Plots/Shown-greater-than-Real_unweighted.png", width = 795, height = 645)
+png("Revisions/Shown-greater-than-Real_unweighted.png", width = 795, height = 645)
 
 legend<- get_legend(sr1 + theme(legend.position = "bottom", legend.box = "vertical",
                                 legend.key.width = unit(2, "line"),
