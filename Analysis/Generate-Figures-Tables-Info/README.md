@@ -1,5 +1,6 @@
 ### Which scripts were used to generate which figures and tables?
 
+* Make_table1.R --> Table 1 in the main text, along with Table S7
 * Boxplot_summary.R --> SI Figure A.2
 * EDA_figures_tables.R --> SI Table B.1 (and SI Table C.1), which is then used to generate Table 1 with Normalize_table_1.R; also SI Figure A.1 and the correlation between the Pollution Score and Di et al. annual averages of PM2.5
 * Explore_AQI_cutoffs.R --> SI Table A.2
