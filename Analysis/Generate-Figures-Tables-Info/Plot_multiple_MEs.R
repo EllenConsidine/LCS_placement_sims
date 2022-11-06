@@ -7,7 +7,6 @@ setwd("C:/Users/ellen/OneDrive/MyDocs/Graduate Research/Low-cost AQ sensor epi")
 
 CBF<- palette.colors()
 
-## Function for generating each plot (from a specific simulation):
 my_plot<- function(df, j, t, units = "", ylab = NULL, Ylim = NULL){
   df<- df[order(df$X),]
   k<- 3*(j-1)+1
@@ -46,12 +45,12 @@ my_plot<- function(df, j, t, units = "", ylab = NULL, Ylim = NULL){
               
   ggplot(DF, aes(Num, Y1)) + xlab("Number of LCS") + ylab(Ylab) +
     theme_bw() + ylim(c(low, high)) + 
-    geom_line(aes(color = "Pollution Score  ", linetype = "Overall  "), lwd = 1) +
-    geom_line(aes(Num, Y2, color = "Pollution Score  ", linetype = "High % Nonwhite  "), lwd = 1) +
-    geom_line(aes(Num, Y3, color = "Pollution Score  ", linetype = "High % Poverty  "), lwd = 1) +
-    geom_line(aes(Num, Y4, color = "CES Score  ", linetype = "Overall  "), lwd = 1) +
-    geom_line(aes(Num, Y5, color = "CES Score  ", linetype = "High % Nonwhite  "), lwd = 1) +
-    geom_line(aes(Num, Y6, color = "CES Score  ", linetype = "High % Poverty  "), lwd = 1) +
+    geom_line(aes(color = "CES Score  ", linetype = "Overall  "), lwd = 1) +
+    geom_line(aes(Num, Y2, color = "CES Score  ", linetype = "High % Nonwhite  "), lwd = 1) +
+    geom_line(aes(Num, Y3, color = "CES Score  ", linetype = "High % Poverty  "), lwd = 1) +
+    geom_line(aes(Num, Y4, color ="Pollution Score  ", linetype = "Overall  "), lwd = 1) +
+    geom_line(aes(Num, Y5, color = "Pollution Score  ", linetype = "High % Nonwhite  "), lwd = 1) +
+    geom_line(aes(Num, Y6, color = "Pollution Score  ", linetype = "High % Poverty  "), lwd = 1) +
     geom_line(aes(Num, Y7, color = "PurpleAir  ", linetype = "Overall  "), lwd = 1) +
     geom_line(aes(Num, Y8, color = "PurpleAir  ", linetype = "High % Nonwhite  "), lwd = 1) +
     geom_line(aes(Num, Y9, color = "PurpleAir  ", linetype = "High % Poverty  "), lwd = 1) +
@@ -80,22 +79,21 @@ my_plot<- function(df, j, t, units = "", ylab = NULL, Ylim = NULL){
 
 
 ### MAE and distance: five ME variations and distance to NN -- 3x2, equal sized
-
-d<- my_plot(df = read.csv("Analysis/Results/Clsad results/SA-clsad-025-LCS_final_results_12-23-21_weighted.csv"),
+d<- my_plot(df = read.csv("Analysis/Results/Revisions/NDf-25-LCS_final_results_weighted.csv"),
             j = 10, t = "(a)    Distance to Nearest Monitor or Sensor", ylab = "Avg. Distance (m)")
-m1<- my_plot(df = read.csv("Analysis/Results/Sensitivity Analysis/LCS_final_results_SA_weighted.csv"),
+m1<- my_plot(df = read.csv("Analysis/Results/Revisions/No-ME-LCS_final_results_weighted.csv"),
              j = 6, t = "(b)    No Sensor Measurement Error: MAE", 
              ylab = as.expression(bquote(~"MAE (" * mu * "g/"*m^3*")")))
-m2<- my_plot(df = read.csv("Analysis/Results/Clsad results/SA-clsad-025-LCS_final_results_12-23-21_weighted.csv"),
+m2<- my_plot(df = read.csv("Analysis/Results/Revisions/NDf-25-LCS_final_results_weighted.csv"),
              j = 6, t = "(c)    25% Non-differential Measurement Error: MAE", 
              ylab = as.expression(bquote(~"MAE (" * mu * "g/"*m^3*")")))
-m3<- my_plot(df = read.csv("Analysis/Results/New results/SA-010-LCS_final_results_12-23-21_weighted.csv"),
+m3<- my_plot(df = read.csv("Analysis/Results/Revisions/Df-10-LCS_final_results_weighted.csv"),
              j = 6, t = "(d)    10% Differential Measurement Error: MAE", 
              ylab = as.expression(bquote(~"MAE (" * mu * "g/"*m^3*")")))
-m4<- my_plot(df = read.csv("Analysis/Results/New results/SA-025-LCS_final_results_12-10-21_weighted.csv"),
+m4<- my_plot(df = read.csv("Analysis/Results/Revisions/Df-25-LCS_final_results_weighted.csv"),
              j = 6, t = "(e)    25% Differential Measurement Error: MAE", 
              ylab = as.expression(bquote(~"MAE (" * mu * "g/"*m^3*")")))
-m5<- my_plot(df = read.csv("Analysis/Results/Final EPA results/EPA-resids-LCS_final_results_weighted.csv"),
+m5<- my_plot(df = read.csv("Analysis/Results/Revisions/EPA-resids-LCS_final_results_weighted.csv"),
              j = 6, t = "(f)    EPA Calibration Residual Draws: MAE", 
              ylab = as.expression(bquote(~"MAE (" * mu * "g/"*m^3*")")))
 
@@ -107,7 +105,13 @@ Mrow<- plot_grid(d + theme(legend.position="none"),
                   m5 + theme(legend.position="none"),
                   nrow = 3)
 
-png("Final Plots/MAE-distance_weighted.png", width = 795, height = 645)
+# legend<- get_legend(m1 + theme(legend.position = "top", legend.box = "vertical",
+#                                legend.key.width = unit(2, "line"),
+#                                legend.spacing.y = unit(0.1, "cm")))
+# 
+# plot_grid(legend, Mrow, ncol = 1, rel_heights = c(0.5, 4))
+
+png("Revisions/MAE-distance_weighted.png", width = 795, height = 645)
 
 legend<- get_legend(m1 + theme(legend.position = "bottom", legend.box = "vertical",
                                legend.key.width = unit(2, "line"),
@@ -119,24 +123,24 @@ dev.off()
 
 ### UH Misclassifications: five ME variations -- no ME big across top, then 2x2 for rest
 
-uh1<- my_plot(df = read.csv("Analysis/Results/Sensitivity Analysis/LCS_final_results_SA_weighted.csv"),
+uh1<- my_plot(df = read.csv("Analysis/Results/Revisions/No-ME-LCS_final_results_weighted.csv"),
              j = 2, t = "(a)    No Sensor Measurement Error: UHM", 
-             ylab = "UH Misclassifications (%)", Ylim = c(0.08, 0.28))
-uh2<- my_plot(df = read.csv("Analysis/Results/Clsad results/SA-clsad-010-LCS_final_results_12-23-21_weighted.csv"),
+             ylab = "UH Misclassification Rate", Ylim = c(0.08, 0.28))
+uh2<- my_plot(df = read.csv("Analysis/Results/Revisions/NDf-10-LCS_final_results_weighted.csv"),
                     j = 2, t = "(b)    10% Non-differential Measurement Error: UHM", 
-              ylab = "UH Misclassifications (%)", Ylim = c(0.08, 0.28))
-uh3<- my_plot(df = read.csv("Analysis/Results/Clsad results/SA-clsad-025-LCS_final_results_12-23-21_weighted.csv"),
+              ylab = "UH Misclassification Rate", Ylim = c(0.08, 0.28))
+uh3<- my_plot(df = read.csv("Analysis/Results/Revisions/NDf-25-LCS_final_results_weighted.csv"),
              j = 2, t = "(c)    25% Non-differential Measurement Error: UHM", 
-             ylab = "UH Misclassifications (%)", Ylim = c(0.08, 0.28))
-uh4<- my_plot(df = read.csv("Analysis/Results/New results/SA-010-LCS_final_results_12-23-21_weighted.csv"),
+             ylab = "UH Misclassification Rate", Ylim = c(0.08, 0.28))
+uh4<- my_plot(df = read.csv("Analysis/Results/Revisions/Df-10-LCS_final_results_weighted.csv"),
              j = 2, t = "(d)    10% Differential Measurement Error: UHM", 
-             ylab = "UH Misclassifications (%)", Ylim = c(0.08, 0.28))
-uh5<- my_plot(df = read.csv("Analysis/Results/New results/SA-025-LCS_final_results_12-10-21_weighted.csv"),
+             ylab = "UH Misclassification Rate", Ylim = c(0.08, 0.28))
+uh5<- my_plot(df = read.csv("Analysis/Results/Revisions/Df-25-LCS_final_results_weighted.csv"),
              j = 2, t = "(e)    25% Differential Measurement Error: UHM", 
-             ylab = "UH Misclassifications (%)", Ylim = c(0.08, 0.28))
-uh6<- my_plot(df = read.csv("Analysis/Results/Final EPA results/EPA-resids-LCS_final_results_weighted.csv"),
+             ylab = "UH Misclassification Rate", Ylim = c(0.08, 0.28))
+uh6<- my_plot(df = read.csv("Analysis/Results/Revisions/EPA-resids-LCS_final_results_weighted.csv"),
              j = 2, t = "(f)    EPA Calibration Residual Draws: UHM", 
-             ylab = "UH Misclassifications (%)", Ylim = c(0.08, 0.28))
+             ylab = "UH Misclassification Rate", Ylim = c(0.08, 0.28))
 
 Hrow<- plot_grid(uh1 + theme(legend.position="none"),
                  uh2 + theme(legend.position="none"),
@@ -146,7 +150,13 @@ Hrow<- plot_grid(uh1 + theme(legend.position="none"),
                  uh6 + theme(legend.position="none"),
                  nrow = 3)
 
-png("Final Plots/UHM-all-6_weighted.png", width = 795, height = 645)
+# legend<- get_legend(m1 + theme(legend.position = "top", legend.box = "vertical",
+#                                legend.key.width = unit(2, "line"),
+#                                legend.spacing.y = unit(0.1, "cm")))
+# 
+# plot_grid(legend, Mrow, ncol = 1, rel_heights = c(0.5, 4))
+
+png("Revisions/UHM-all-6_weighted.png", width = 795, height = 645)
 
 legend<- get_legend(uh1 + theme(legend.position = "bottom", legend.box = "vertical",
                                legend.key.width = unit(2, "line"),
@@ -156,20 +166,37 @@ plot_grid(Hrow, legend, ncol = 1, rel_heights = c(4, 0.5))
 
 dev.off()
 
+# Hrow<- plot_grid(uh2 + theme(legend.position="none"),
+#                  uh3 + theme(legend.position="none"),
+#                  uh4 + theme(legend.position="none"),
+#                  uh5 + theme(legend.position="none"),
+#                  nrow = 2)
+# 
+# png("Final Plots/UHM_weighted.png", width = 750, height = 700)
+# 
+# legend<- get_legend(uh1 + theme(legend.position = "bottom", legend.box = "vertical",
+#                                legend.key.width = unit(2, "line"),
+#                                legend.spacing.y = unit(0.1, "cm")))
+# 
+# plot_grid(uh1 + theme(legend.position="none"), Hrow, 
+#           legend, ncol = 1, rel_heights = c(2.5, 4, 0.5))
+# 
+# dev.off()
+
 
 ## Distance to NN among misclass. > 1
 
-dm1<- my_plot(df = read.csv("Analysis/Results/Sensitivity Analysis/LCS_final_results_SA_weighted.csv"),
+dm1<- my_plot(df = read.csv("Analysis/Results/Revisions/No-ME-LCS_final_results_weighted.csv"),
               j = 12, t = "(a)    No Sensor ME: Dist. Among Misclass. > 1", ylab = "Avg. Distance (m)")
-dm2<- my_plot(df = read.csv("Analysis/Results/Clsad results/SA-clsad-010-LCS_final_results_12-23-21_weighted.csv"),
+dm2<- my_plot(df = read.csv("Analysis/Results/Revisions/NDf-10-LCS_final_results_weighted.csv"),
               j = 12, t = "(b)    10% Non-differential ME: Dist. Among Misclass. > 1", ylab = "Avg. Distance (m)")
-dm3<- my_plot(df = read.csv("Analysis/Results/Clsad results/SA-clsad-025-LCS_final_results_12-23-21_weighted.csv"),
+dm3<- my_plot(df = read.csv("Analysis/Results/Revisions/NDf-25-LCS_final_results_weighted.csv"),
               j = 12, t = "(c)    25% Non-differential ME: Dist. Among Misclass. > 1", ylab = "Avg. Distance (m)")
-dm4<- my_plot(df = read.csv("Analysis/Results/New results/SA-010-LCS_final_results_12-23-21_weighted.csv"),
+dm4<- my_plot(df = read.csv("Analysis/Results/Revisions/Df-10-LCS_final_results_weighted.csv"),
               j = 12, t = "(d)    10% Differential ME: Dist. Among Misclass. > 1", ylab = "Avg. Distance (m)")
-dm5<- my_plot(df = read.csv("Analysis/Results/New results/SA-025-LCS_final_results_12-10-21_weighted.csv"),
+dm5<- my_plot(df = read.csv("Analysis/Results/Revisions/Df-25-LCS_final_results_weighted.csv"),
               j = 12, t = "(e)    25% Differential ME: Dist. Among Misclass. > 1", ylab = "Avg. Distance (m)")
-dm6<- my_plot(df = read.csv("Analysis/Results/Final EPA results/EPA-resids-LCS_final_results_weighted.csv"),
+dm6<- my_plot(df = read.csv("Analysis/Results/Revisions/EPA-resids-LCS_final_results_weighted.csv"),
               j = 12, t = "(f)    EPA Calibration Residuals: Dist. Among Misclass. > 1", ylab = "Avg. Distance (m)")
 
 DMrow<- plot_grid(dm1 + theme(legend.position="none"),
@@ -180,7 +207,7 @@ DMrow<- plot_grid(dm1 + theme(legend.position="none"),
                   dm6 + theme(legend.position="none"),
                   nrow = 3)
 
-png("Final Plots/Dist-Large-Misclass_weighted.png", width = 795, height = 645)
+png("Revisions/Dist-Large-Misclass_weighted.png", width = 795, height = 645)
 
 legend<- get_legend(dm1 + theme(legend.position = "bottom", legend.box = "vertical",
                                 legend.key.width = unit(2, "line"),
