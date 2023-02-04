@@ -1,6 +1,8 @@
 # LCS_placement_sims
 Investigating factors affecting accuracy and equity of real-time air quality information, resulting from deployment of low-cost sensors. Associated publication: [Investigating Use of Low-Cost Sensors to Increase Accuracy and Equity of Real-Time Air Quality Information](https://pubs.acs.org/doi/full/10.1021/acs.est.2c06626).
 
+**Publication abstract:** U.S. Environmental Protection Agency (EPA) air quality (AQ) monitors, the “gold standard” for measuring air pollutants, are sparsely positioned across the U.S. Low-cost sensors (LCS) are increasingly being used by the public to fill in the gaps in AQ monitoring; however, LCS are not as accurate as EPA monitors. In this work, we investigate factors impacting the differences between an individual’s true (unobserved) exposure to air pollution and the exposure reported by their nearest AQ instrument (which could be either an LCS or an EPA monitor). We use simulations based on California data to explore different combinations of hypothetical LCS placement strategies (e.g., at schools or near major roads), for different numbers of LCS, with varying plausible amounts of LCS device measurement errors. We illustrate how real-time AQ reporting could be improved (or, in some cases, worsened) by using LCS, both for the population overall and for marginalized communities specifically. This work has implications for the integration of LCS into real-time AQ reporting platforms.
+
 ## Analysis (chronologically, after Obtaining Data)
 
 #### Functions used:
