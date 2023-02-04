@@ -1,5 +1,5 @@
 # LCS_placement_sims
-Investigating factors affecting accuracy and equity of real-time air quality information, resulting from deployment of low-cost sensors. 
+Investigating factors affecting accuracy and equity of real-time air quality information, resulting from deployment of low-cost sensors. Associated publication: [Investigating Use of Low-Cost Sensors to Increase Accuracy and Equity of Real-Time Air Quality Information](https://pubs.acs.org/doi/full/10.1021/acs.est.2c06626).
 
 ## Analysis (chronologically, after Obtaining Data)
 
@@ -9,7 +9,7 @@ Investigating factors affecting accuracy and equity of real-time air quality inf
 * __Sim_functions.R__ -- for each trial, samples locations to "deploy" LCS, simulates measurement error at those locations, assigns each grid point the PM2.5 information from the nearest monitor/sensor, and calculates metrics comparing the air quality that is reported vs experienced, overall and for marginalized subpopulations, weighted and unweighted by population density.
 
 #### Scripts in order:
-1. __Run_sims_split-up.R__ -- runs 100 trials per placement strategy and number of LCS "deployed", saving both the results from each trial and the average metrics across the 100 trials. *Note: scripts to run these in parallel are in the On_cluster folder."
+1. __Run_sims_split-up.R__ -- runs 100 trials per placement strategy and number of LCS "deployed", saving both the results from each trial and the average metrics across the 100 trials. *Note: scripts to run these in parallel are in the On_cluster folder.*
 2. __Merging_results.R__ -- combines the results across the placement strategies and numbers of LCS "deployed", creating two results files weighted and unweighted by population density, respectively.
 3. __Make_table1.R__ -- generates tables summarizing the effects of different types and amounts of sensor measurement error when LCS are placed (a) at all PurpleAir locations and (b) at all schools in California.
 4. __Plot_multiple_MEs.R__ -- generates plots for manuscript (can easily run locally after transferring results files from cluster).
